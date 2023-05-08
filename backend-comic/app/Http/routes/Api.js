@@ -1,9 +1,9 @@
 const express = require("express");
+const ApiConntroller= require("../controllers/ApiController");
 let router = express.Router();
 let initAPIRoutes = (app) => {
-  router.get("/api/test", (req, res) => {
-    return res.send("API TEST");
-  });
-  return app.get("/api/test", router);
+  router.get("/api/test", ApiConntroller.testApiController);
+
+  return app.use("/", router);
 };
 module.exports = initAPIRoutes;

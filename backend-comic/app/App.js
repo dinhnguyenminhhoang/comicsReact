@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 const express = require("express");
 const viewEngine = require("../config/viewEngine");
 const initWebRoutes = require("./Http/routes/Web");
@@ -18,4 +16,3 @@ let port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log("connecting back to port " + port);
 });
->>>>>>> 0e6ba4a (setup backend)

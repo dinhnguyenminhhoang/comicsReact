@@ -1,9 +1,8 @@
 const express = require("express");
+const WebController = require("../controllers/WebController");
 let router = express.Router();
 let initWebRoutes = (app) => {
-  router.get("/", (req, res) => {
-    return res.send("Hoang dz vcl");
-  });
-  return app.get("/", router);
+  router.get("/", WebController.getHomePage);
+  return app.use("/", router);
 };
 module.exports = initWebRoutes;
