@@ -1,0 +1,35 @@
+<!-- example.ejs -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Example</title>
+</head>
+
+<body>
+    <table style="width: 100%">
+        <tr>
+            <th>Email</th>
+            <th>first Name</th>
+            <th>last Name</th>
+            <th>address</th>
+        </tr>
+        <% for(let i=0; i < data.length; i++) { %>
+            <tr>
+                <td>
+                    <%= data[i].email %>
+                </td>
+                <td>
+                    <%= data[i].firstName%>
+                </td>
+                <td>
+                    <%= data[i].lastName%>
+                </td>
+                <td>
+                    <%= data[i].address%>
+                </td>
+            </tr>
+            <% } %>
+</body>
+
+</html>
