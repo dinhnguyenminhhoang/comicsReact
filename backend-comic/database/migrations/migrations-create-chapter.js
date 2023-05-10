@@ -8,17 +8,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      title: {
+      name: {
         type: Sequelize.STRING,
-      },
-      comicId: {
-        type: Sequelize.INTEGER,
       },
       content: {
         type: Sequelize.TEXT("long"),
       },
+      numericalOrder: {
+        type: Sequelize.INTEGER,
+      },
       postDate: {
         type: Sequelize.DATE,
+      },
+      views: {
+        type: Sequelize.INTEGER,
+      },
+      comicId: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,

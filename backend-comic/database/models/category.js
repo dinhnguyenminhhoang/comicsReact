@@ -8,12 +8,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      //
+      Category.belongsToMany(models.Comic, {
+        through: "comic_categories",
+        foreignKey: "categoryId",
+        as: "comics",
+      });
     }
   }
   Category.init(
     {
       name: DataTypes.STRING,
+      description: DataTypes.TEXT,
+      dayPost: DataTypes.DATE,
     },
     {
       sequelize,

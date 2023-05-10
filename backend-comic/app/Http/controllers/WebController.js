@@ -10,7 +10,6 @@ let getHomePage = async (req, res) => {
 };
 let createUser = async (req, res) => {
   try {
-    console.log(req.body);
     let data = await WebRequest.createUser(req.body);
     console.log(data);
   } catch (error) {

@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      title: {
+      name: {
         type: Sequelize.STRING,
       },
       author: {
@@ -18,6 +18,15 @@ module.exports = {
         type: Sequelize.STRING,
       },
       postDateComic: {
+        type: Sequelize.DATE,
+      },
+      image: {
+        type: Sequelize.DATE,
+      },
+      views: {
+        type: Sequelize.INTEGER,
+      },
+      dayUpdated: {
         type: Sequelize.DATE,
       },
       createdAt: {

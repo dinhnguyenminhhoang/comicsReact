@@ -1,25 +1,33 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Comic_category extends Model {
+  class Comic_Categories extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      //
+      Comic_Categories.belongsTo(models.Comic, {
+        foreignKey: "comicId",
+        as: "comics",
+      });
+      // Định nghĩa mối quan hệ với bảng TheLoai
+      Comic_Categories.belongsTo(models.Category, {
+        foreignKey: "categoryId",
+        as: "category",
+      });
     }
   }
-  Comic_category.init(
+  Comic_Categories.init(
     {
       comicId: DataTypes.INTEGER,
       categoryId: DataTypes.INTEGER,
     },
     {
       sequelize,
-      modelName: "Comic_category",
+      modelName: "Comic_Categories",
     }
   );
-  return Comic_category;
+  return Comic_Categories;
 };

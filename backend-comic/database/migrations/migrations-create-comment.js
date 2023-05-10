@@ -14,6 +14,9 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
       },
+      chapterId: {
+        type: Sequelize.INTEGER,
+      },
       comment: {
         type: Sequelize.TEXT,
       },
