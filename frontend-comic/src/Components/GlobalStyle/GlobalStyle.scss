@@ -2,13 +2,19 @@
 
 * {
     box-sizing: border-box;
-    --bs-gutter-x: 0 !important;
+
+    // overflow: hidden;
 }
 
 html {
     font-size: 62.6%;
     margin: 0;
     padding: 0;
+
+    a {
+        text-decoration: none;
+        display: block;
+    }
 }
 
 body {
@@ -21,9 +27,13 @@ body {
 
 :root {
     --background-header-color: #242526;
+    --background-content-color: #242526;
     --background-color: #18191A;
     --color-primary-boder: #B0B3B8;
     --background-btn-color: #2374E1;
     --background-btn-color-hover: #3871bb;
     --text-color: #969696;
+    --color-content: #e4e6eb;
+    --color-icon: #1b86f6;
+    --background-active: #252f3c;
 }
