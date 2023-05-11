@@ -4,6 +4,7 @@ import HeaderOnly from "~/Layout/HeaderOnly/HeaderOnly.js";
 import CreateUser from "~/Pages/Admin/CRUD/CreateUser/CreateUser.js";
 import CreateComic from "~/Pages/Admin/CRUD/CreateComic/CreateComic.js";
 import CreateChapters from "~/Pages/Admin/CRUD/CreateChapters/CreateChapters.js";
+import Counter from "~/Components/Counter";
 const publishRouter = [
   {
     path: "/",
@@ -25,9 +26,13 @@ const privateRouter = [
     path: "/create-comic",
     element: CreateComic,
   },
+  // {
+  //   path: "/create-chapters",
+  //   element: CreateChapters,
+  // },
   {
     path: "/create-chapters",
-    element: CreateChapters,
+    element: Counter,
   },
 ];
 export { publishRouter, privateRouter };
