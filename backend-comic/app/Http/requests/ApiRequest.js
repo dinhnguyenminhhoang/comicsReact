@@ -56,7 +56,6 @@ let getComicsByType = () => {
         raw: true,
         nest: true,
       });
-      console.log("data: " + data);
       resolve({ data, errcode: 1, message: "get comic successfully" });
     } catch (error) {
       reject(error);
