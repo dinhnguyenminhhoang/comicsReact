@@ -1,20 +1,35 @@
 {
   "name": "backend-comic",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "App.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
+    "start": "nodemon ./app/App.js",
+    "watch": "node-sass -w ./resources/sass -o ./public/css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/node": "^7.20.7",
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "jest": "^29.5.0"
-  }        
+    "jest": "^29.5.0",
+    "node-sass": "^8.0.0",
+    "nodemon": "^2.0.22"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.21.5",
+    "sequelize-cli": "^6.6.0"
+  },
+  "description": ""
 }

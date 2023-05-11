@@ -1,0 +1,17 @@
+.container {
+    height: 800px;
+    background-color: var(--background-content-color);
+    margin-left: 32px;
+
+    .header {
+        color: var(--text-color);
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .from-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
