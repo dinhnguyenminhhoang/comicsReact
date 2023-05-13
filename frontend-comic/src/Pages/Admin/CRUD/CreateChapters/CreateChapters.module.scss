@@ -1,0 +1,31 @@
+.container {
+    height: 800px;
+    background-color: var(--background-content-color);
+    margin-left: 32px;
+
+    .heading {
+        color: var(--text-color);
+        margin: 0 auto;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .chapter__wrapper {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 20px;
+
+        .selected__wrapper {
+            width: 200px;
+            margin-right: 20px;
+        }
+
+        .markDown__wrapper {
+            flex: 1;
+            max-width: 800px;
+            height: 400px;
+            margin: 0 auto;
+        }
+    }
+
+}
