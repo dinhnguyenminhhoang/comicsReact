@@ -42,7 +42,7 @@ const CreateComic = () => {
   return (
     <div className={cx("container")}>
       <h1 className={cx("mb-4", "header")}>Thêm mới truyện</h1>
-      <Form onSubmit={handleSubmit} className={cx("from-container")}>
+      <div className={cx("from-container")}>
         <Row className={cx("mb-3")}>
           <Form.Group as={Col} controlId="title">
             <Form.Label>tên truyện:</Form.Label>
@@ -94,7 +94,7 @@ const CreateComic = () => {
             </Col>
           </Row>
         </Form>
-      </Form>
+      </div>
     </div>
   );
 };

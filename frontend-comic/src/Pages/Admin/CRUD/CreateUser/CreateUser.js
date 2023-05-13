@@ -42,7 +42,7 @@ const CreateUser = () => {
   return (
     <div className={cx("container")}>
       <h1 className={cx("mb-4", "header")}>Thêm mới người dùng</h1>
-      <Form onSubmit={handleSubmit} className={cx("from-container")}>
+      <div className={cx("from-container")}>
         <Row className={cx("mb-3")}>
           <Form.Group as={Col} controlId="firstName">
             <Form.Label>Họ:</Form.Label>
@@ -130,7 +130,7 @@ const CreateUser = () => {
             </Col>
           </Row>
         </Form>
-      </Form>
+      </div>
     </div>
   );
 };

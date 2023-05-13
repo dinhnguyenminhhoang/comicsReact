@@ -26,13 +26,13 @@ const privateRouter = [
     path: "/create-comic",
     element: CreateComic,
   },
-  // {
-  //   path: "/create-chapters",
-  //   element: CreateChapters,
-  // },
   {
     path: "/create-chapters",
-    element: Counter,
+    element: CreateChapters,
   },
+  // {
+  //   path: "/create-chapters",
+  //   element: Counter,
+  // },
 ];
 export { publishRouter, privateRouter };
