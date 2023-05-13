@@ -2,7 +2,7 @@ const ApiRequest = require("../requests/ApiRequest");
 let testApiController = (req, res) => {
   return res.send("testApiController");
 };
-let getCatagoryController = async (req, res) => {
+let getCetagoryController = async (req, res) => {
   try {
     let data = await ApiRequest.getAllCategories();
     if (data.errCode === 0) {
@@ -21,7 +21,6 @@ let getCatagoryController = async (req, res) => {
 let getComicController = async (req, res) => {
   try {
     let data = await ApiRequest.getComicsByType();
-    console.log(data);
     return res.status(200).json({
       data,
     });
@@ -29,8 +28,76 @@ let getComicController = async (req, res) => {
     console.log(error);
   }
 };
+let getChapterController = async (req, res) => {
+  try {
+    let data = await ApiRequest.handleGetChapter();
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+////////////////////////////////////////////////////////////////////////////
+let createComic = async (req, res) => {
+  try {
+    let data = await ApiRequest.handleCreateComic(req.body);
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(404).json({
+        message: "data not found",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+let createChapter = async (req, res) => {
+  let data = await ApiRequest.handleCreateChapter(req.body);
+  if (data) {
+    return res.status(200).json({
+      data,
+    });
+  } else {
+    return res.status(404).json({
+      message: "data not found",
+    });
+  }
+};
+let createCategory = async (req, res) => {
+  let data = await ApiRequest.handleCreateCategory(req.body);
+  if (data) {
+    return res.status(200).json({
+      data,
+    });
+  } else {
+    return res.status(404).json({
+      message: "data not found",
+    });
+  }
+};
+let createComment = async (req, res) => {
+  let data = await ApiRequest.handleCreateComment(req.body);
+  if (data) {
+    return res.status(200).json({
+      data,
+    });
+  } else {
+    return res.status(404).json({
+      message: "data not found",
+    });
+  }
+};
 module.exports = {
   testApiController,
-  getCatagoryController,
+  getCetagoryController,
   getComicController,
+  getChapterController,
+  createComic,
+  createChapter,
+  createCategory,
+  createComment,
 };

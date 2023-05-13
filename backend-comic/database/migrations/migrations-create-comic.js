@@ -19,9 +19,10 @@ module.exports = {
       },
       postDateComic: {
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       image: {
-        type: Sequelize.DATE,
+        type: Sequelize.TEXT,
       },
       views: {
         type: Sequelize.INTEGER,
@@ -32,10 +33,12 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     });
   },
