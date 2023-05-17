@@ -24,45 +24,18 @@ let getComicsByType = () => {
   return new Promise(async (resolve, reject) => {
     try {
       let data = await db.Comic.findAll({
-        include: [
-          {
-            model: db.Chapter,
-            as: "chapters",
-            attributes: ["name", "content", "numericalOrder", "comicId"],
-            include: [
-              {
-                model: db.Comment,
-                as: "comments",
-                attributes: ["comment"],
-              },
-            ],
-          },
-          {
-            model: db.Category,
-            as: "category",
-            attributes: ["name", "description"],
-            through: {
-              model: db.Comic_Categories,
-              as: "comic_categories",
-              attributes: ["comicId", "categoryId"],
-            },
-          },
-          {
-            model: db.Comment,
-            as: "comments",
-            attributes: ["comment"],
-          },
-          {
-            model: db.Image,
-            as: "images",
-            attributes: ["url"],
-          },
-        ],
-        attributes: ["name", "author", "description", "views", "image"],
+        // include: [
+        //   {
+        //     model: db.Chapter,
+        //     as: "chapters",
+        //     attributes: ["name", "content", "numericalOrder", "comicId"],
+        //   },
+        // ],
+        // attributes: ["name", "author", "description", "views", "image"],
         raw: true,
         nest: true,
       });
-      resolve({ data, errcode: 1, message: "get comic successfully" });
+      resolve({ data, errcode: 0, message: "get comic successfully" });
     } catch (error) {
       reject(error);
     }
@@ -115,6 +88,7 @@ let handleCreateComic = (data) => {
           name: data.name,
           author: data.author,
           description: data.description,
+          image: data.image,
           views: data.views || 0,
         });
         resolve({
@@ -135,7 +109,8 @@ let handleCreateComic = (data) => {
 let handleCreateChapter = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (data || data.comicId) {
+      console.log(data);
+      if (data && data.comicId && data.content) {
         await db.Chapter.create({
           name: data.name || data.numericalOrder,
           content: data.content,
@@ -207,6 +182,7 @@ let handleCreateComment = (data) => {
   });
 };
 module.exports = {
+  getComicsByType,
   getAllCategories,
   handleGetChapter,
   handleCreateComic,

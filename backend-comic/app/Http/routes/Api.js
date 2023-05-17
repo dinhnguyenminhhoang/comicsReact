@@ -8,10 +8,10 @@ let initAPIRoutes = (app) => {
   router.get("/api/getComic", ApiConntroller.getComicController);
   router.get("/api/getChapter", ApiConntroller.getChapterController);
   //post
-  router.post("/create-comic", ApiConntroller.createComic);
-  router.post("/create-chapter", ApiConntroller.createChapter);
-  router.post("/create-category", ApiConntroller.createCategory);
-  router.post("/create-comment", ApiConntroller.createComment);
+  router.post("/api/create-comic", ApiConntroller.createComic);
+  router.post("/api/create-chapter", ApiConntroller.createChapter);
+  router.post("/api/create-category", ApiConntroller.createCategory);
+  router.post("/api/create-comment", ApiConntroller.createComment);
   return app.use("/", router);
 };
 module.exports = initAPIRoutes;

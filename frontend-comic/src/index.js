@@ -4,8 +4,9 @@ import App from "~/App";
 import reportWebVitals from "./reportWebVitals";
 import GlobalStyle from "~/Components/GlobalStyle/GlobalStyle";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
-import store from "./store";
+import store from "./redux/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

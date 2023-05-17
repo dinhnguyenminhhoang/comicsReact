@@ -15,9 +15,14 @@
         justify-content: space-between;
         margin: 0 20px;
 
+        .chapter__form {
+            margin: 0 10px;
+        }
+
         .selected__wrapper {
             width: 200px;
-            margin-right: 20px;
+            margin-top: 12px;
+            border-radius: 99px;
         }
 
         .markDown__wrapper {
@@ -26,6 +31,16 @@
             height: 400px;
             margin: 0 auto;
         }
+
+    }
+
+    .btn-submit {
+        padding: 8px 6px;
+        font-size: 1.4rem;
+        background-color: transparent;
+        border: 1px solid white;
+        max-width: 120px;
+        margin-top: 16px;
     }
 
 }
