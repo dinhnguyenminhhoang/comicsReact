@@ -1,0 +1,171 @@
+.detail__doctor {
+    background-color: var(--background-content-color);
+    margin-top: 20px;
+    margin-bottom: 60px;
+    color: white;
+    border-radius: 5px;
+
+    .detail__container {
+        padding: 12px 16px;
+
+        .detail__heading {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+
+            .icon {
+                margin: 0 2px;
+            }
+
+            .home__page--title {
+                margin: 0 4px;
+            }
+        }
+
+        .content__container {
+            display: flex;
+            color: white;
+            margin-top: 40px;
+            margin-left: 20px;
+
+            .content__image {
+                height: 286px;
+                width: 220px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 5px;
+                }
+            }
+
+            .content__info {
+                margin-left: 26px;
+
+                .info__name {
+                    font-size: 2.2rem;
+                    font-weight: 600;
+                }
+
+                .datails__title {
+                    margin-top: 10px;
+                    font-size: 1.8rem;
+                    font-weight: 300;
+
+                    .title__wrapper {
+                        margin: 12px 0;
+                        display: flex;
+
+                        .title-name {
+                            width: 180px;
+
+                            .title-icon {
+                                width: 20px;
+                            }
+
+                            .title__text {
+                                margin-left: 8px;
+                            }
+
+                        }
+                    }
+                }
+
+                .read__type {
+                    .read__btn--new {
+                        background-color: #8bc34a;
+                        margin-right: 20px;
+                    }
+
+                    .read__btn--first {
+                        background-color: #ff3860;
+                    }
+
+                    .read__btn--new,
+                    .read__btn--first {
+                        padding: 10px 16px;
+                        font-size: 1.8rem;
+                        font-weight: 600;
+                        color: white;
+                        border: none;
+                        border-radius: 6px;
+                    }
+
+                    .read-icon {
+                        margin-right: 6px;
+                    }
+                }
+            }
+        }
+    }
+
+    .description__container {
+        overflow: hidden;
+        margin-top: 40px;
+        max-height: 180px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e4e6eb;
+
+        .description__heading {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 12px;
+
+            .introduce {
+                margin-left: 6px;
+            }
+        }
+
+        .description__content {
+            font-size: 1.6rem;
+            line-height: 2rem;
+            color: #e4e6eb;
+        }
+    }
+
+    .btn-description {
+        display: flex;
+        margin: 20px auto;
+        font-size: 1.6rem;
+        padding: 6px 6px;
+        background-color: #ff3860;
+        border: none;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .chapter__container {
+
+        .chapter__title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+
+            .title__list {
+                margin-left: 8px;
+            }
+        }
+
+        .list__chapter {
+            border: 1px solid white;
+            padding: 16px 10px;
+            border-radius: 5px;
+            overflow-y: auto;
+            max-height: 400px;
+
+            .chapter__item {
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid white;
+                font-size: 1.8rem;
+                color: #e4e6eb;
+                padding: 8px 0;
+            }
+        }
+    }
+}

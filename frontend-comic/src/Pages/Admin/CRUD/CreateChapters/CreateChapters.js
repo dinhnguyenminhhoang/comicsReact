@@ -5,7 +5,7 @@ import Select from "react-select";
 import style from "./CreateChapters.module.scss";
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getTopComic, fetchCreateChapter } from "~/redux/action/action.js";
+import { getAllComic, fetchCreateChapter } from "~/redux/action/action.js";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import { isEmpty } from "lodash";
@@ -15,6 +15,7 @@ function CreateChapters() {
   const [selectedOption, setSelectedOption] = useState("");
   const [option, setOption] = useState({});
   const [content, setContent] = useState("");
+  const [contentMarkdown, setContentMarkdown] = useState("");
   const [comicId, setComicId] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
@@ -23,7 +24,7 @@ function CreateChapters() {
   //
   const dispatch = useDispatch();
   //
-  const comicData = useSelector((state) => state.comicApi.data);
+  const comicData = useSelector((state) => state.allComic.data);
   //
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -31,7 +32,7 @@ function CreateChapters() {
   };
   //
   useEffect(() => {
-    dispatch(getTopComic());
+    dispatch(getAllComic());
   }, [dispatch]);
   useEffect(() => {
     setOption(builsDataSelect(comicData));
@@ -52,6 +53,7 @@ function CreateChapters() {
   };
   const handleEditorChange = ({ html, text }) => {
     setContent(html);
+    setContentMarkdown(text);
   };
 
   const handleChange = (selectedOption) => {
@@ -97,6 +99,14 @@ function CreateChapters() {
         draggable: true,
         progress: undefined,
         theme: "light",
+      });
+      //reset form DATA for next
+      setComicId("");
+      setContent("");
+      setContentMarkdown("");
+      setFormData({
+        name: "",
+        numericalOrder: "",
       });
     }
   };
@@ -174,7 +184,7 @@ function CreateChapters() {
         </div>
         <div className={cx("markDown__wrapper")}>
           <MdEditor
-            value=""
+            value={contentMarkdown}
             renderHTML={(text) => mdParser.render(text)}
             onChange={handleEditorChange}
           />

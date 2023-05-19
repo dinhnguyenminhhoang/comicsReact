@@ -1,10 +1,10 @@
 import Following from "~/Pages/Following/Following.js";
 import Home from "~/Pages/Home/Home.js";
 import HeaderOnly from "~/Layout/HeaderOnly/HeaderOnly.js";
+import DetailComic from "~/Pages/DetailComic/DetailComic.js";
 import CreateUser from "~/Pages/Admin/CRUD/CreateUser/CreateUser.js";
 import CreateComic from "~/Pages/Admin/CRUD/CreateComic/CreateComic.js";
 import CreateChapters from "~/Pages/Admin/CRUD/CreateChapters/CreateChapters.js";
-import Counter from "~/Components/Counter";
 const publishRouter = [
   {
     path: "/",
@@ -14,6 +14,11 @@ const publishRouter = [
   {
     path: "/following",
     element: Following,
+    Layout: HeaderOnly,
+  },
+  {
+    path: "/detail-comic/:id",
+    element: DetailComic,
     Layout: HeaderOnly,
   },
 ];
@@ -30,9 +35,5 @@ const privateRouter = [
     path: "/create-chapters",
     element: CreateChapters,
   },
-  // {
-  //   path: "/create-chapters",
-  //   element: Counter,
-  // },
 ];
 export { publishRouter, privateRouter };

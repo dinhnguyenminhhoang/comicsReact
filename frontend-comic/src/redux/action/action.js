@@ -5,6 +5,9 @@ import {
   handleGetTopComic,
   handleCreateComic,
   handleCreateChapter,
+  handleGetAllComic,
+  handleGetPagination,
+  handleGetComicById,
 } from "~/services/ComicServices";
 
 // Action creator sử dụng createAsyncThunk
@@ -19,14 +22,30 @@ export const fetchCategoryData = createAsyncThunk(
     }
   }
 );
-export const getTopComic = createAsyncThunk("comic/getTopComic", async () => {
-  try {
-    const response = await handleGetTopComic();
-    return response.data;
-  } catch (error) {
-    throw error;
+export const getTopComic = createAsyncThunk(
+  "comic/getTopComic",
+  async (limit) => {
+    try {
+      const response = await handleGetTopComic(limit);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
+export const getAllComic = createAsyncThunk(
+  "allComic/getAllComic",
+  async () => {
+    try {
+      const response = await handleGetAllComic();
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+//
 export const fetchCreateComic = createAsyncThunk(
   "createComic/fetchCreateComic",
   async (data) => {
@@ -43,6 +62,30 @@ export const fetchCreateChapter = createAsyncThunk(
   async (data) => {
     try {
       const response = await handleCreateChapter(data);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const getPagination = createAsyncThunk(
+  "pagination/getPagination",
+  async (data) => {
+    try {
+      let pageNumber = data.pageNumber;
+      let pageSize = data.pageSize;
+      const response = await handleGetPagination(+pageNumber, +pageSize);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const getComicById = createAsyncThunk(
+  "comicById/getComicById",
+  async (id) => {
+    try {
+      const response = await handleGetComicById(+id);
       return response;
     } catch (error) {
       throw error;

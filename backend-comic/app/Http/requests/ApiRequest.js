@@ -20,10 +20,12 @@ let getAllCategories = () => {
     }
   });
 };
-let getComicsByType = () => {
+let getComicsByType = (limit) => {
   return new Promise(async (resolve, reject) => {
     try {
       let data = await db.Comic.findAll({
+        limit: limit,
+        order: [["createdAt", "DESC"]],
         // include: [
         //   {
         //     model: db.Chapter,
@@ -80,6 +82,106 @@ let handleGetChapter = () => {
     }
   });
 };
+let handleGetChapterById = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await db.Chapter.findOne({
+        where: { comicId: id },
+      });
+      if (data) {
+        resolve({
+          data,
+          errCode: 0,
+          message: "get chapter bye id successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "chuyện chưa có chương nào",
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let handleGetAllComic = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await db.Comic.findAll({
+        order: [["createdAt", "DESC"]],
+      });
+      if (data) {
+        resolve({
+          data,
+          errCode: 0,
+          message: "get comic is successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: " errr form  server",
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let handleGetPagination = (pageNumber, pageSize) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let offset = (pageNumber - 1) * pageSize;
+      let limit = pageSize;
+      const totalCount = await db.Comic.count();
+      const totalPage = Math.ceil(totalCount / pageSize);
+      let data = await db.Comic.findAll({
+        offset,
+        limit,
+        order: [["createdAt", "DESC"]],
+      });
+      if (data && totalCount) {
+        resolve({
+          data,
+          totalPage,
+          errCode: 0,
+          message: "get pages are successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "get pages falied",
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let handleGetComicById = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await db.Comic.findOne({
+        where: { id: id },
+      });
+      if (data) {
+        resolve({
+          data,
+          errCode: 0,
+          message: "get Comic by id successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "id not found",
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+////////////////////////////////////////////////////////////////
 let handleCreateComic = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -109,7 +211,6 @@ let handleCreateComic = (data) => {
 let handleCreateChapter = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(data);
       if (data && data.comicId && data.content) {
         await db.Chapter.create({
           name: data.name || data.numericalOrder,
@@ -185,6 +286,11 @@ module.exports = {
   getComicsByType,
   getAllCategories,
   handleGetChapter,
+  handleGetChapterById,
+  handleGetAllComic,
+  handleGetPagination,
+  handleGetComicById,
+  //
   handleCreateComic,
   handleCreateChapter,
   handleCreateCategory,

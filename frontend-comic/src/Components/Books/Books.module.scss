@@ -1,0 +1,104 @@
+.book__container {
+    .img__book {
+        height: 320px;
+        border: 1px solid #4a4949;
+        overflow: hidden;
+        position: relative;
+
+        .img {
+            margin: 0 auto;
+            padding: 0 10px;
+            max-width: 100%;
+            width: 200px;
+            height: 250px;
+            object-fit: cover;
+            cursor: pointer;
+
+        }
+
+        .sticker-container {
+            position: absolute;
+            top: 6px;
+            left: 28px;
+            color: white;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            text-align: center;
+
+            .day-update {
+                padding: 4px 4px;
+                background-color: #56ccf2;
+                border-radius: 8px;
+                font-weight: 400;
+                margin-right: 10px;
+            }
+
+            .hot {
+                background-color: rgb(234, 18, 18);
+                padding: 6px 4px;
+                border-radius: 999px;
+
+                @keyframes fade {
+                    0% {
+                        opacity: 1;
+                    }
+
+                    50% {
+                        opacity: 0;
+                    }
+
+                    100% {
+                        opacity: 1;
+                    }
+                }
+
+                animation: fade 1s ease-in-out infinite;
+            }
+        }
+
+        .info-wrapper {
+            height: 40px;
+            text-align: center;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: 10px;
+            cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 90%;
+            margin-left: 15px;
+
+            .pratice {}
+
+            .new {
+
+                display: block;
+            }
+        }
+    }
+}
+
+.cus {
+    width: 100% !important;
+
+    .cus_img {
+        transition: border-radius 0.8s ease-in-out;
+        border-radius: 10px;
+
+        &:hover {
+            border-radius: 0;
+        }
+
+    }
+
+    .img__allComic {
+        transition: transform 0.8s ease-in-out;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}

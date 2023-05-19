@@ -1,0 +1,15 @@
+.allComic__container {
+    margin-top: 20px;
+
+
+    .allComic__wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .book {
+            width: 16.666666666666668%;
+        }
+    }
+}

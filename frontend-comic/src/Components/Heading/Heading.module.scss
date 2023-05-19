@@ -1,0 +1,50 @@
+.heading {
+    margin: 0 0 16px 8px;
+    font-size: 2.6rem;
+    color: white;
+    font-weight: 700;
+    animation: color-change 20s infinite;
+
+    @keyframes color-change {
+        10% {
+            color: rgb(0, 255, 0);
+        }
+
+        20% {
+            color: rgb(255, 255, 0);
+        }
+
+        30% {
+            color: rgb(255, 165, 0);
+        }
+
+        40% {
+            color: rgb(128, 0, 128);
+        }
+
+        50% {
+            color: rgb(0, 0, 255);
+        }
+
+        60% {
+            color: rgb(255, 192, 203);
+        }
+
+        70% {
+            color: rgb(128, 128, 128);
+        }
+
+        80% {
+            color: rgb(0, 128, 0);
+        }
+
+        90% {
+            color: rgb(165, 42, 42);
+        }
+
+        100% {
+            color: #ff0000;
+        }
+    }
+
+}

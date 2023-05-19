@@ -10,18 +10,10 @@ import { Link } from "react-router-dom";
 const cx = classNames.bind(Styles);
 function Header() {
   const categoryData = useSelector((state) => state.categoryApi.data);
-  const isLoading = useSelector((state) => state.categoryApi.isLoading);
-  const error = useSelector((state) => state.categoryApi.error);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategoryData());
   }, [dispatch]);
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
   return (
     <div className={cx("header-wrapper")}>
       <Container className={cx("container")}>

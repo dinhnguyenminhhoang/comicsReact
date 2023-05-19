@@ -7,6 +7,10 @@ let initAPIRoutes = (app) => {
   router.get("/api/getCetagory", ApiConntroller.getCetagoryController);
   router.get("/api/getComic", ApiConntroller.getComicController);
   router.get("/api/getChapter", ApiConntroller.getChapterController);
+  router.get("/api/getChapterbyId", ApiConntroller.getChapterByIdController);
+  router.get("/api/getAllComic", ApiConntroller.getAllComic);
+  router.get("/api/getPagination", ApiConntroller.getPagination);
+  router.get("/api/getComicById", ApiConntroller.getComicById);
   //post
   router.post("/api/create-comic", ApiConntroller.createComic);
   router.post("/api/create-chapter", ApiConntroller.createChapter);

@@ -19,8 +19,10 @@ let getCetagoryController = async (req, res) => {
   }
 };
 let getComicController = async (req, res) => {
+  let limit = req.query.limit;
+  if (!limit) limit = 10;
   try {
-    let data = await ApiRequest.getComicsByType();
+    let data = await ApiRequest.getComicsByType(+limit);
     return res.status(200).json({
       data,
     });
@@ -36,6 +38,65 @@ let getChapterController = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+};
+let getChapterByIdController = async (req, res) => {
+  try {
+    let id = req.query.id;
+    if (id) {
+      let data = await ApiRequest.handleGetChapterById(id);
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(404).json({
+        errCode: 1,
+        message: "id not found",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+let getAllComic = async (req, res) => {
+  try {
+    let data = await ApiRequest.handleGetAllComic();
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+let getPagination = async (req, res) => {
+  let pageNumber = req.query.pageNumber;
+  let pageSize = req.query.pageSize;
+  if (!pageNumber) pageNumber = 1;
+  if (!pageSize) pageSize = 12;
+  try {
+    let data = await ApiRequest.handleGetPagination(+pageNumber, +pageSize);
+
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+let getComicById = async (req, res) => {
+  let id = req.query.id;
+  if (id) {
+    let data = await ApiRequest.handleGetComicById(id);
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    }
+  } else {
+    return res.status(404).json({
+      errCode: 1,
+      message: "id not found",
+    });
   }
 };
 ////////////////////////////////////////////////////////////////////////////
@@ -91,11 +152,17 @@ let createComment = async (req, res) => {
     });
   }
 };
+
 module.exports = {
   testApiController,
   getCetagoryController,
   getComicController,
   getChapterController,
+  getChapterByIdController,
+  getAllComic,
+  getPagination,
+  getComicById,
+  //
   createComic,
   createChapter,
   createCategory,
