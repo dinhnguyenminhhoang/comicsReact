@@ -30,9 +30,9 @@ function Header() {
             {categoryData &&
               categoryData.map((category, index) => {
                 return (
-                  <li className={cx("nav-item")} key={index}>
-                    {category.name}
-                  </li>
+                  <Link to={`/categories/${category.id}`} key={index}>
+                    <li className={cx("nav-item")}>{category.name}</li>
+                  </Link>
                 );
               })}
           </ul>

@@ -54,7 +54,7 @@ let handleGetChapter = () => {
             include: [
               {
                 model: db.Category,
-                as: "category",
+                as: "categories",
                 through: {
                   attributes: [],
                 },
@@ -85,10 +85,11 @@ let handleGetChapter = () => {
 let handleGetChapterById = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let data = await db.Chapter.findOne({
+      let data = await db.Chapter.findAll({
         where: { comicId: id },
+        order: [["createdAt", "DESC"]],
       });
-      if (data) {
+      if (data.length > 0) {
         resolve({
           data,
           errCode: 0,
@@ -97,7 +98,7 @@ let handleGetChapterById = (id) => {
       } else {
         resolve({
           errCode: 1,
-          message: "chuyện chưa có chương nào",
+          message: "truyện chưa có chương nào",
         });
       }
     } catch (error) {
@@ -178,6 +179,90 @@ let handleGetComicById = (id) => {
       }
     } catch (error) {
       reject(error);
+    }
+  });
+};
+let handleGetComicByCategory = (categoryId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let comics = await db.Comic.findAll({
+        include: [
+          {
+            model: db.Category,
+            as: "categories",
+            // attributes: {
+            //   exclude: ["createdAt", "updatedAt"],
+            // },
+            where: { id: categoryId },
+            through: {
+              attributes: [],
+            },
+          },
+        ],
+        // attributes: {
+        //   exclude: ["createdAt", "updatedAt"],
+        // },
+        raw: true,
+        nest: true,
+      });
+
+      if (comics.length > 0) {
+        resolve({
+          comics,
+          errCode: 0,
+          message: "Get comics by category successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "No comics found for the given category",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      reject("An error occurred while retrieving comics by category");
+    }
+  });
+};
+let handleGetcategoriesByComic = (comicId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let categories = await db.Category.findAll({
+        include: [
+          {
+            model: db.Comic,
+            as: "comics",
+            // attributes: {
+            //   exclude: ["createdAt", "updatedAt"],
+            // },
+            where: { id: comicId },
+            through: {
+              attributes: [],
+            },
+          },
+        ],
+        // attributes: {
+        //   exclude: ["createdAt", "updatedAt"],
+        // },
+        raw: true,
+        nest: true,
+      });
+
+      if (categories.length > 0) {
+        resolve({
+          categories,
+          errCode: 0,
+          message: "Get comics by category successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "No comics found for the given category",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      reject("An error occurred while retrieving comics by category");
     }
   });
 };
@@ -282,6 +367,63 @@ let handleCreateComment = (data) => {
     }
   });
 };
+let handleCreateCategoryComic = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (data && data.comicId && data.categoryId) {
+        const comicId = data.comicId;
+        const categoryId = data.categoryId;
+        db.Comic.findByPk(comicId)
+          .then((comic) => {
+            if (comic) {
+              db.Category.findAll({
+                where: {
+                  id: categoryId,
+                },
+              }).then((categories) => {
+                const categories_comic = categories.map((category) => ({
+                  comicId: comic.id,
+                  categoryId: category.id,
+                }));
+
+                db.Comic_Categories.bulkCreate(categories_comic)
+                  .then(() => {
+                    resolve({
+                      errCode: 0,
+                      message: "Added a category for success stories",
+                    });
+                  })
+                  .catch((error) => {
+                    resolve({
+                      error: 1,
+                      message: "Added a category for failed stories",
+                      error: error,
+                    });
+                  });
+              });
+            } else {
+              resolve({
+                errCode: 1,
+                message: "Can't find stories with ID",
+              });
+            }
+          })
+          .catch((error) => {
+            resolve({
+              message: "Error when searching for stories:",
+              errCode: 1,
+              error,
+            });
+          });
+      }
+    } catch (error) {
+      reject({
+        errCode: 1,
+        message: error,
+      });
+    }
+  });
+};
 module.exports = {
   getComicsByType,
   getAllCategories,
@@ -290,9 +432,12 @@ module.exports = {
   handleGetAllComic,
   handleGetPagination,
   handleGetComicById,
+  handleGetComicByCategory,
+  handleGetcategoriesByComic,
   //
   handleCreateComic,
   handleCreateChapter,
   handleCreateCategory,
   handleCreateComment,
+  handleCreateCategoryComic,
 };

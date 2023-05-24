@@ -9,9 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Comic.belongsToMany(models.Category, {
-        through: "comic_categories",
+        through: models.Comic_Categories,
         foreignKey: "comicId",
-        as: "category",
+        as: "categories",
       });
       Comic.hasMany(models.Comment, { foreignKey: "comicId", as: "comments" });
       Comic.hasMany(models.Image, { foreignKey: "comicId", as: "images" });
@@ -22,7 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       author: DataTypes.STRING,
-      description: DataTypes.STRING,
+      nickName: DataTypes.STRING,
+      status: DataTypes.STRING,
+      description: DataTypes.TEXT("long"),
       postDateComic: DataTypes.DATE,
       image: DataTypes.TEXT,
       views: DataTypes.INTEGER,

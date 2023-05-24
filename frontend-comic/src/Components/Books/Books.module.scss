@@ -1,4 +1,6 @@
 .book__container {
+    margin-bottom: 1.5rem;
+
     .img__book {
         height: 320px;
         border: 1px solid #4a4949;
@@ -19,7 +21,7 @@
         .sticker-container {
             position: absolute;
             top: 6px;
-            left: 28px;
+            left: 16px;
             color: white;
             font-size: 1.4rem;
             display: flex;

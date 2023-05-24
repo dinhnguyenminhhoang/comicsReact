@@ -11,11 +11,17 @@ let initAPIRoutes = (app) => {
   router.get("/api/getAllComic", ApiConntroller.getAllComic);
   router.get("/api/getPagination", ApiConntroller.getPagination);
   router.get("/api/getComicById", ApiConntroller.getComicById);
+  router.get("/api/getComicByCategory", ApiConntroller.getComicByCategory);
+  router.get("/api/getCategoriesByComic", ApiConntroller.getCategoriesByComic);
   //post
   router.post("/api/create-comic", ApiConntroller.createComic);
   router.post("/api/create-chapter", ApiConntroller.createChapter);
   router.post("/api/create-category", ApiConntroller.createCategory);
   router.post("/api/create-comment", ApiConntroller.createComment);
+  router.post(
+    "/api/create-categories-comic",
+    ApiConntroller.createCategoryComic
+  );
   return app.use("/", router);
 };
 module.exports = initAPIRoutes;

@@ -14,8 +14,14 @@ module.exports = {
       author: {
         type: Sequelize.STRING,
       },
-      description: {
+      nickName: {
         type: Sequelize.STRING,
+      },
+      status: {
+        type: Sequelize.STRING,
+      },
+      description: {
+        type: Sequelize.TEXT("long"),
       },
       postDateComic: {
         type: Sequelize.DATE,

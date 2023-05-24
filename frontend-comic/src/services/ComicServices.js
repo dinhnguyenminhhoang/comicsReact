@@ -16,6 +16,15 @@ const handleGetPagination = (pageNumber, pageSize) => {
 const handleGetComicById = (id) => {
   return axios.get(`/api/getComicById?id=${id}`);
 };
+const handleGetChapterById = (id) => {
+  return axios.get(`/api/getChapterById?id=${id}`);
+};
+const handleGetComicByCategory = (categoryId) => {
+  return axios.get(`/api/getComicByCategory?categoryId=${categoryId}`);
+};
+const handleGetCategoriesByComic = (comicId) => {
+  return axios.get(`/api/getCategoriesByComic?comicId=${comicId}`);
+};
 //post
 const handleCreateComic = (data) => {
   return axios.post(`/api/create-comic`, data);
@@ -23,13 +32,21 @@ const handleCreateComic = (data) => {
 const handleCreateChapter = (data) => {
   return axios.post(`/api/create-chapter`, data);
 };
+const handleCreateComic_Categories = (data) => {
+  return axios.post(`/api/create-categories-comic`, data);
+};
+
 export {
   handleGetCategory,
   handleGetTopComic,
   handleGetAllComic,
   handleGetPagination,
   handleGetComicById,
+  handleGetChapterById,
+  handleGetComicByCategory,
+  handleGetCategoriesByComic,
   //
   handleCreateComic,
   handleCreateChapter,
+  handleCreateComic_Categories,
 };

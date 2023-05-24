@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Category.belongsToMany(models.Comic, {
-        through: "comic_categories",
+        through: models.Comic_Categories,
         foreignKey: "categoryId",
         as: "comics",
       });
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   Category.init(
     {
       name: DataTypes.STRING,
-      description: DataTypes.TEXT,
+      description: DataTypes.TEXT("long"),
       dayPost: DataTypes.DATE,
     },
     {

@@ -55,12 +55,12 @@ const CreateComic = () => {
           image: formData.image,
         })
       );
-      setFormData({
-        name: "",
-        author: "",
-        description: "",
-        image: "",
-      });
+      // setFormData({
+      //   name: "",
+      //   author: "",
+      //   description: "",
+      //   image: "",
+      // });
     }
   };
 

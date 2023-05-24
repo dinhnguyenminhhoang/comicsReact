@@ -2,9 +2,13 @@ import classNames from "classnames/bind";
 import styles from "./DetailComic.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getComicById } from "~/redux/action/action.js";
+import {
+  getComicById,
+  getChapterById,
+  getCategoriesByComic,
+} from "~/redux/action/action.js";
 import {
   faBook,
   faCircleExclamation,
@@ -14,6 +18,7 @@ import {
   faList,
   faSignal,
   faSignature,
+  faStrikethrough,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 const cx = classNames.bind(styles);
@@ -22,20 +27,34 @@ function DetailComic() {
   const { id } = useParams();
   const refDescription = useRef();
   const [isHeight, setIsHeight] = useState(true);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const comicById = useSelector((state) => state.comicById.data);
+  const chapterById = useSelector((state) => state.chapterById.data);
+  const categoriesByComicData = useSelector(
+    (state) => state.categoriesByComic.data
+  );
   useEffect(() => {
     dispatch(getComicById(id));
+  }, [dispatch, id]);
+  useEffect(() => {
+    dispatch(getChapterById(id));
+  }, [dispatch, id]);
+  useEffect(() => {
+    dispatch(getCategoriesByComic(id));
   }, [dispatch, id]);
   useEffect(() => {
     if (refDescription.current) setHeight(refDescription.current.offsetHeight);
   }, [refDescription]);
   const handleHeightDes = (e) => {
-    const newHeight = isHeight ? "100%" : "85%";
+    const newHeight = isHeight ? "100%" : "100px";
     const newText = isHeight ? "rút gọn" : "xem thêm";
     refDescription.current.style.height = newHeight;
     e.target.textContent = newText;
     setIsHeight(!isHeight);
+  };
+  const handleBackHistory = () => {
+    navigate(-1);
   };
   return (
     <div className={cx("detail__doctor")}>
@@ -43,8 +62,10 @@ function DetailComic() {
         {comicById && comicById.errCode === 0 && (
           <div>
             <div className={cx("detail__heading")}>
-              <FontAwesomeIcon icon={faHomeAlt} className={cx("icon")} />
-              <span className={cx("home__page--title")}>Trang chủ /</span>
+              <div onClick={handleBackHistory} className={cx("detail-home")}>
+                <FontAwesomeIcon icon={faHomeAlt} className={cx("icon")} />
+                <span className={cx("home__page--title")}>Trang chủ /</span>
+              </div>
               <span className={cx("home__page--title")}>
                 {comicById.data.name}
               </span>
@@ -114,6 +135,33 @@ function DetailComic() {
                       <span className={cx("title__content")}>
                         {comicById.data.views}
                       </span>
+                    </div>{" "}
+                    <div className={cx("title__wrapper")}>
+                      <div className={cx("title-name")}>
+                        <FontAwesomeIcon
+                          className={cx("title-icon")}
+                          icon={faStrikethrough}
+                        />
+                        <span className={cx("title__text")}>Thể Loại </span>
+                      </div>
+                      <span className={cx("title__content")}>
+                        <ul className={cx("list-action")}>
+                          {categoriesByComicData &&
+                            categoriesByComicData.categories &&
+                            categoriesByComicData.categories.map(
+                              (category, index) => {
+                                return (
+                                  <Link
+                                    to={`/categories/${category.id}`}
+                                    key={index}
+                                  >
+                                    <li>{category.name}</li>
+                                  </Link>
+                                );
+                              }
+                            )}
+                        </ul>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -165,82 +213,22 @@ function DetailComic() {
             <span className={cx("title__list")}>Danh sách chương</span>
           </div>
           <div className={cx("list__chapter")}>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
-            <div className={cx("chapter__item")}>
-              <div> Chương 1</div>
-              <div> 1 tháng trước</div>
-            </div>
+            {chapterById &&
+              chapterById.errCode === 0 &&
+              chapterById.data.length > 0 &&
+              chapterById.data.map((chapter, index) => {
+                return (
+                  <div className={cx("chapter__item")} key={index}>
+                    <div> Chương {chapter.numericalOrder}</div>
+                    <div> 10 phút trước</div>
+                  </div>
+                );
+              })}
+            {chapterById && chapterById.errCode === 1 && (
+              <div className={cx("no-chapter")} key={chapterById.errCode}>
+                <span> {chapterById.message}</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -56,11 +56,11 @@ function Books(props) {
   };
   return (
     <Row
-      className={cx("book__container", "mb-2", {
+      className={cx("book__container", {
         cus: props.className,
       })}
     >
-      <Link to={`detail-comic/${props.id}`}>
+      <Link to={`/detail-comic/${props.id}`}>
         <Col
           className={cx("img__book", {
             cus_img: props.className,

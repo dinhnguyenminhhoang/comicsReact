@@ -1,19 +1,49 @@
 import classNames from "classnames/bind";
 import styles from "./Paginayions.module.scss";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 const cx = classNames.bind(styles);
+
 function Paginations(props) {
   const { pagination, handlePageChange } = props;
   const { currentPage, totalPage, pageSize } = pagination;
+  const maxDisplayedPages = 6; // Số trang hiển thị tối đa
+
   const handlePaginationClick = (newPage, oldPage) => {
     if (handlePageChange) {
       handlePageChange(newPage, oldPage);
     }
   };
-  const totalPageArray = Array.from(
-    { length: totalPage },
-    (_, index) => index + 1
-  );
+
+  let pageIndexes = [];
+
+  if (totalPage <= maxDisplayedPages) {
+    pageIndexes = Array.from({ length: totalPage }, (_, index) => index);
+  } else {
+    const halfDisplayCount = Math.floor(maxDisplayedPages / 2);
+    const leftDisplayCount = halfDisplayCount;
+    const rightDisplayCount = maxDisplayedPages - leftDisplayCount - 1;
+
+    if (currentPage <= halfDisplayCount) {
+      pageIndexes = Array.from(
+        { length: maxDisplayedPages },
+        (_, index) => index
+      );
+    } else if (currentPage >= totalPage - halfDisplayCount) {
+      pageIndexes = Array.from(
+        { length: maxDisplayedPages },
+        (_, index) => totalPage - maxDisplayedPages + index
+      );
+    } else {
+      const startIndex = currentPage - leftDisplayCount - 1;
+      pageIndexes = Array.from(
+        { length: maxDisplayedPages },
+        (_, index) => startIndex + index
+      );
+    }
+  }
+
   return (
     <div className={cx("pagination__wrapper")}>
       <div className={cx("pagination__first")}>
@@ -27,14 +57,11 @@ function Paginations(props) {
           PRE
         </button>
       </div>
-      {totalPageArray.map((page, index) => {
+      {pageIndexes.map((pageIndex, index) => {
+        const page = pageIndex + 1;
         const isActive = currentPage === page;
         return (
-          <div
-            key={index}
-            // active={currentPage === page}
-            className={cx("pageNumber", { active: isActive })}
-          >
+          <div key={index} className={cx("pageNumber", { active: isActive })}>
             <button onClick={() => handlePaginationClick(page, currentPage)}>
               {page}
             </button>

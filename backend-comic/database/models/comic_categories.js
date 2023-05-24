@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Comic_Categories.belongsTo(models.Comic, {
         foreignKey: "comicId",
-        as: "comics",
+        as: "comic",
       });
-      // Định nghĩa mối quan hệ với bảng TheLoai
+
       Comic_Categories.belongsTo(models.Category, {
         foreignKey: "categoryId",
-        as: "category",
+        as: "categories",
       });
     }
   }

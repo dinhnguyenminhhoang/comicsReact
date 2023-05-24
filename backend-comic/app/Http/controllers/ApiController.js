@@ -10,7 +10,7 @@ let getCetagoryController = async (req, res) => {
         data,
       });
     } else if (data.errCode === 1) {
-      return res.status(404).json({
+      return res.status(400).json({
         data,
       });
     }
@@ -49,7 +49,7 @@ let getChapterByIdController = async (req, res) => {
         data,
       });
     } else {
-      return res.status(404).json({
+      return res.status(400).json({
         errCode: 1,
         message: "id not found",
       });
@@ -84,18 +84,71 @@ let getPagination = async (req, res) => {
   }
 };
 let getComicById = async (req, res) => {
-  let id = req.query.id;
-  if (id) {
-    let data = await ApiRequest.handleGetComicById(id);
-    if (data) {
-      return res.status(200).json({
-        data,
+  try {
+    let id = req.query.id;
+    if (id) {
+      let data = await ApiRequest.handleGetComicById(id);
+      if (data) {
+        return res.status(200).json({
+          data,
+        });
+      }
+    } else {
+      return res.status(400).json({
+        errCode: 1,
+        message: "id not found",
       });
     }
-  } else {
-    return res.status(404).json({
+  } catch (error) {
+    return res.status(400).json({
       errCode: 1,
-      message: "id not found",
+      message: error,
+    });
+  }
+};
+let getComicByCategory = async (req, res) => {
+  try {
+    let categoryId = req.query.categoryId;
+    if (categoryId) {
+      let data = await ApiRequest.handleGetComicByCategory(+categoryId);
+      if (data) {
+        return res.status(200).json({
+          data,
+        });
+      }
+    } else {
+      return res.status(400).json({
+        errCode: 1,
+        message: "id not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      errCode: 1,
+      message: error,
+    });
+  }
+};
+let getCategoriesByComic = async (req, res) => {
+  try {
+    let comicId = req.query.comicId;
+    if (comicId) {
+      let data = await ApiRequest.handleGetcategoriesByComic(+comicId);
+      if (data) {
+        return res.status(200).json({
+          data,
+        });
+      }
+    } else {
+      return res.status(400).json({
+        errCode: 1,
+        message: "id not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      errCode: 1,
+      message: error,
     });
   }
 };
@@ -108,7 +161,7 @@ let createComic = async (req, res) => {
         data,
       });
     } else {
-      return res.status(404).json({
+      return res.status(400).json({
         message: "data not found",
       });
     }
@@ -123,7 +176,7 @@ let createChapter = async (req, res) => {
       data,
     });
   } else {
-    return res.status(404).json({
+    return res.status(400).json({
       message: "data not found",
     });
   }
@@ -135,7 +188,7 @@ let createCategory = async (req, res) => {
       data,
     });
   } else {
-    return res.status(404).json({
+    return res.status(400).json({
       message: "data not found",
     });
   }
@@ -147,12 +200,34 @@ let createComment = async (req, res) => {
       data,
     });
   } else {
-    return res.status(404).json({
+    return res.status(400).json({
       message: "data not found",
     });
   }
 };
-
+let createCategoryComic = async (req, res) => {
+  try {
+    let dataReq = req.body;
+    if (dataReq.comicId && dataReq.categoryId.length > 0) {
+      let data = await ApiRequest.handleCreateCategoryComic(dataReq);
+      if (data) {
+        return res.status(200).json({
+          data,
+        });
+      } else {
+        return res.status(400).json({
+          message: "data not found",
+        });
+      }
+    } else {
+      return res.status(400).json({
+        message: "missing parameter",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
   testApiController,
   getCetagoryController,
@@ -162,9 +237,12 @@ module.exports = {
   getAllComic,
   getPagination,
   getComicById,
+  getComicByCategory,
+  getCategoriesByComic,
   //
   createComic,
   createChapter,
   createCategory,
   createComment,
+  createCategoryComic,
 };

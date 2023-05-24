@@ -13,5 +13,30 @@
     .from-container {
         max-width: 800px;
         margin: 0 auto;
+
+        .categories__wrapper {
+            color: white;
+            margin: 10px 0;
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .checkBox__wrapper {
+                display: flex;
+                align-items: center;
+                text-align: center;
+                font-size: 1.8rem;
+
+                label {
+
+                    input {
+                        margin: 0 10px;
+                        border: none;
+                        outline: none;
+                    }
+                }
+            }
+        }
     }
 }
