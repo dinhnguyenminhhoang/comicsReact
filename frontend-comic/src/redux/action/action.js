@@ -12,6 +12,9 @@ import {
   handleGetChapterById,
   handleGetComicByCategory,
   handleGetCategoriesByComic,
+  handleUpdateViews,
+  handlerGetOnlyChapterById,
+  handleUpdateTimePass,
 } from "~/services/ComicServices";
 
 // Action creator sử dụng createAsyncThunk
@@ -105,6 +108,19 @@ export const getCategoriesByComic = createAsyncThunk(
     }
   }
 );
+export const getOnlyChapterbyId = createAsyncThunk(
+  "chapterOnly/getOnlyChapterbyId",
+  async (data) => {
+    try {
+      let chapterId = data.chapterId;
+      let comicId = data.comicId;
+      const response = await handlerGetOnlyChapterById(+chapterId, +comicId);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 //
 export const fetchCreateComic = createAsyncThunk(
   "createComic/fetchCreateComic",
@@ -134,6 +150,29 @@ export const createComic_categories = createAsyncThunk(
     try {
       const response = await handleCreateComic_Categories(data);
       return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+//update
+export const updateViews = createAsyncThunk(
+  "views/updateViews",
+  async (comicId) => {
+    try {
+      const response = await handleUpdateViews(comicId);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const updateTimePass = createAsyncThunk(
+  "timePass/updateTimePass",
+  async (comicId) => {
+    try {
+      const response = await handleUpdateTimePass(comicId);
+      return response.data;
     } catch (error) {
       throw error;
     }

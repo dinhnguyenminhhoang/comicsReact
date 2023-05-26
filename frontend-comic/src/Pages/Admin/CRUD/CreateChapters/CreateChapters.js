@@ -5,7 +5,11 @@ import Select from "react-select";
 import style from "./CreateChapters.module.scss";
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllComic, fetchCreateChapter } from "~/redux/action/action.js";
+import {
+  getAllComic,
+  fetchCreateChapter,
+  updateTimePass,
+} from "~/redux/action/action.js";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import { isEmpty } from "lodash";
@@ -90,6 +94,7 @@ function CreateChapters() {
           numericalOrder: formData.numericalOrder,
         })
       );
+      dispatch(updateTimePass(comicId));
       toast.success("🤩 thêm truyện thành công", {
         position: "top-right",
         autoClose: 5000,

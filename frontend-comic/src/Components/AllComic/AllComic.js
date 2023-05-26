@@ -1,26 +1,22 @@
 import classNames from "classnames/bind";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllComic } from "~/redux/action/action.js";
 import { useEffect, useState } from "react";
 import { getPagination } from "~/redux/action/action.js";
 import styles from "./AllComic.module.scss";
 import Heading from "../Heading/Heading";
 import Books from "../Books/Books";
 import Paginations from "~/Components/Paginations/Paginations";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { toNumber } from "lodash";
 const cx = classNames.bind(styles);
 function AllComic() {
+  let { pageNumber } = useParams();
   const [pagination, setPagination] = useState({
-    currentPage: 1,
+    currentPage: null || toNumber(pageNumber),
     totalPage: 1,
-    pageSize: 12,
+    pageSize: 4,
   });
   const dispatch = useDispatch();
-  // comicData
-  const comicData = useSelector((state) => state.allComic.data);
-  useEffect(() => {
-    dispatch(getAllComic());
-  }, [dispatch]);
   const paginationData = useSelector((state) => state.pagination.data);
   useEffect(() => {
     dispatch(
@@ -54,7 +50,7 @@ function AllComic() {
                 <Books
                   image={comic.image}
                   name={comic.name}
-                  timePassed={comicData}
+                  timePassed={paginationData.data}
                   index={index}
                   className={true}
                   id={comic.id}

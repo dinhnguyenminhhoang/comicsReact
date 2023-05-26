@@ -87,9 +87,9 @@
                             li {
                                 list-style: none;
                                 color: white;
-                                font-size: 1.6rem;
+                                font-size: 1.2rem;
                                 font-weight: 600;
-                                padding: 6px;
+                                padding: 4px;
                                 margin: 0 4px;
                                 border: 1px solid #e4e6eb;
                                 border-radius: 5px;
@@ -99,12 +99,14 @@
                 }
 
                 .read__type {
-                    .read__btn--new {
+                    display: flex;
+
+                    .read__btn--first {
                         background-color: #8bc34a;
                         margin-right: 20px;
                     }
 
-                    .read__btn--first {
+                    .read__btn--new {
                         background-color: #ff3860;
                     }
 

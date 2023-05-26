@@ -152,6 +152,38 @@ let getCategoriesByComic = async (req, res) => {
     });
   }
 };
+let getOnlyChapterByIdController = async (req, res) => {
+  try {
+    let chapterId = req.query.chapterId;
+    let comicId = req.query.comicId;
+    if (chapterId && comicId) {
+      let data = await ApiRequest.handleGetOnlyChapterByIdController(
+        +chapterId,
+        +comicId
+      );
+      if (data) {
+        return res.status(200).json({
+          data,
+        });
+      } else {
+        return res.status(400).json({
+          errCode: 1,
+          message: "data not found",
+        });
+      }
+    } else {
+      return res.status(400).json({
+        errCode: 1,
+        message: "chapterId not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: 1,
+      message: "error form server",
+    });
+  }
+};
 ////////////////////////////////////////////////////////////////////////////
 let createComic = async (req, res) => {
   try {
@@ -228,6 +260,51 @@ let createCategoryComic = async (req, res) => {
     console.log(error);
   }
 };
+//uppdate
+let updateViews = async (req, res) => {
+  try {
+    let comicId = req.query.comicId;
+    if (!comicId) return;
+    let data = await ApiRequest.handleUpdateViews(+comicId);
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(400).json({
+        errCode: 1,
+        message: "data not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: 1,
+      message: "error form server",
+    });
+  }
+};
+let updateTimePass = async (req, res) => {
+  try {
+    let comicId = req.query.comicId;
+    if (!comicId) return;
+    let data = await ApiRequest.handleUpdateTimePass(+comicId);
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(400).json({
+        errCode: 1,
+        message: "data not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: 1,
+      message: "error form server",
+    });
+  }
+};
 module.exports = {
   testApiController,
   getCetagoryController,
@@ -239,10 +316,14 @@ module.exports = {
   getComicById,
   getComicByCategory,
   getCategoriesByComic,
+  getOnlyChapterByIdController,
   //
   createComic,
   createChapter,
   createCategory,
   createComment,
   createCategoryComic,
+  //
+  updateViews,
+  updateTimePass,
 };

@@ -25,6 +25,11 @@ const handleGetComicByCategory = (categoryId) => {
 const handleGetCategoriesByComic = (comicId) => {
   return axios.get(`/api/getCategoriesByComic?comicId=${comicId}`);
 };
+const handlerGetOnlyChapterById = (chapterId, comicId) => {
+  return axios.get(
+    `/api/getOnlyChapterbyId?chapterId=${chapterId}&comicId=${comicId}`
+  );
+};
 //post
 const handleCreateComic = (data) => {
   return axios.post(`/api/create-comic`, data);
@@ -35,7 +40,13 @@ const handleCreateChapter = (data) => {
 const handleCreateComic_Categories = (data) => {
   return axios.post(`/api/create-categories-comic`, data);
 };
-
+//put
+const handleUpdateViews = (comicId) => {
+  return axios.put(`/api/update-views?comicId=${comicId}`);
+};
+const handleUpdateTimePass = (comicId) => {
+  return axios.put(`/api/day-update?comicId=${comicId}`);
+};
 export {
   handleGetCategory,
   handleGetTopComic,
@@ -45,8 +56,12 @@ export {
   handleGetChapterById,
   handleGetComicByCategory,
   handleGetCategoriesByComic,
+  handlerGetOnlyChapterById,
   //
   handleCreateComic,
   handleCreateChapter,
   handleCreateComic_Categories,
+  //
+  handleUpdateViews,
+  handleUpdateTimePass,
 };

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import classNames from "classnames/bind";
 import styles from "./Selector.module.scss";
+
 const cx = classNames.bind(styles);
 function Selector(props) {
   const [options, setOptions] = useState([]);
-  const { optionData, onValueChange } = props;
+  const { optionData, onValueChange, className } = props;
   const builsDataSelect = (data) => {
     let results = [];
     if (data && data.length > 0) {
@@ -33,8 +34,27 @@ function Selector(props) {
     if (selectedOption) onValueChange(selectedOption);
   }, [selectedOption]);
   return (
-    <div className={cx("selector")}>
-      <Select options={options} onChange={handleChange} />
+    <div
+      className={cx("selector", {
+        cus_selector: className,
+      })}
+    >
+      <Select
+        options={options}
+        onChange={handleChange}
+        classNamePrefix={cx({
+          selector: className,
+        })}
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 5,
+          colors: {
+            ...theme.colors,
+            primary25: "#ddd",
+            primary: "rgba(0,0,0,.3)",
+          },
+        })}
+      />
     </div>
   );
 }

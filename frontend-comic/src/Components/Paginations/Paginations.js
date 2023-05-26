@@ -1,21 +1,21 @@
 import classNames from "classnames/bind";
 import styles from "./Paginayions.module.scss";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { toNumber } from "lodash";
 const cx = classNames.bind(styles);
 
 function Paginations(props) {
   const { pagination, handlePageChange } = props;
   const { currentPage, totalPage, pageSize } = pagination;
-  const maxDisplayedPages = 6; // Số trang hiển thị tối đa
-
+  const maxDisplayedPages = 6;
+  const navigate = useNavigate();
   const handlePaginationClick = (newPage, oldPage) => {
     if (handlePageChange) {
       handlePageChange(newPage, oldPage);
     }
+    navigate(`/pages/${newPage}`);
   };
-
   let pageIndexes = [];
 
   if (totalPage <= maxDisplayedPages) {

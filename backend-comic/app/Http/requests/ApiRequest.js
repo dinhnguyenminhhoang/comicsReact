@@ -1,3 +1,4 @@
+const e = require("express");
 const db = require("../../../database/models/index");
 let getAllCategories = () => {
   return new Promise(async (resolve, reject) => {
@@ -25,7 +26,7 @@ let getComicsByType = (limit) => {
     try {
       let data = await db.Comic.findAll({
         limit: limit,
-        order: [["createdAt", "DESC"]],
+        order: [["dayUpdated", "DESC"]],
         // include: [
         //   {
         //     model: db.Chapter,
@@ -87,7 +88,7 @@ let handleGetChapterById = (id) => {
     try {
       let data = await db.Chapter.findAll({
         where: { comicId: id },
-        order: [["createdAt", "DESC"]],
+        order: [["updatedAt", "DESC"]],
       });
       if (data.length > 0) {
         resolve({
@@ -110,7 +111,7 @@ let handleGetAllComic = () => {
   return new Promise(async (resolve, reject) => {
     try {
       let data = await db.Comic.findAll({
-        order: [["createdAt", "DESC"]],
+        order: [["dayUpdated", "DESC"]],
       });
       if (data) {
         resolve({
@@ -139,7 +140,7 @@ let handleGetPagination = (pageNumber, pageSize) => {
       let data = await db.Comic.findAll({
         offset,
         limit,
-        order: [["createdAt", "DESC"]],
+        order: [["dayUpdated", "DESC"]],
       });
       if (data && totalCount) {
         resolve({
@@ -266,6 +267,32 @@ let handleGetcategoriesByComic = (comicId) => {
     }
   });
 };
+let handleGetOnlyChapterByIdController = (chapterId, comicId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!chapterId || !comicId)
+        resolve({ errCode: 1, message: "chapterID not found" });
+      let data = await db.Chapter.findOne({
+        where: { comicId: comicId, id: chapterId },
+      });
+      if (data) {
+        resolve({
+          data,
+          errCode: 0,
+          message: "get chapter by id successfully",
+        });
+      } else {
+        resolve({
+          message: "chapter not found",
+          errCode: 1,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      reject({ error: 1, message: "error" });
+    }
+  });
+};
 ////////////////////////////////////////////////////////////////
 let handleCreateComic = (data) => {
   return new Promise(async (resolve, reject) => {
@@ -277,6 +304,8 @@ let handleCreateComic = (data) => {
           description: data.description,
           image: data.image,
           views: data.views || 0,
+          dayUpdated: new Date(),
+          nickName: data.nickName,
         });
         resolve({
           errCode: 0,
@@ -424,6 +453,71 @@ let handleCreateCategoryComic = (data) => {
     }
   });
 };
+//update
+let handleUpdateViews = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let comic = await db.Comic.findOne({
+        where: { id: id },
+      });
+      if (comic) {
+        let viewed = comic.views;
+        await db.Comic.update(
+          { views: viewed + 1 },
+          {
+            where: {
+              id: id,
+            },
+          }
+        );
+        resolve({
+          errCode: 0,
+          message: "Update view successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "comic not found",
+        });
+      }
+    } catch (error) {
+      reject({
+        error: 1,
+        message: "update view failed",
+      });
+    }
+  });
+};
+let handleUpdateTimePass = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (id) {
+        await db.Comic.update(
+          { dayUpdated: Date() },
+          {
+            where: {
+              id,
+            },
+          }
+        );
+        resolve({
+          errCode: 0,
+          message: "Update view successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "comic not found",
+        });
+      }
+    } catch (error) {
+      reject({
+        error: 1,
+        message: "update view failed",
+      });
+    }
+  });
+};
 module.exports = {
   getComicsByType,
   getAllCategories,
@@ -434,10 +528,14 @@ module.exports = {
   handleGetComicById,
   handleGetComicByCategory,
   handleGetcategoriesByComic,
+  handleGetOnlyChapterByIdController,
   //
   handleCreateComic,
   handleCreateChapter,
   handleCreateCategory,
   handleCreateComment,
   handleCreateCategoryComic,
+  //
+  handleUpdateViews,
+  handleUpdateTimePass,
 };

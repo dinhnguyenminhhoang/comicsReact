@@ -12,6 +12,7 @@ const CreateComic = () => {
     author: "",
     description: "",
     image: "",
+    nickName: "",
   });
   const dispatch = useDispatch();
   const handleInputChange = (event) => {
@@ -53,14 +54,16 @@ const CreateComic = () => {
           author: formData.author,
           description: formData.description,
           image: formData.image,
+          nickName: formData.nickName || "đang cập nhật",
         })
       );
-      // setFormData({
-      //   name: "",
-      //   author: "",
-      //   description: "",
-      //   image: "",
-      // });
+      setFormData({
+        name: "",
+        author: "",
+        description: "",
+        image: "",
+        nickName: "",
+      });
     }
   };
 
@@ -92,6 +95,18 @@ const CreateComic = () => {
               value={formData.author}
               onChange={handleInputChange}
               placeholder="Nhập tên tác giả"
+            />
+          </Form.Group>
+          <Form.Group as={Col} controlId="nickName">
+            <Form.Label>Tên khác:</Form.Label>
+            <Form.Control
+              className={cx("form-control-lg")}
+              style={{ borderRadius: "10px" }}
+              type="text"
+              name="nickName"
+              value={formData.nickName}
+              onChange={handleInputChange}
+              placeholder="Nhập tên khác"
             />
           </Form.Group>
         </Row>

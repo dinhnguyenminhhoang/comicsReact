@@ -13,6 +13,10 @@ let initAPIRoutes = (app) => {
   router.get("/api/getComicById", ApiConntroller.getComicById);
   router.get("/api/getComicByCategory", ApiConntroller.getComicByCategory);
   router.get("/api/getCategoriesByComic", ApiConntroller.getCategoriesByComic);
+  router.get(
+    "/api/getOnlyChapterbyId",
+    ApiConntroller.getOnlyChapterByIdController
+  );
   //post
   router.post("/api/create-comic", ApiConntroller.createComic);
   router.post("/api/create-chapter", ApiConntroller.createChapter);
@@ -22,6 +26,10 @@ let initAPIRoutes = (app) => {
     "/api/create-categories-comic",
     ApiConntroller.createCategoryComic
   );
+  //update
+  router.put("/api/update-views", ApiConntroller.updateViews);
+  router.put("/api/day-update", ApiConntroller.updateTimePass);
+
   return app.use("/", router);
 };
 module.exports = initAPIRoutes;

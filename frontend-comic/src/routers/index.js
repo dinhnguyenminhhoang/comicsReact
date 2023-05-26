@@ -7,6 +7,8 @@ import CreateComic from "~/Pages/Admin/CRUD/CreateComic/CreateComic.js";
 import CreateChapters from "~/Pages/Admin/CRUD/CreateChapters/CreateChapters.js";
 import Categories from "~/Pages/Categories/Categories.js";
 import CreateCategoryForComic from "~/Pages/Admin/CRUD/CreateCategoryForComic/CreateCategoryForComic.js";
+import DetailChapter from "~/Pages/DetailChapter/DetailChapter.js";
+
 const publishRouter = [
   {
     path: "/",
@@ -31,6 +33,11 @@ const publishRouter = [
   {
     path: "/categories/:id",
     element: Categories,
+    Layout: HeaderOnly,
+  },
+  {
+    path: "/reading/:name/:id/:chapterId",
+    element: DetailChapter,
     Layout: HeaderOnly,
   },
 ];

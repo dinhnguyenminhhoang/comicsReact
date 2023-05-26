@@ -87,7 +87,7 @@ function DetailComic() {
                         <span className={cx("title__text")}>Tên khác</span>
                       </div>
                       <span className={cx("title__content")}>
-                        đang cập nhật
+                        {comicById.data.nickName}
                       </span>
                     </div>
                     <div className={cx("title__wrapper")}>
@@ -151,12 +151,11 @@ function DetailComic() {
                             categoriesByComicData.categories.map(
                               (category, index) => {
                                 return (
-                                  <Link
-                                    to={`/categories/${category.id}`}
-                                    key={index}
-                                  >
-                                    <li>{category.name}</li>
-                                  </Link>
+                                  <li key={index}>
+                                    <Link to={`/categories/${category.id}`}>
+                                      {category.name}
+                                    </Link>
+                                  </li>
                                 );
                               }
                             )}
@@ -166,20 +165,37 @@ function DetailComic() {
                   </div>
                 </div>
                 <div className={cx("read__type")}>
-                  <button className={cx("read__btn--new")}>
-                    <FontAwesomeIcon
-                      className={cx("read-icon")}
-                      icon={faBook}
-                    />
-                    đọc từ đầu
-                  </button>
-                  <button className={cx("read__btn--first")}>
-                    <FontAwesomeIcon
-                      className={cx("read-icon")}
-                      icon={faBook}
-                    />
-                    đọc mới nhất
-                  </button>
+                  {comicById && comicById.data ? (
+                    <Link
+                      to={`/reading/${comicById.data.name}/${comicById.data.id}/1`}
+                    >
+                      <button
+                        className={cx("read__btn--first")}
+                        dangerouslySetInnerHTML={{
+                          __html: "đọc từ đầu",
+                        }}
+                      />
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+                  {comicById &&
+                  comicById.data &&
+                  chapterById &&
+                  chapterById.data ? (
+                    <Link
+                      to={`/reading/${comicById.data.name}/${comicById.data.id}/${chapterById.data[0].id}`}
+                    >
+                      <button
+                        className={cx("read__btn--new")}
+                        dangerouslySetInnerHTML={{
+                          __html: "đọc mới nhất",
+                        }}
+                      />
+                    </Link>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>
@@ -219,7 +235,17 @@ function DetailComic() {
               chapterById.data.map((chapter, index) => {
                 return (
                   <div className={cx("chapter__item")} key={index}>
-                    <div> Chương {chapter.numericalOrder}</div>
+                    <div>
+                      {comicById && comicById.data ? (
+                        <Link
+                          to={`/reading/${comicById.data.name}/${comicById.data.id}/${chapter.id}`}
+                        >
+                          Chương {chapter.numericalOrder}
+                        </Link>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                     <div> 10 phút trước</div>
                   </div>
                 );
