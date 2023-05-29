@@ -1,5 +1,6 @@
 const express = require("express");
 const ApiConntroller = require("../controllers/ApiController");
+const { Authenticate, Login } = require("../middleware/Authenticate");
 let router = express.Router();
 let initAPIRoutes = (app) => {
   //get
@@ -17,6 +18,7 @@ let initAPIRoutes = (app) => {
     "/api/getOnlyChapterbyId",
     ApiConntroller.getOnlyChapterByIdController
   );
+  router.post("/api/auth/login", Login, ApiConntroller.authLoginController);
   //post
   router.post("/api/create-comic", ApiConntroller.createComic);
   router.post("/api/create-chapter", ApiConntroller.createChapter);
@@ -25,6 +27,11 @@ let initAPIRoutes = (app) => {
   router.post(
     "/api/create-categories-comic",
     ApiConntroller.createCategoryComic
+  );
+  router.post(
+    "/api/create-user",
+    Authenticate,
+    ApiConntroller.createUserController
   );
   //update
   router.put("/api/update-views", ApiConntroller.updateViews);

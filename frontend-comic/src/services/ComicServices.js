@@ -30,6 +30,9 @@ const handlerGetOnlyChapterById = (chapterId, comicId) => {
     `/api/getOnlyChapterbyId?chapterId=${chapterId}&comicId=${comicId}`
   );
 };
+const handleLogin = (data) => {
+  return axios.post(`/api/auth/login`, data);
+};
 //post
 const handleCreateComic = (data) => {
   return axios.post(`/api/create-comic`, data);
@@ -39,6 +42,9 @@ const handleCreateChapter = (data) => {
 };
 const handleCreateComic_Categories = (data) => {
   return axios.post(`/api/create-categories-comic`, data);
+};
+const handleCreateUser = (data) => {
+  return axios.post(`/api/create-user`, data);
 };
 //put
 const handleUpdateViews = (comicId) => {
@@ -57,10 +63,12 @@ export {
   handleGetComicByCategory,
   handleGetCategoriesByComic,
   handlerGetOnlyChapterById,
+  handleLogin,
   //
   handleCreateComic,
   handleCreateChapter,
   handleCreateComic_Categories,
+  handleCreateUser,
   //
   handleUpdateViews,
   handleUpdateTimePass,

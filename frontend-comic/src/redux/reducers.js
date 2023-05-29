@@ -14,6 +14,9 @@ import comicByCategorySlice from "./slices/comicByCategorySlice";
 import categoriesByComicSlice from "./slices/categoriesByComicSlice";
 import updateViewsSlice from "./slices/updateViewsSlice";
 import chapterOnlyByIdSlice from "./slices/chapterOnlyByIdSlice.js";
+import createUserSlices from "./slices/createUserSlices ";
+import loginSlices from "./slices/loginSlices";
+import authSlices from "./slices/authSlices";
 const rootReducer = combineReducers({
   counter: counterReducer,
   categoryApi: categorySlice,
@@ -29,6 +32,9 @@ const rootReducer = combineReducers({
   categoriesByComic: categoriesByComicSlice,
   views: updateViewsSlice,
   chapterOnly: chapterOnlyByIdSlice,
+  user: createUserSlices,
+  login: loginSlices,
+  auth: authSlices,
   // Thêm reducers khác của bạn tại đây
 });
 

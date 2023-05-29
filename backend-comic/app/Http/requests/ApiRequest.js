@@ -27,14 +27,6 @@ let getComicsByType = (limit) => {
       let data = await db.Comic.findAll({
         limit: limit,
         order: [["dayUpdated", "DESC"]],
-        // include: [
-        //   {
-        //     model: db.Chapter,
-        //     as: "chapters",
-        //     attributes: ["name", "content", "numericalOrder", "comicId"],
-        //   },
-        // ],
-        // attributes: ["name", "author", "description", "views", "image"],
         raw: true,
         nest: true,
       });
@@ -52,15 +44,6 @@ let handleGetChapter = () => {
           {
             model: db.Comic,
             as: "comics",
-            include: [
-              {
-                model: db.Category,
-                as: "categories",
-                through: {
-                  attributes: [],
-                },
-              },
-            ],
           },
         ],
         raw: true,
@@ -75,7 +58,7 @@ let handleGetChapter = () => {
       } else {
         reject({
           errCode: 1,
-          message: "get chapter is falied",
+          message: "get chapter is failed",
         });
       }
     } catch (error) {
@@ -83,6 +66,7 @@ let handleGetChapter = () => {
     }
   });
 };
+
 let handleGetChapterById = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -191,9 +175,6 @@ let handleGetComicByCategory = (categoryId) => {
           {
             model: db.Category,
             as: "categories",
-            // attributes: {
-            //   exclude: ["createdAt", "updatedAt"],
-            // },
             where: { id: categoryId },
             through: {
               attributes: [],
@@ -233,18 +214,13 @@ let handleGetcategoriesByComic = (comicId) => {
           {
             model: db.Comic,
             as: "comics",
-            // attributes: {
-            //   exclude: ["createdAt", "updatedAt"],
-            // },
             where: { id: comicId },
             through: {
               attributes: [],
             },
           },
         ],
-        // attributes: {
-        //   exclude: ["createdAt", "updatedAt"],
-        // },
+
         raw: true,
         nest: true,
       });
@@ -453,6 +429,51 @@ let handleCreateCategoryComic = (data) => {
     }
   });
 };
+const createUser = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (data && data.email && data.password && data.username) {
+        await db.User.create({
+          email: data.email,
+          password: data.password,
+          username: data.username,
+          image: data.image || null,
+          roleId: data.roleId || "R1",
+        });
+        resolve({
+          errCode: 0,
+          message: "create user successfully",
+        });
+      } else {
+        resolve({ errCode: 1, message: "data not found" });
+      }
+    } catch (error) {
+      console.log(error);
+      reject(error);
+    }
+  });
+};
+let handleLogin = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (data && data.isPassword) {
+        resolve({
+          errCode: 0,
+          isPassword: data.isPassword,
+          message: "login is successfully",
+        });
+      } else if (data && data.isPassword === false) {
+        resolve({
+          errCode: 1,
+          message: "password không chính xác",
+          isPassword: data.isPassword,
+        });
+      }
+    } catch (error) {
+      reject({ errCode: 1, message: "err" });
+    }
+  });
+};
 //update
 let handleUpdateViews = (id) => {
   return new Promise(async (resolve, reject) => {
@@ -519,6 +540,7 @@ let handleUpdateTimePass = (id) => {
   });
 };
 module.exports = {
+  handleLogin,
   getComicsByType,
   getAllCategories,
   handleGetChapter,
@@ -535,6 +557,7 @@ module.exports = {
   handleCreateCategory,
   handleCreateComment,
   handleCreateCategoryComic,
+  createUser,
   //
   handleUpdateViews,
   handleUpdateTimePass,

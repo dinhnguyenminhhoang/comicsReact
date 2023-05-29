@@ -8,6 +8,8 @@ import CreateChapters from "~/Pages/Admin/CRUD/CreateChapters/CreateChapters.js"
 import Categories from "~/Pages/Categories/Categories.js";
 import CreateCategoryForComic from "~/Pages/Admin/CRUD/CreateCategoryForComic/CreateCategoryForComic.js";
 import DetailChapter from "~/Pages/DetailChapter/DetailChapter.js";
+import Login from "~/Pages/Auth/Login/Login.js";
+import Register from "~/Pages/Auth/Register/Register.js";
 
 const publishRouter = [
   {
@@ -40,6 +42,16 @@ const publishRouter = [
     element: DetailChapter,
     Layout: HeaderOnly,
   },
+  {
+    path: "/auth/login",
+    element: Login,
+    Layout: null,
+  },
+  {
+    path: "/auth/register",
+    element: Register,
+    Layout: null,
+  },
 ];
 const privateRouter = [
   {
@@ -58,6 +70,10 @@ const privateRouter = [
   {
     path: "/admin/4/:route",
     element: CreateCategoryForComic,
+  },
+  {
+    path: "/admin/5/:route",
+    element: CreateChapters,
   },
 ];
 export { publishRouter, privateRouter };

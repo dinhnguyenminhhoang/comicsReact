@@ -13,6 +13,7 @@ function Sidebar() {
     "create-comic",
     "create-chapters",
     "create-categoryForChapters",
+    "admin-manger",
   ];
   const { route } = useParams();
 
@@ -26,7 +27,7 @@ function Sidebar() {
     <div className={cx("sidebar-wrapper")}>
       <div className={cx("account")}>
         <img
-          src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/269812011_1083046655869537_4870147934702657640_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=mCRVVdRUTLYAX9MXhs0&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfCmQ8oZBIdwTBeXM3u_LlIuRFzSBHZYQAYtF8nQ1J-TLQ&oe=645E9620"
+          src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/269812011_1083046655869537_4870147934702657640_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Oi1nZqZ1pBQAX8hJ-zp&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfAyA7MD5LkVYNmbsIis2mQCyiYu8vTzAulQV2vHaE5Mhw&oe=64765120"
           alt="avatar"
           className={cx("avatar")}
         />
@@ -69,6 +70,16 @@ function Sidebar() {
             <span className={cx("nav-item__title")}>
               Thêm thể loại cho truyện
             </span>
+          </div>
+        </Link>
+        <Link to={`/admin/5/${url[4]}`} onClick={() => handleClick(url[4])}>
+          <div
+            className={cx("nav-item", {
+              active: activeItem === url[4],
+            })}
+          >
+            <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
+            <span className={cx("nav-item__title")}>Admin manage</span>
           </div>
         </Link>
       </div>

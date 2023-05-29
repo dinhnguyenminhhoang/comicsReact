@@ -6,7 +6,11 @@
 .content-wrapper {
     background-color: var(--background-color) !important;
 
-    .cus-content {
-        margin-top: 16px;
+    .container {
+        margin-top: 76px;
+
+        .cus-content {
+            margin-top: 16px;
+        }
     }
 }

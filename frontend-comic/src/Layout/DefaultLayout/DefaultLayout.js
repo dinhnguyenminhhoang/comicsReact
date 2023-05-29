@@ -10,7 +10,7 @@ function DefaultLayout({ children }) {
       <Row className={cx("cus-row")}>
         <Header />
         <div className={cx("content-wrapper")}>
-          <Container>
+          <Container className={cx("container")}>
             <div className={cx("cus-content")}>
               <Row>
                 <Col md={3}>

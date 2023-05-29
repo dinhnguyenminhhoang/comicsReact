@@ -15,6 +15,8 @@ import {
   handleUpdateViews,
   handlerGetOnlyChapterById,
   handleUpdateTimePass,
+  handleCreateUser,
+  handleLogin,
 } from "~/services/ComicServices";
 
 // Action creator sử dụng createAsyncThunk
@@ -121,6 +123,14 @@ export const getOnlyChapterbyId = createAsyncThunk(
     }
   }
 );
+export const authLogin = createAsyncThunk("login/authLogin", async (data) => {
+  try {
+    const response = await handleLogin(data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+});
 //
 export const fetchCreateComic = createAsyncThunk(
   "createComic/fetchCreateComic",
@@ -155,6 +165,15 @@ export const createComic_categories = createAsyncThunk(
     }
   }
 );
+export const createUser = createAsyncThunk("user/createUser", async (data) => {
+  try {
+    const response = await handleCreateUser(data);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+});
+
 //update
 export const updateViews = createAsyncThunk(
   "views/updateViews",

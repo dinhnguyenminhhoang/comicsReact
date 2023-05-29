@@ -17,7 +17,7 @@ module.exports = {
       numericalOrder: {
         type: Sequelize.INTEGER,
       },
-      postDate: {
+      dayUpdated: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },

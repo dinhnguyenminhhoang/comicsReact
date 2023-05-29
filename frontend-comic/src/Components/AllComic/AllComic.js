@@ -12,9 +12,9 @@ const cx = classNames.bind(styles);
 function AllComic() {
   let { pageNumber } = useParams();
   const [pagination, setPagination] = useState({
-    currentPage: null || toNumber(pageNumber),
+    currentPage: toNumber(pageNumber) || 1,
     totalPage: 1,
-    pageSize: 4,
+    pageSize: 12,
   });
   const dispatch = useDispatch();
   const paginationData = useSelector((state) => state.pagination.data);
@@ -62,6 +62,7 @@ function AllComic() {
       <Paginations
         pagination={pagination}
         handlePageChange={handlePageChange}
+        pageNumber={pageNumber}
       />
     </div>
   );

@@ -112,7 +112,7 @@ const CreateComic = () => {
         </Row>
         <Row className={cx("mb-3")}>
           <Form.Group className={cx("mb-3")} controlId="url">
-            <Form.Label>URL image truyện:</Form.Label>
+            <Form.Label>URL image :</Form.Label>
             <Form.Control
               className={cx("form-control-lg")}
               style={{ borderRadius: "10px" }}
@@ -120,7 +120,7 @@ const CreateComic = () => {
               name="image"
               value={formData.image}
               onChange={handleInputChange}
-              placeholder="Nhập  URL name"
+              placeholder="Nhập  URL image"
             />
           </Form.Group>
         </Row>
