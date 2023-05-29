@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       content: DataTypes.TEXT("long"),
       numericalOrder: DataTypes.INTEGER,
-      postDate: DataTypes.DATE,
+      dayUpdated: DataTypes.DATE,
       views: DataTypes.INTEGER,
       comicId: DataTypes.INTEGER,
     },

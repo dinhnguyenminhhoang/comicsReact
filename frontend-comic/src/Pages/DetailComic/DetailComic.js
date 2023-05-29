@@ -21,6 +21,7 @@ import {
   faStrikethrough,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import calculateTimePassed from "~/utils/timePass.js";
 const cx = classNames.bind(styles);
 function DetailComic() {
   const [height, setHeight] = useState(0);
@@ -56,6 +57,11 @@ function DetailComic() {
   const handleBackHistory = () => {
     navigate(-1);
   };
+  useEffect(() => {
+    if (chapterById && chapterById.data) {
+      let data = calculateTimePassed(chapterById.data);
+    }
+  });
   return (
     <div className={cx("detail__doctor")}>
       <div className={cx("detail__container")}>
@@ -165,7 +171,10 @@ function DetailComic() {
                   </div>
                 </div>
                 <div className={cx("read__type")}>
-                  {comicById && comicById.data ? (
+                  {comicById &&
+                  comicById.data &&
+                  chapterById &&
+                  chapterById.data ? (
                     <Link
                       to={`/reading/${comicById.data.name}/${comicById.data.id}/1`}
                     >
@@ -234,19 +243,24 @@ function DetailComic() {
               chapterById.data.length > 0 &&
               chapterById.data.map((chapter, index) => {
                 return (
-                  <div className={cx("chapter__item")} key={index}>
-                    <div>
-                      {comicById && comicById.data ? (
+                  <div key={index}>
+                    {comicById && comicById.data ? (
+                      <div className={cx("chapter__item")}>
                         <Link
                           to={`/reading/${comicById.data.name}/${comicById.data.id}/${chapter.id}`}
                         >
                           Chương {chapter.numericalOrder}
                         </Link>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                    <div> 10 phút trước</div>
+                        <div>
+                          {
+                            calculateTimePassed(chapterById.data)[index]
+                              .timePassed
+                          }
+                        </div>
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 );
               })}

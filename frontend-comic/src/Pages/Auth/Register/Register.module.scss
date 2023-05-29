@@ -1,0 +1,127 @@
+.register-background {
+    height: 100vh;
+    background: rgb(34, 193, 195);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg,
+            #f1f1f2 0%,
+            #bcbabe 25%,
+            #a1d6e2 75%,
+            #1995ad 100%);
+
+    .register-modal {
+        background-color: white;
+        border-radius: 15px;
+
+        .modal__container {
+            padding: 20px;
+
+            .heading-wrapper {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 16px;
+                padding-top: 10px;
+
+                .logo {
+                    object-fit: contain;
+                }
+
+                .heading {
+                    display: block;
+                    font-size: 2.8rem;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .form__groups {
+            margin-top: 10px;
+            display: flex;
+
+            .form {
+                position: relative;
+
+                .input--form {
+                    margin: 12px 12px 0 12px;
+                    min-width: 240px;
+                    padding: 8px 10px;
+                    outline: none;
+                    border: 1px solid #999;
+                    border-radius: 5px;
+                    font-size: 1.4rem;
+
+                    &::placeholder {
+                        font-weight: 400;
+                        font-size: 1.4rem;
+                    }
+
+                }
+
+                .icon {
+                    position: absolute;
+                    left: 6px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    font-size: 1.6rem;
+                    color: #999;
+                }
+
+                .error-message {
+                    max-width: 240px;
+                    margin: 0 12px;
+                    display: block;
+                    font-size: 1.2rem;
+                    color: red;
+                }
+            }
+        }
+
+        .submit {
+            display: flex;
+            justify-content: center;
+            margin-top: 18px;
+
+            .btn-submit {
+                background: linear-gradient(135deg,
+                        #f1f1f2 0%,
+                        #bcbabe 25%,
+                        #a1d6e2 75%,
+                        #1995ad 100%);
+                border-radius: 5px;
+                transition: filter .2s ease-in-out;
+                min-width: 95%;
+                background-color: transparent;
+                font-size: 1.8rem;
+                font-weight: 600;
+                outline: none;
+                border: none;
+                color: #423f44;
+                padding: 8px;
+
+                &:hover {
+                    filter: contrast(1.4);
+                }
+            }
+
+
+        }
+
+        .no__acount {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.6rem;
+            padding: 16px 0;
+
+            a {
+                font-weight: 600;
+                margin-left: 6px;
+                color: tomato;
+            }
+        }
+    }
+}

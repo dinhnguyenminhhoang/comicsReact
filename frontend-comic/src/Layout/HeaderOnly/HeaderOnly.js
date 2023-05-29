@@ -10,9 +10,6 @@ function HeaderOnly({ children }) {
       <div className={cx("content-wrapper")}>
         <Container>
           <Row>
-            {/* <Col md={4}>
-              <Sidebar />
-            </Col> */}
             <Col md={12}>{children}</Col>
           </Row>
         </Container>

@@ -184,6 +184,27 @@ let getOnlyChapterByIdController = async (req, res) => {
     });
   }
 };
+let authLoginController = async (req, res) => {
+  let userInfo = req.body;
+  try {
+    if (userInfo.email && userInfo.password) {
+      let data = await ApiRequest.handleLogin(userInfo);
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(400).json({
+        message: "userInfo not found",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      message: "error form server",
+      errCode: 1,
+    });
+  }
+};
 ////////////////////////////////////////////////////////////////////////////
 let createComic = async (req, res) => {
   try {
@@ -260,6 +281,27 @@ let createCategoryComic = async (req, res) => {
     console.log(error);
   }
 };
+let createUserController = async (req, res) => {
+  try {
+    let dataReq = req.body;
+    if (dataReq) {
+      let data = await ApiRequest.createUser(req.body);
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(404).json({
+        errCode: 1,
+        message: "data not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      errCode: 1,
+      message: "error from server",
+    });
+  }
+};
 //uppdate
 let updateViews = async (req, res) => {
   try {
@@ -306,6 +348,7 @@ let updateTimePass = async (req, res) => {
   }
 };
 module.exports = {
+  authLoginController,
   testApiController,
   getCetagoryController,
   getComicController,
@@ -323,6 +366,7 @@ module.exports = {
   createCategory,
   createComment,
   createCategoryComic,
+  createUserController,
   //
   updateViews,
   updateTimePass,

@@ -8,6 +8,7 @@ import {
   getAllComic,
   fetchCategoryData,
   createComic_categories,
+  getCategoriesByComic,
 } from "~/redux/action/action";
 const cx = classNames.bind(styles);
 function CreateCategoryForComic() {
@@ -21,6 +22,9 @@ function CreateCategoryForComic() {
   const [comicId, setComicId] = useState();
   const inputRef = useRef();
   const dispatch = useDispatch();
+  let categoriesData__comic = useSelector(
+    (state) => state.categoriesByComic.data
+  );
   useEffect(() => {
     dispatch(getAllComic());
   }, [dispatch]);
@@ -43,26 +47,42 @@ function CreateCategoryForComic() {
       setCheckedIds(new Set(checkedIds));
     }
   };
+  useEffect(() => {
+    if (comicId) dispatch(getCategoriesByComic(comicId));
+  }, [dispatch, comicId]);
   const handleSubmit = (e) => {
     e.preventDefault();
     const arrayOfIds = Array.from(checkedIds, Number);
     if (arrayOfIds.length > 0 && comicId) {
-      dispatch(
-        createComic_categories({
-          comicId,
-          categoryId: arrayOfIds,
-        })
-      );
-      toast.success("🤩 thêm truyện thành công", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      if (categoriesData__comic.errCode === 1) {
+        dispatch(
+          createComic_categories({
+            comicId,
+            categoryId: arrayOfIds,
+          })
+        );
+        toast.success("🤩 thêm truyện thành công", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else {
+        toast.error("🆘 bạn đã thêm thẻ loại cho truyện trước đó ", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
     } else {
       toast.warning("😅 vui lòng nhập đầy đủ thông tin", {
         position: "top-right",
