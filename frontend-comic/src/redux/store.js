@@ -9,5 +9,3 @@ const store = configureStore({
 });
 
 export default store;
-
-// Áp dụng middleware cho store

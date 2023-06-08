@@ -4,33 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import styles from "./CreateCategoryForComic.module.scss";
 import Selector from "~/Components/Selector/Selector";
-import {
-  getAllComic,
-  fetchCategoryData,
-  createComic_categories,
-  getCategoriesByComic,
-} from "~/redux/action/action";
 const cx = classNames.bind(styles);
-function CreateCategoryForComic() {
-  const comicData = useSelector((state) => state.allComic.data);
-  const categories = useSelector((state) => state.categoryApi.data);
-  const categories__comicData = useSelector(
-    (state) => state.comic_categories.data
-  );
+function CreateCategoryForComic(props) {
+  let { comicData, categories } = props;
   const [optionData, setOptionData] = useState(null);
   const [checkedIds, setCheckedIds] = useState(new Set());
-  const [comicId, setComicId] = useState();
-  const inputRef = useRef();
-  const dispatch = useDispatch();
-  let categoriesData__comic = useSelector(
-    (state) => state.categoriesByComic.data
-  );
-  useEffect(() => {
-    dispatch(getAllComic());
-  }, [dispatch]);
-  useEffect(() => {
-    dispatch(fetchCategoryData());
-  }, [dispatch]);
+  const [comicValue, setComiValue] = useState();
   useEffect(() => {
     if (comicData && comicData.length > 0) setOptionData(comicData);
   }, [comicData]);
@@ -47,57 +26,13 @@ function CreateCategoryForComic() {
       setCheckedIds(new Set(checkedIds));
     }
   };
-  useEffect(() => {
-    if (comicId) dispatch(getCategoriesByComic(comicId));
-  }, [dispatch, comicId]);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const arrayOfIds = Array.from(checkedIds, Number);
-    if (arrayOfIds.length > 0 && comicId) {
-      if (categoriesData__comic.errCode === 1) {
-        dispatch(
-          createComic_categories({
-            comicId,
-            categoryId: arrayOfIds,
-          })
-        );
-        toast.success("🤩 thêm truyện thành công", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      } else {
-        toast.error("🆘 bạn đã thêm thẻ loại cho truyện trước đó ", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-    } else {
-      toast.warning("😅 vui lòng nhập đầy đủ thông tin", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const arrayOfIds = Array.from(checkedIds, Number);
+  //   console.log(arrayOfIds);
+  // };
   const handleValueChange = (value) => {
-    if (value) setComicId(value.value);
+    if (value) setComiValue(value.value);
   };
   return (
     <div className={cx("categories__comic")}>
@@ -110,7 +45,6 @@ function CreateCategoryForComic() {
           categories.map((category) => (
             <label key={category.id} htmlFor={category.id}>
               <input
-                ref={inputRef}
                 type="checkbox"
                 id={category.id}
                 onChange={handleCheckboxChange}
@@ -119,10 +53,6 @@ function CreateCategoryForComic() {
             </label>
           ))}
       </div>
-      <div className={cx("categories__submit")} onClick={handleSubmit}>
-        <button type="submit">Thêm</button>
-      </div>
-      <ToastContainer limit={4} />
     </div>
   );
 }

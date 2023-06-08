@@ -5,15 +5,25 @@ import { faBolt } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getUserInfo } from "~/redux/action/action";
+import { useDispatch, useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 function Sidebar() {
+  let dispatch = useDispatch();
+  let userInfo = useSelector((state) => state.userInfo.data);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    if (isLoggedIn && user) dispatch(getUserInfo(user.email));
+  }, [dispatch]);
   const [activeItem, setActiveItem] = useState("");
   const url = [
-    "create-user",
-    "create-comic",
-    "create-chapters",
+    "users-manager",
+    "comics-manager",
+    "chapters-manager",
     "create-categoryForChapters",
-    "admin-manger",
+    "admin-manager",
+    "profile",
   ];
   const { route } = useParams();
 
@@ -25,64 +35,110 @@ function Sidebar() {
   });
   return (
     <div className={cx("sidebar-wrapper")}>
-      <div className={cx("account")}>
-        <img
-          src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/269812011_1083046655869537_4870147934702657640_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Oi1nZqZ1pBQAX8hJ-zp&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfAyA7MD5LkVYNmbsIis2mQCyiYu8vTzAulQV2vHaE5Mhw&oe=64765120"
-          alt="avatar"
-          className={cx("avatar")}
-        />
-        <span className={cx("full__name")}>Đinh Nguyễn Minh Hoàng</span>
-      </div>
-      <div className={cx("nav")}>
-        <Link to={`/admin/1/${url[0]}`} onClick={() => handleClick([url[0]])}>
-          <div className={cx("nav-item", { active: activeItem === url[0] })}>
-            <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
-            <span className={cx("nav-item__title")}>Thêm mới người dùng</span>
-          </div>
-        </Link>
-        <Link to={`/admin/2/${url[1]}`} onClick={() => handleClick(url[1])}>
-          <div
-            className={cx("nav-item", {
-              active: activeItem === url[1],
-            })}
+      {isLoggedIn && userInfo && userInfo.user ? (
+        <>
+          <Link
+            to={`/profile/${userInfo.user.id}`}
+            onClick={() => handleClick(url[5])}
           >
-            <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
-            <span className={cx("nav-item__title")}>Thêm mới truyện</span>
-          </div>
-        </Link>
-        <Link to={`/admin/3/${url[2]}`} onClick={() => handleClick(url[2])}>
-          <div
-            className={cx("nav-item", {
-              active: activeItem === url[2],
-            })}
-          >
-            <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
-            <span className={cx("nav-item__title")}>Thêm chương mới</span>
-          </div>
-        </Link>
-        <Link to={`/admin/4/${url[3]}`} onClick={() => handleClick(url[3])}>
-          <div
-            className={cx("nav-item", {
-              active: activeItem === url[3],
-            })}
-          >
-            <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
-            <span className={cx("nav-item__title")}>
-              Thêm thể loại cho truyện
-            </span>
-          </div>
-        </Link>
-        <Link to={`/admin/5/${url[4]}`} onClick={() => handleClick(url[4])}>
-          <div
-            className={cx("nav-item", {
-              active: activeItem === url[4],
-            })}
-          >
-            <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
-            <span className={cx("nav-item__title")}>Admin manage</span>
-          </div>
-        </Link>
-      </div>
+            <div className={cx("account", { active: activeItem === url[5] })}>
+              <img
+                src={userInfo.user.image}
+                alt="avatar"
+                className={cx("avatar")}
+              />
+              <span className={cx("full__name")}>
+                {userInfo.user.username || "vui lòng thêm username"}
+              </span>
+            </div>
+          </Link>
+          {isLoggedIn &&
+          userInfo &&
+          userInfo.user &&
+          (userInfo.user.roleId === "R3" || userInfo.user.roleId === "R2") ? (
+            <div className={cx("nav")}>
+              {isLoggedIn &&
+              userInfo &&
+              userInfo.user &&
+              userInfo.user.roleId === "R3" ? (
+                <Link
+                  to={`/admin/5/${url[4]}`}
+                  onClick={() => handleClick(url[4])}
+                >
+                  <div
+                    className={cx("nav-item", {
+                      active: activeItem === url[4],
+                    })}
+                  >
+                    <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
+                    <span className={cx("nav-item__title")}>Bảng Thống Kê</span>
+                  </div>
+                </Link>
+              ) : (
+                ""
+              )}
+              <Link
+                to={`/admin/1/${url[0]}`}
+                onClick={() => handleClick(url[0])}
+              >
+                <div
+                  className={cx("nav-item", { active: activeItem === url[0] })}
+                >
+                  <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
+                  <span className={cx("nav-item__title")}>
+                    Quản lí người dùng
+                  </span>
+                </div>
+              </Link>
+              <Link
+                to={`/admin/2/${url[1]}`}
+                onClick={() => handleClick(url[1])}
+              >
+                <div
+                  className={cx("nav-item", {
+                    active: activeItem === url[1],
+                  })}
+                >
+                  <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
+                  <span className={cx("nav-item__title")}>Quản lí Truyện</span>
+                </div>
+              </Link>
+              <Link
+                to={`/admin/3/${url[2]}`}
+                onClick={() => handleClick(url[2])}
+              >
+                <div
+                  className={cx("nav-item", {
+                    active: activeItem === url[2],
+                  })}
+                >
+                  <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
+                  <span className={cx("nav-item__title")}>Quản lí chương</span>
+                </div>
+              </Link>
+              <Link
+                to={`/admin/4/${url[3]}`}
+                onClick={() => handleClick(url[3])}
+              >
+                <div
+                  className={cx("nav-item", {
+                    active: activeItem === url[3],
+                  })}
+                >
+                  <FontAwesomeIcon className={cx("nav-icon")} icon={faBolt} />
+                  <span className={cx("nav-item__title")}>
+                    Quản Lí Thể Loại
+                  </span>
+                </div>
+              </Link>
+            </div>
+          ) : (
+            ""
+          )}
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

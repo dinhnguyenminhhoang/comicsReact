@@ -1,0 +1,51 @@
+.container {
+    min-height: 100vh;
+    background-color: var(--background-content-color);
+    margin-left: 32px;
+
+    .header {
+        color: #fff;
+        margin: 0 auto;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .from-container {
+        max-width: 90%;
+        margin: 0 auto;
+        padding-bottom: 30px;
+
+        label {
+            color: #fff;
+            font-size: 1.6rem;
+        }
+
+        .disabled {
+            background-color: #999;
+            border: none;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    }
+
+    .table {
+        margin: 0 auto;
+        width: 90%;
+        text-align: center;
+        color: #fff;
+
+        .table__method {
+            font-size: 1.8rem;
+
+            .action-btn {
+                margin: 0 4px;
+            }
+
+            .table__icon {
+                margin-left: 6px;
+            }
+        }
+    }
+}

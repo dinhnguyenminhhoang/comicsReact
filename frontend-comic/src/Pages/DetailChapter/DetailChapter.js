@@ -7,7 +7,6 @@ import PaginationsChapter from "~/Components/PaginationsChapter/PaginationsChapt
 import styles from "./DetailChapter.module.scss";
 const cx = classNames.bind(styles);
 function DetailChapter() {
-  const [isHidden, setIsHidden] = useState(false);
   const [options, setOptions] = useState();
   let dispatch = useDispatch();
   let chapterData = useSelector((state) => state.chapterById.data);

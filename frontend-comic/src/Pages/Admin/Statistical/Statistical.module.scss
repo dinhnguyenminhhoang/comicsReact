@@ -1,0 +1,85 @@
+.statistical__wrapper {
+    margin-left: 32px;
+    padding: 12px 10px;
+    min-height: 100vh;
+
+    .statistical__list--info {
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+
+        .info__item {
+            padding: 10px;
+            border-radius: 10px;
+
+            .info__total,
+            .info__title {
+                display: block;
+                font-size: 2rem;
+                font-weight: 600;
+            }
+        }
+
+        .info__member {
+            background-color: #F8F8F8;
+        }
+
+        .info__manage {
+            background-color: #FFD700;
+        }
+
+        .info__comic {
+            background-color: #D8BFD8;
+        }
+
+        .info__chapter {
+            background-color: #D3D3D3;
+        }
+    }
+
+    .combo__chart {
+        background-color: var(--background-content-color);
+        padding-bottom: 10px;
+        margin-top: 30px;
+
+
+        .chart__heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            font-weight: 600;
+
+            color: white;
+
+            span {
+                font-size: 3rem;
+            }
+
+
+
+
+            .chart-btn {
+                margin: 0 6px;
+                border: 1px solid white;
+                background-color: transparent;
+                color: #fff;
+                font-size: 1.6rem;
+                font-weight: 600;
+                padding: 4px 6px;
+                border-radius: 5px;
+
+                &:hover {
+                    background-color: #D3D3D3;
+                    color: black;
+                }
+            }
+
+            .active {
+                background-color: #D3D3D3;
+                color: #000;
+            }
+        }
+    }
+}

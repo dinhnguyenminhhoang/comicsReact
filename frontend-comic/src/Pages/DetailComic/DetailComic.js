@@ -8,14 +8,15 @@ import {
   getComicById,
   getChapterById,
   getCategoriesByComic,
+  createFollow,
 } from "~/redux/action/action.js";
 import {
-  faBook,
   faCircleExclamation,
   faEye,
   faHeart,
   faHomeAlt,
   faList,
+  faPlus,
   faSignal,
   faSignature,
   faStrikethrough,
@@ -28,10 +29,13 @@ function DetailComic() {
   const { id } = useParams();
   const refDescription = useRef();
   const [isHeight, setIsHeight] = useState(true);
+  const [isFollow, setIsFollow] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const comicById = useSelector((state) => state.comicById.data);
   const chapterById = useSelector((state) => state.chapterById.data);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userInfo = useSelector((state) => state.userInfo.data);
   const categoriesByComicData = useSelector(
     (state) => state.categoriesByComic.data
   );
@@ -59,9 +63,21 @@ function DetailComic() {
   };
   useEffect(() => {
     if (chapterById && chapterById.data) {
-      let data = calculateTimePassed(chapterById.data);
+      calculateTimePassed(chapterById.data);
     }
   });
+  const handleFollowing = (comicId) => {
+    if (userInfo && userInfo.user && userInfo.user.id && comicId) {
+      dispatch(
+        createFollow({
+          userId: userInfo.user.id,
+          comicId,
+        })
+      );
+      setIsFollow(true);
+    }
+  };
+  let handleFollowFormDetail = (isFollow) => {};
   return (
     <div className={cx("detail__doctor")}>
       <div className={cx("detail__container")}>
@@ -79,6 +95,17 @@ function DetailComic() {
             <div className={cx("content__container")}>
               <div className={cx("content__image")}>
                 <img src={comicById.data.image} alt="test" />
+                {!isFollow && isLoggedIn && (
+                  <div className={cx("content__follow")}>
+                    <button
+                      className={cx("follow-btn")}
+                      onClick={() => handleFollowing(comicById.data.id)}
+                    >
+                      <FontAwesomeIcon icon={faPlus} className={cx("icon")} />
+                      Follow
+                    </button>
+                  </div>
+                )}
               </div>
               <div className={cx("content__info")}>
                 <span className={cx("info__name")}>{comicById.data.name}</span>

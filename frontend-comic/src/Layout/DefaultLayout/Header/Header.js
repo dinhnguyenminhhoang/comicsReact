@@ -9,21 +9,28 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCategoryData } from "../../../redux/action/action";
+import { fetchCategoryData, getUserInfo } from "~/redux/action/action";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login, logout } from "~/redux/slices/authSlices";
 const cx = classNames.bind(Styles);
 function Header() {
+  let navigator = useNavigate();
   const categoryData = useSelector((state) => state.categoryApi.data);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  console.log(isLoggedIn);
+  const userInfo = useSelector((state) => state.userInfo.data);
+  const user = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategoryData());
   }, [dispatch]);
+  useEffect(() => {
+    if (isLoggedIn) dispatch(getUserInfo(user.email));
+  }, [dispatch]);
+
   const handleLogOut = () => {
     dispatch(logout());
+    navigator("/");
   };
   return (
     <div className={cx("header-wrapper")}>
@@ -56,7 +63,7 @@ function Header() {
             </button>
           </div>
         </div>
-        {!isLoggedIn ? (
+        {!isLoggedIn || !userInfo.user ? (
           <div className={cx("auth")}>
             <Link to="/auth/register">
               <button className={cx("register-btn")}>Đăng kí</button>
@@ -65,22 +72,26 @@ function Header() {
               <button className={cx("login-btn")}>Đăng nhập</button>
             </Link>
           </div>
-        ) : (
+        ) : userInfo && userInfo.user ? (
           <div className={cx("account")}>
             <img
               className={cx("avata")}
-              src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/269812011_1083046655869537_4870147934702657640_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=mWZv_UDR17sAX_XEi3j&_nc_ht=scontent.fsgn2-6.fna&oh=00_AfBhPmKo0WLaTQKJWFjsLp69Kt_Nm0tdEJWsKt0RY8q6fg&oe=647A45A0"
+              src={userInfo.user.image}
               alt="avata"
             />
-            <span className={cx("name")}>Đinh Nguyễn Minh Hoàng</span>
+            <span className={cx("name")}>
+              {userInfo.user.username || userInfo.user.email}
+            </span>
             <div className={cx("userInfo")}>
               <ul className={cx("info__list")}>
                 <li className={cx("info__item")}>
-                  <FontAwesomeIcon
-                    className={cx("icon-info")}
-                    icon={faAddressBook}
-                  />
-                  Profile
+                  <Link to={`/profile/${userInfo.user.id}`}>
+                    <FontAwesomeIcon
+                      className={cx("icon-info")}
+                      icon={faAddressBook}
+                    />
+                    Profile
+                  </Link>
                 </li>
                 <li className={cx("info__item")}>
                   <FontAwesomeIcon className={cx("icon-info")} icon={faPlus} />
@@ -96,6 +107,8 @@ function Header() {
               </ul>
             </div>
           </div>
+        ) : (
+          ""
         )}
       </Container>
     </div>

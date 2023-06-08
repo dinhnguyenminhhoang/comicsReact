@@ -15,10 +15,18 @@ import {
   handleUpdateViews,
   handlerGetOnlyChapterById,
   handleUpdateTimePass,
-  handleCreateUser,
   handleLogin,
+  handleGetTotalUser,
+  handleGetTotalComic,
+  handleGetTotalChapter,
 } from "~/services/ComicServices";
-
+import {
+  handleGetAllUser,
+  handleGetUserInfo,
+  handleGetComicFollow,
+  handleCreateUser,
+  handleCreateFollow,
+} from "~/services/UserServices";
 // Action creator sử dụng createAsyncThunk
 export const fetchCategoryData = createAsyncThunk(
   "category/fetchCategoryData",
@@ -53,6 +61,14 @@ export const getAllComic = createAsyncThunk(
     }
   }
 );
+export const getAllUser = createAsyncThunk("allUser/getAllUser", async () => {
+  try {
+    const response = await handleGetAllUser();
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+});
 export const getPagination = createAsyncThunk(
   "pagination/getPagination",
   async (data) => {
@@ -131,6 +147,61 @@ export const authLogin = createAsyncThunk("login/authLogin", async (data) => {
     throw error;
   }
 });
+export const getTotalUser = createAsyncThunk(
+  "totalUser/getTotalUser",
+  async () => {
+    try {
+      const response = await handleGetTotalUser();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const getTotalComic = createAsyncThunk(
+  "totalComic/getTotalComic",
+  async () => {
+    try {
+      const response = await handleGetTotalComic();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const getTotalChapter = createAsyncThunk(
+  "chapter/getTotalChapter",
+  async () => {
+    try {
+      const response = await handleGetTotalChapter();
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const getUserInfo = createAsyncThunk(
+  "userInfo/getUserInfo",
+  async (email) => {
+    try {
+      const response = await handleGetUserInfo(email);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const getComicFollowed = createAsyncThunk(
+  "comicFollowed/getComicFollowed",
+  async (userId) => {
+    try {
+      const response = await handleGetComicFollow(userId);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 //
 export const fetchCreateComic = createAsyncThunk(
   "createComic/fetchCreateComic",
@@ -173,7 +244,17 @@ export const createUser = createAsyncThunk("user/createUser", async (data) => {
     throw error;
   }
 });
-
+export const createFollow = createAsyncThunk(
+  "FollowData/createFollow",
+  async (data) => {
+    try {
+      const response = await handleCreateFollow(data);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 //update
 export const updateViews = createAsyncThunk(
   "views/updateViews",

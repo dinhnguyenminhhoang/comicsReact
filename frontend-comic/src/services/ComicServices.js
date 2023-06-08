@@ -30,8 +30,23 @@ const handlerGetOnlyChapterById = (chapterId, comicId) => {
     `/api/getOnlyChapterbyId?chapterId=${chapterId}&comicId=${comicId}`
   );
 };
+const handleGetUserInfo = (email) => {
+  return axios.get(`/api/get-infoUser?email=${email}`);
+};
 const handleLogin = (data) => {
   return axios.post(`/api/auth/login`, data);
+};
+const handleGetTotalUser = () => {
+  return axios.get(`/api/getTotalUser`);
+};
+const handleGetTotalComic = () => {
+  return axios.get(`/api/getTotalComic`);
+};
+const handleGetTotalChapter = () => {
+  return axios.get(`/api/getTotalChapter`);
+};
+const handleGetComicFollow = (userId) => {
+  return axios.get(`/api/get-follow?userId=${userId}`);
 };
 //post
 const handleCreateComic = (data) => {
@@ -45,6 +60,9 @@ const handleCreateComic_Categories = (data) => {
 };
 const handleCreateUser = (data) => {
   return axios.post(`/api/create-user`, data);
+};
+const handleCreateFollow = (data) => {
+  return axios.post(`/api/create-follow`, data);
 };
 //put
 const handleUpdateViews = (comicId) => {
@@ -64,11 +82,17 @@ export {
   handleGetCategoriesByComic,
   handlerGetOnlyChapterById,
   handleLogin,
+  handleGetUserInfo,
+  handleGetTotalUser,
+  handleGetTotalComic,
+  handleGetTotalChapter,
+  handleGetComicFollow,
   //
   handleCreateComic,
   handleCreateChapter,
   handleCreateComic_Categories,
   handleCreateUser,
+  handleCreateFollow,
   //
   handleUpdateViews,
   handleUpdateTimePass,

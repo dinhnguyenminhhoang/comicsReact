@@ -1,0 +1,58 @@
+.container {
+    min-height: 100vh;
+    background-color: var(--background-content-color);
+    margin-left: 32px;
+    margin-bottom: 60px;
+    padding-bottom: 20px;
+
+    .header {
+        color: var(--text-color);
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .from-container {
+        width: 90%;
+        margin: 0 auto;
+
+        h1 {
+            font-size: 2.2rem;
+        }
+
+        label {
+            color: #fff;
+            font-size: 1.4rem;
+        }
+
+        button {
+            margin-top: 6px;
+            margin-bottom: 26px;
+        }
+    }
+
+    .table {
+        width: 90%;
+        margin: 0 auto;
+        text-align: center;
+        color: #fff;
+
+        .table__method {
+            font-size: 1.8rem;
+
+            .action-btn {
+                margin: 0 4px;
+            }
+
+            .table__icon {
+                margin-left: 6px;
+            }
+
+            .name__comic {
+                max-width: 250px;
+                font-weight: 500;
+                font-size: 1.4rem;
+            }
+        }
+    }
+}

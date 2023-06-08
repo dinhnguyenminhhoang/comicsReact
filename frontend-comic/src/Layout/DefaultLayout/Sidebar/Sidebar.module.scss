@@ -6,6 +6,15 @@
         justify-content: flex-start;
         text-align: center;
         cursor: pointer;
+        padding: 6px;
+        border-radius: 10px;
+        margin: 6px 0;
+        margin-left: -6px;
+
+        &:hover:not(.active) {
+            filter: contrast(1.6);
+            background-color: rgba(109, 98, 98, 0.3);
+        }
 
         .avatar {
             width: 36px;
@@ -15,7 +24,7 @@
         }
 
         .full__name {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: var(--color-content);
             margin-left: 10px;
@@ -26,13 +35,13 @@
         .nav-item {
             display: flex;
             align-items: center;
-            width: 100%;
+            // width: 100%;
             color: var(--color-content);
             font-size: 1.4rem;
             font-weight: 600;
             margin: 6px 0;
             margin-left: -6px;
-            padding: 6px 6px;
+            padding: 6px;
             border-radius: 10px;
             cursor: pointer;
 
@@ -53,8 +62,9 @@
             }
         }
 
-        .active {
-            background-color: var(--background-active);
-        }
     }
+}
+
+.active {
+    background-color: var(--background-active);
 }
