@@ -8,7 +8,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import CreateCategoryForComic from "../CreateCategoryForComic/CreateCategoryForComic";
-import { Label } from "recharts";
 const cx = classNames.bind(styles);
 const ComicManage = () => {
   let [sortOrder, setSortOrder] = useState(true);
