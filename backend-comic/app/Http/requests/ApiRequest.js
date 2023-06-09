@@ -1,5 +1,11 @@
 const e = require("express");
 const db = require("../../../database/models/index");
+const { raw } = require("body-parser");
+const { totalMonth } = require("../../utils/totalMonth");
+const { totalDays } = require("../../utils/totalDays");
+const { totaHour } = require("../../utils/totaHour");
+const follow = require("../../../database/models/follow");
+const { where } = require("sequelize");
 let getAllCategories = () => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -114,6 +120,27 @@ let handleGetAllComic = () => {
     }
   });
 };
+let handleGetAllUser = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await db.User.findAll();
+      if (data) {
+        resolve({
+          data,
+          errCode: 0,
+          message: "get user is successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: " errr form  server",
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 let handleGetPagination = (pageNumber, pageSize) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -201,7 +228,6 @@ let handleGetComicByCategory = (categoryId) => {
         });
       }
     } catch (error) {
-      console.error(error);
       reject("An error occurred while retrieving comics by category");
     }
   });
@@ -238,7 +264,6 @@ let handleGetcategoriesByComic = (comicId) => {
         });
       }
     } catch (error) {
-      console.error(error);
       reject("An error occurred while retrieving comics by category");
     }
   });
@@ -264,8 +289,174 @@ let handleGetOnlyChapterByIdController = (chapterId, comicId) => {
         });
       }
     } catch (error) {
-      console.log(error);
       reject({ error: 1, message: "error" });
+    }
+  });
+};
+let handleGetUserInfo = (email) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = await db.User.findOne({
+        where: { email: email },
+        attributes: ["email", "image", "username", "roleId", "id"],
+      });
+      if (user) {
+        resolve({
+          user,
+          message: "get user info successfully",
+          errCode: 0,
+        });
+      } else {
+        reject({ error: 1, message: "email not found" });
+      }
+    } catch (error) {
+      reject({ error: 1, message: "error getting user info" });
+    }
+  });
+};
+let handleGetTotalUser = (roleId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await db.User.findAll();
+      if (data && data.length > 0) {
+        const totalUser = data.length;
+        let monthlyUser = totalMonth(data);
+        const daylyUsers = totalDays(data);
+        const hourslyUsers = totaHour(data);
+        resolve({
+          errCode: 0,
+          message: "get total user info successfully",
+          totalUser,
+          monthlyUser,
+          daylyUsers,
+          hourslyUsers,
+        });
+      }
+      resolve({ errCode: 1, message: "user not found" });
+    } catch (error) {
+      reject({ error: 1, message: "error getting user info" });
+    }
+  });
+};
+let handleGetTotalChapter = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await db.Chapter.findAll();
+      if (data && data.length > 0) {
+        const totalChapters = data.length;
+        let monthlyChapters = totalMonth(data);
+        let daylyChapters = totalDays(data);
+        let hourslyChapters = totaHour(data);
+
+        resolve({
+          errCode: 0,
+          message: "get total chapters are successfully",
+          totalChapters,
+          monthlyChapters,
+          daylyChapters,
+          hourslyChapters,
+        });
+      }
+      resolve({ errCode: 1, message: "chapter not found" });
+    } catch (error) {
+      reject({ error: 1, message: "error getting chapter info" });
+    }
+  });
+};
+let handleGetTotalComic = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await db.Comic.findAll();
+      if (data && data.length > 0) {
+        const totalComics = data.length;
+        let monthlyComics = totalMonth(data);
+        let daylyComics = totalDays(data);
+        let hourlyComics = totaHour(data);
+        resolve({
+          errCode: 0,
+          message: "get total comics are successfully",
+          totalComics,
+          monthlyComics,
+          daylyComics,
+          hourlyComics,
+        });
+      }
+      resolve({ errCode: 1, message: "comic not found" });
+    } catch (error) {
+      reject({ error: 1, message: "error getting comic info" });
+    }
+  });
+};
+let handleGetCollection = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await db.Collection.findAll({
+        where: { userId },
+        attributes: ["collectionId", "userId"],
+        include: [
+          {
+            model: db.Comic,
+            as: "comics",
+            through: {
+              attributes: [], // Bỏ qua thuộc tính của bảng trung gian
+            },
+          },
+        ],
+        raw: true,
+        nest: true,
+      });
+      if (data) {
+        resolve({
+          data,
+          message: "get collection successfully",
+          errCode: 0,
+        });
+      } else {
+        resolve({
+          message: "data not found",
+          errCode: 1,
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let handleGetFollow = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = await db.User.findAll({
+        where: { id: userId },
+        attributes: [],
+        include: {
+          model: db.Follow,
+          as: "follows",
+          attributes: [],
+          include: {
+            model: db.Comic,
+            as: "comic",
+          },
+        },
+        raw: true,
+        nest: true,
+      });
+      const followedComics = data.flatMap((follows) => {
+        return follows.follows.comic;
+      });
+      if (followedComics) {
+        resolve({
+          data: followedComics,
+          message: "get collection successfully",
+          errCode: 0,
+        });
+      } else {
+        resolve({
+          message: "data not found",
+          errCode: 1,
+        });
+      }
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -448,7 +639,6 @@ const createUser = (data) => {
         resolve({ errCode: 1, message: "data not found" });
       }
     } catch (error) {
-      console.log(error);
       reject(error);
     }
   });
@@ -471,6 +661,64 @@ let handleLogin = (data) => {
       }
     } catch (error) {
       reject({ errCode: 1, message: "err" });
+    }
+  });
+};
+let handleCreateComicForColection = (comicId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (comicId) {
+        await db.Collection_Comics.create({
+          ComicId: comicId,
+          collectionId: 1,
+        });
+        resolve({
+          errCode: 0,
+          message: "add comic for collection successfully",
+        });
+      } else {
+        resolve({ errCode: 1, message: "data not found" });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let handleCreateColection = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (userId) {
+        await db.Collection.create({
+          collectionId: userId,
+          userId: userId,
+        });
+        resolve({
+          errCode: 0,
+          message: "create collection successfully",
+        });
+      } else {
+        resolve({ errCode: 1, message: "data not found" });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let handleCreateFollow = (userId, comicId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.Follow.create({
+        userId,
+        comicId,
+      });
+      resolve({
+        data: {
+          errCode: 0,
+          message: "create follow successfully",
+        },
+      });
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -539,6 +787,121 @@ let handleUpdateTimePass = (id) => {
     }
   });
 };
+let handleUpdateUser = (userInfo) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.User.update(
+        {
+          email: userInfo.email,
+          username: userInfo.username,
+          image: userInfo.image,
+          roleId: userInfo.roleId || "R3",
+        },
+        {
+          where: {
+            id: userInfo.id,
+          },
+        }
+      );
+      resolve({
+        errCode: 0,
+        message: "Update view successfully",
+      });
+    } catch (error) {
+      reject({
+        error: 1,
+        message: "update user failed",
+      });
+    }
+  });
+};
+let handleUpdateComic = (comicInfo) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.Comic.update(
+        {
+          name: comicInfo.name,
+          author: comicInfo.author,
+          image: comicInfo.image,
+          description: comicInfo.description,
+          nickName: comicInfo.nickName,
+        },
+        {
+          where: {
+            id: comicInfo.id,
+          },
+        }
+      );
+      resolve({
+        errCode: 0,
+        message: "Update comic successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      reject({
+        error: 1,
+        message: "update view failed",
+      });
+    }
+  });
+};
+//delete
+let handleDeleteUser = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let userDelete = await db.User.destroy({
+        where: {
+          id: userId,
+        },
+      });
+      if (userDelete) {
+        resolve({
+          errCode: 0,
+          message: "delete user successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "user not found",
+        });
+      }
+    } catch (error) {
+      reject({
+        error: 1,
+        message: "delete user failed",
+      });
+    }
+  });
+};
+let handleDeleteComic = (comicId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let comicDelete = await db.Comic.destroy({
+        where: {
+          id: comicId,
+        },
+      });
+      if (comicDelete) {
+        await db.Follow.destroy({ where: { comicId } });
+        await db.Comic_Categories.destroy({ where: { comicId } });
+        resolve({
+          errCode: 0,
+          message: "delete comic successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "comic not found",
+        });
+      }
+    } catch (error) {
+      reject({
+        error: 1,
+        message: "delete comic failed",
+      });
+    }
+  });
+};
 module.exports = {
   handleLogin,
   getComicsByType,
@@ -551,6 +914,13 @@ module.exports = {
   handleGetComicByCategory,
   handleGetcategoriesByComic,
   handleGetOnlyChapterByIdController,
+  handleGetUserInfo,
+  handleGetTotalUser,
+  handleGetTotalChapter,
+  handleGetTotalComic,
+  handleGetCollection,
+  handleGetFollow,
+  handleGetAllUser,
   //
   handleCreateComic,
   handleCreateChapter,
@@ -558,7 +928,15 @@ module.exports = {
   handleCreateComment,
   handleCreateCategoryComic,
   createUser,
+  handleCreateColection,
+  handleCreateComicForColection,
+  handleCreateFollow,
   //
   handleUpdateViews,
   handleUpdateTimePass,
+  handleUpdateUser,
+  handleUpdateComic,
+  //delete
+  handleDeleteUser,
+  handleDeleteComic,
 };

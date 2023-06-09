@@ -61,11 +61,39 @@ let getChapterByIdController = async (req, res) => {
 let getAllComic = async (req, res) => {
   try {
     let data = await ApiRequest.handleGetAllComic();
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    }
     return res.status(200).json({
-      data,
+      errCode: 1,
+      message: "comic not found",
     });
   } catch (error) {
-    console.log(error);
+    return res.status(200).json({
+      errCode: 1,
+      message: "error form server",
+    });
+  }
+};
+let getAllUser = async (req, res) => {
+  try {
+    let data = await ApiRequest.handleGetAllUser();
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    }
+    return res.status(200).json({
+      errCode: 1,
+      message: "user not found",
+    });
+  } catch (error) {
+    return res.status(200).json({
+      errCode: 1,
+      message: "error form server",
+    });
   }
 };
 let getPagination = async (req, res) => {
@@ -184,6 +212,27 @@ let getOnlyChapterByIdController = async (req, res) => {
     });
   }
 };
+let getUserController = async (req, res) => {
+  let email = req.query.email;
+  try {
+    if (email) {
+      let data = await ApiRequest.handleGetUserInfo(email);
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(400).json({
+        message: "email not found",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      message: "error form server",
+      errCode: 1,
+    });
+  }
+};
 let authLoginController = async (req, res) => {
   let userInfo = req.body;
   try {
@@ -200,6 +249,95 @@ let authLoginController = async (req, res) => {
     }
   } catch (error) {
     return res.status(400).json({
+      message: "error form server",
+      errCode: 1,
+    });
+  }
+};
+let getTotalUserController = async (req, res) => {
+  try {
+    let data = await ApiRequest.handleGetTotalUser();
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(400).json({
+        message: "roleId not found",
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "error form server", errCode: 1 });
+  }
+};
+let getTotalChapterController = async (req, res) => {
+  try {
+    let data = await ApiRequest.handleGetTotalChapter();
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(400).json({
+        message: "chapter not found",
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "error form server", errCode: 1 });
+  }
+};
+
+let getTotalComicController = async (req, res) => {
+  try {
+    let data = await ApiRequest.handleGetTotalComic();
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(400).json({
+        message: "comic not found",
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "error form server", errCode: 1 });
+  }
+};
+let getCollectionController = async (req, res) => {
+  try {
+    let userId = req.query.userId;
+    if (userId) {
+      let data = await ApiRequest.handleGetCollection(+userId);
+      return res.status(200).json({ data });
+    } else {
+      return res.status(404).json({
+        message: "userId not found",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "error form server",
+      errCode: 1,
+    });
+  }
+};
+let getFollowController = async (req, res) => {
+  try {
+    let userId = req.query.userId;
+    if (userId) {
+      let data = await ApiRequest.handleGetFollow(+userId);
+      return res.status(200).json({ data });
+    } else {
+      return res.status(404).json({
+        message: "userId not found",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
       message: "error form server",
       errCode: 1,
     });
@@ -302,6 +440,64 @@ let createUserController = async (req, res) => {
     });
   }
 };
+let createComicForCollectionController = async (req, res) => {
+  try {
+    let comicId = req.body.comicId;
+    if (comicId) {
+      let data = await ApiRequest.handleCreateComicForColection(+comicId);
+      return res.status(200).json(data);
+    } else {
+      return res.status(404).json({
+        message: "user not found",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: "err creating collection",
+      errCode: 1,
+    });
+  }
+};
+let createCollectionController = async (req, res) => {
+  try {
+    let userId = req.body.userId;
+    if (userId) {
+      let data = await ApiRequest.handleCreateColection(+userId);
+      return res.status(200).json(data);
+    } else {
+      return res.status(404).json({
+        message: "user not found",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: "err creating collection",
+      errCode: 1,
+    });
+  }
+};
+let createFollowController = async (req, res) => {
+  try {
+    let userId = req.body.userId;
+    let comicId = req.body.comicId;
+    if (userId && comicId) {
+      let data = await ApiRequest.handleCreateFollow(+userId, +comicId);
+      return res.status(200).json(data);
+    } else {
+      return res.status(404).json({
+        message: "missing parameter",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: "err creating collection",
+      errCode: 1,
+    });
+  }
+};
 //uppdate
 let updateViews = async (req, res) => {
   try {
@@ -347,6 +543,86 @@ let updateTimePass = async (req, res) => {
     });
   }
 };
+let updateUserController = async (req, res) => {
+  try {
+    const userInfo = req.body;
+    let data = await ApiRequest.handleUpdateUser(userInfo);
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(400).json({
+        errCode: 1,
+        message: "data not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: 1,
+      message: "error form server",
+    });
+  }
+};
+let updateComicController = async (req, res) => {
+  try {
+    const comicInfo = req.body;
+    let data = await ApiRequest.handleUpdateComic(comicInfo);
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(400).json({
+        errCode: 1,
+        message: "data not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: 1,
+      message: "error form server",
+    });
+  }
+};
+//delete
+let deleteUserController = async (req, res) => {
+  try {
+    let userId = req.query.userId;
+    if (!userId) return;
+    let data = await ApiRequest.handleDeleteUser(+userId);
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: 1,
+      message: "error form server",
+    });
+  }
+};
+let deleteComicController = async (req, res) => {
+  try {
+    let comicId = req.query.comicId;
+    if (!comicId)
+      return res.status(404).json({
+        message: "comicId not found",
+      });
+    let data = await ApiRequest.handleDeleteComic(+comicId);
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: 1,
+      message: "error form server",
+    });
+  }
+};
 module.exports = {
   authLoginController,
   testApiController,
@@ -360,14 +636,29 @@ module.exports = {
   getComicByCategory,
   getCategoriesByComic,
   getOnlyChapterByIdController,
+  getUserController,
+  getTotalUserController,
+  getTotalChapterController,
+  getTotalComicController,
+  getCollectionController,
+  getFollowController,
+  getAllUser,
   //
+  createComicForCollectionController,
   createComic,
   createChapter,
   createCategory,
   createComment,
   createCategoryComic,
   createUserController,
+  createCollectionController,
+  createFollowController,
   //
   updateViews,
   updateTimePass,
+  updateUserController,
+  updateComicController,
+  //delete
+  deleteUserController,
+  deleteComicController,
 };
