@@ -22,6 +22,8 @@ import {
   faStrikethrough,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
+
 import calculateTimePassed from "~/utils/timePass.js";
 const cx = classNames.bind(styles);
 function DetailComic() {
@@ -77,7 +79,6 @@ function DetailComic() {
       setIsFollow(true);
     }
   };
-  let handleFollowFormDetail = (isFollow) => {};
   return (
     <div className={cx("detail__doctor")}>
       <div className={cx("detail__container")}>
@@ -94,7 +95,7 @@ function DetailComic() {
             </div>
             <div className={cx("content__container")}>
               <div className={cx("content__image")}>
-                <img src={comicById.data.image} alt="test" />
+                <img src={coverBase64ToBlob(comicById.data.image)} alt="test" />
                 {!isFollow && isLoggedIn && (
                   <div className={cx("content__follow")}>
                     <button

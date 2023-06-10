@@ -60,11 +60,19 @@ body {
     text-rendering: optimizeSpeed;
     margin: 0;
     padding: 0;
+}
 
+img {
+    image-rendering: -webkit-optimize-contrast;
 }
 
 a[href] {
     color: #e4e6eb;
+}
+
+.table>:not(caption)>*>* {
+    color: #fff !important;
+    background-color: transparent !important;
 }
 
 :root {

@@ -19,6 +19,8 @@ import {
   handleGetTotalUser,
   handleGetTotalComic,
   handleGetTotalChapter,
+  handleUpdateComic,
+  handleDeleteComic,
 } from "~/services/ComicServices";
 import {
   handleGetAllUser,
@@ -26,6 +28,8 @@ import {
   handleGetComicFollow,
   handleCreateUser,
   handleCreateFollow,
+  handleUpdateUser,
+  handleDeleteUser,
 } from "~/services/UserServices";
 // Action creator sử dụng createAsyncThunk
 export const fetchCategoryData = createAsyncThunk(
@@ -272,6 +276,50 @@ export const updateTimePass = createAsyncThunk(
   async (comicId) => {
     try {
       const response = await handleUpdateTimePass(comicId);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const updateComic = createAsyncThunk(
+  "updateComic/updateComic",
+  async (comicInfo) => {
+    try {
+      const response = await handleUpdateComic(comicInfo);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const updateUser = createAsyncThunk(
+  "updateUser/updateUser",
+  async (comicInfo) => {
+    try {
+      const response = await handleUpdateUser(comicInfo);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const deleteComic = createAsyncThunk(
+  "deletecomic/deleteComic",
+  async (comicId) => {
+    try {
+      const response = await handleDeleteComic(comicId);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const deleteUser = createAsyncThunk(
+  "deleteUser/deleteUser",
+  async (userId) => {
+    try {
+      const response = await handleDeleteUser(userId);
       return response.data;
     } catch (error) {
       throw error;

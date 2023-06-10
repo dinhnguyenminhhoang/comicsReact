@@ -54,6 +54,10 @@ const UserManage = (props) => {
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     setSelectedFile(URL.createObjectURL(file));
+    if (file) {
+      const blobUrl = URL.createObjectURL(file);
+      setFormData({ ...formData, image: blobUrl });
+    }
   };
 
   const handleRoleChange = (event) => {
@@ -61,6 +65,7 @@ const UserManage = (props) => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(formData);
     setFormData({
       email: "",
       username: "",
@@ -129,7 +134,6 @@ const UserManage = (props) => {
                   <option value="R2">R2</option>
                   <option value="R3">R3</option>
                 </Form.Select>
-                {/* </select> */}
               </Form.Group>
             </Row>
             <Row>

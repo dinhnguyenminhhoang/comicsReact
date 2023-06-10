@@ -58,9 +58,7 @@ const handleCreateChapter = (data) => {
 const handleCreateComic_Categories = (data) => {
   return axios.post(`/api/create-categories-comic`, data);
 };
-const handleCreateUser = (data) => {
-  return axios.post(`/api/create-user`, data);
-};
+
 const handleCreateFollow = (data) => {
   return axios.post(`/api/create-follow`, data);
 };
@@ -70,6 +68,13 @@ const handleUpdateViews = (comicId) => {
 };
 const handleUpdateTimePass = (comicId) => {
   return axios.put(`/api/day-update?comicId=${comicId}`);
+};
+const handleUpdateComic = (comicInfo) => {
+  return axios.put(`/api/update-comic`, comicInfo);
+};
+//delete
+const handleDeleteComic = (comicId) => {
+  return axios.delete(`/api/delete-comic?comicId=${comicId}`);
 };
 export {
   handleGetCategory,
@@ -91,9 +96,11 @@ export {
   handleCreateComic,
   handleCreateChapter,
   handleCreateComic_Categories,
-  handleCreateUser,
   handleCreateFollow,
   //
   handleUpdateViews,
   handleUpdateTimePass,
+  handleUpdateComic,
+  //delete
+  handleDeleteComic,
 };

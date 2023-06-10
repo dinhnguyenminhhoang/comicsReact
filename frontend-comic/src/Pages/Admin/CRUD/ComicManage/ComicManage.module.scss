@@ -31,6 +31,7 @@
         }
     }
 
+
     .table {
         width: 90%;
         margin: 0 auto;
@@ -55,4 +56,26 @@
             }
         }
     }
+
+    .upload__image {
+        color: #fff;
+        font-size: 1.2rem;
+        align-items: center;
+        padding-right: 40px;
+        border-radius: 999px;
+        text-align: center;
+
+        p {
+            display: block;
+        }
+
+        .avata {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 999px;
+        }
+    }
+
+
 }

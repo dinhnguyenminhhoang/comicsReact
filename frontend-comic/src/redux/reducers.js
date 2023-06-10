@@ -24,6 +24,10 @@ import totalChapterSlice from "./slices/totalChapterSlice";
 import createFollowSlices from "./slices/createFollowSlices";
 import comicFollowedSlice from "./slices/comicFollowedSlice";
 import allUserSlice from "./slices/allUserSlice";
+import deleteComicSlice from "./slices/deleteComicSlice";
+import deleteUserSlice from "./slices/deleteUserSlice";
+import updateUserSlice from "./slices/updateUserSlice";
+import updateComicSlice from "./slices/updateComicSlice";
 const rootReducer = combineReducers({
   counter: counterReducer,
   categoryApi: categorySlice,
@@ -49,6 +53,10 @@ const rootReducer = combineReducers({
   FollowData: createFollowSlices,
   comicFollowed: comicFollowedSlice,
   allUser: allUserSlice,
+  deleteComic: deleteComicSlice,
+  deleteUser: deleteUserSlice,
+  updateUser: updateUserSlice,
+  updateComic: updateComicSlice,
   // Thêm reducers khác của bạn tại đây
 });
 
