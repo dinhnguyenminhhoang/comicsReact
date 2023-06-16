@@ -3,44 +3,47 @@ import styles from "./ModalUser.module.scss";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCancel, faClose } from "@fortawesome/free-solid-svg-icons";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
+import { updateUser, getUserInfo } from "~/redux/action/action";
+import UploadAvata from "../UploadAvata/UploadAvata";
 const cx = classNames.bind(styles);
 function ModalUser(props) {
   const { userInfo, handleCloseFormParent } = props;
   const [formData, setFormData] = useState({
-    email: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
-    image: "",
+    ...userInfo
   });
-  const [selectedFile, setSelectedFile] = useState(null);
-
+  const [imageData, setImageData] = useState(userInfo.image);
+  const dispatch = useDispatch()
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
-
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(URL.createObjectURL(file));
-  };
+  const handleSetImage = (image) => {
+    setImageData(image);
+    setFormData({ ...formData, image: image });
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Xử lý logic khi người dùng nhấn nút "Submit"
-    console.log(formData);
-    // Reset form
+    dispatch(updateUser({
+      id: formData.id,
+      email: formData.email,
+      username: formData.username,
+      image: formData.image,
+      roleId: formData.roleId || "R3",
+    })).then(() => {
+      dispatch(getUserInfo(userInfo.email));
+    })
     setFormData({
       email: "",
-      username: "",
-      password: "",
-      confirmPassword: "",
       image: "",
-    });
+      username: "",
+    })
+    handleCloseFormParent(true);
   };
   const handleClose = () => {
     handleCloseFormParent(true);
-  };
+  }
   return (
     <div className={cx("modal-container")}>
       <div className={cx("modal-user")}>
@@ -49,7 +52,10 @@ function ModalUser(props) {
         </div>
         {userInfo && (
           <div className={cx("container")}>
-            <h1 className={cx("mb-4", "header")}>Chỉnh sửa thông tin</h1>
+            <h1 className={cx("mb-4", "header")}>
+              {imageData && (
+                <img className={cx("modal__image")} src={imageData} alt="" width={100} height={100} style={{ objectFit: "cover", borderRadius: "999px" }} />
+              )}</h1>
             <div className={cx("from-container")}>
               <Row className={cx("mb-3")}>
                 <Form.Group as={Col} controlId="username">
@@ -59,13 +65,13 @@ function ModalUser(props) {
                     style={{ borderRadius: "10px" }}
                     type="text"
                     name="username"
-                    value={formData.username || userInfo.username}
+                    value={formData.username}
                     onChange={handleInputChange}
                     placeholder="Nhập username"
                   />
                 </Form.Group>
               </Row>
-              <Row className={cx("mb-3")}>
+              {/* <Row className={cx("mb-3")}>
                 <Form.Group as={Col} controlId="email">
                   <Form.Label>Email:</Form.Label>
                   <Form.Control
@@ -73,7 +79,7 @@ function ModalUser(props) {
                     style={{ borderRadius: "10px" }}
                     type="email"
                     name="email"
-                    value={formData.email || userInfo.email}
+                    value={formData.email}
                     onChange={handleInputChange}
                     placeholder="Nhập email"
                     disabled
@@ -94,45 +100,16 @@ function ModalUser(props) {
                     disabled
                   />
                 </Form.Group>
-                <Form.Group as={Col} controlId="confirmPassword">
-                  <Form.Label>confirm password:</Form.Label>
-                  <Form.Control
-                    className={cx("form-control-lg")}
-                    style={{ borderRadius: "10px" }}
-                    type="confirmPassword"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleInputChange}
-                    placeholder="confirm password"
-                    disabled
-                  />
-                </Form.Group>
-              </Row>
+              </Row> */}
               <Row className={cx("mb-3")}>
-                <Form.Group controlId="formFileLg" className="mb-3">
-                  <Form.Label>upload avata</Form.Label>
-                  <Form.Control
-                    type="file"
-                    size="lg"
-                    onChange={handleFileUpload}
-                  />
-                </Form.Group>
-                {selectedFile && (
-                  <div>
-                    <img
-                      src={selectedFile}
-                      alt="avatar"
-                      className={cx("modal__image")}
-                    />
-                  </div>
-                )}
+                <UploadAvata handleSetImage={handleSetImage} />
               </Row>
               <Form onSubmit={handleSubmit}>
                 {/* Các trường dữ liệu */}
                 <Row className="justify-content-center">
                   <Col sm={2}>
                     <Button variant="primary" type="submit" className="w-100">
-                      Thêm mới
+                      chỉnh sửa
                     </Button>
                   </Col>
                 </Row>

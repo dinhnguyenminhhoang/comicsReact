@@ -28,6 +28,8 @@ import deleteComicSlice from "./slices/deleteComicSlice";
 import deleteUserSlice from "./slices/deleteUserSlice";
 import updateUserSlice from "./slices/updateUserSlice";
 import updateComicSlice from "./slices/updateComicSlice";
+import followByComicSlice from "./slices/followByComicSlice";
+import searchSlice from "./slices/searchSlice";
 const rootReducer = combineReducers({
   counter: counterReducer,
   categoryApi: categorySlice,
@@ -57,6 +59,8 @@ const rootReducer = combineReducers({
   deleteUser: deleteUserSlice,
   updateUser: updateUserSlice,
   updateComic: updateComicSlice,
+  followByComic: followByComicSlice,
+  searchData: searchSlice,
   // Thêm reducers khác của bạn tại đây
 });
 

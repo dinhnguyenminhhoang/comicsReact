@@ -1,4 +1,5 @@
 const ApiRequest = require("../requests/ApiRequest");
+
 let testApiController = (req, res) => {
   return res.send("testApiController");
 };
@@ -343,6 +344,48 @@ let getFollowController = async (req, res) => {
     });
   }
 };
+let getFollowForComicController = async (req, res) => {
+  try {
+    let comicId = req.query.comicId;
+    if (comicId) {
+      let data = await ApiRequest.handleGetFollowByComic(+comicId);
+      return res.status(200).json({ data });
+    } else {
+      return res.status(404).json({
+        message: "comicId not found",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "error form server",
+      errCode: 1,
+    });
+  }
+};
+let searchController = async (req, res) => {
+  try {
+    let searchContent = req.query.searchContent;
+    let type = req.query.type;
+    if (!type) type = 5;
+    if (searchContent) {
+      let data = await ApiRequest.handleSearch(searchContent, +type);
+      return res.status(200).json({ data });
+    } else {
+      return res.status(404).json({
+        message: "Content not found",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "error form server",
+      errCode: 1,
+    });
+  }
+};
 ////////////////////////////////////////////////////////////////////////////
 let createComic = async (req, res) => {
   try {
@@ -643,6 +686,8 @@ module.exports = {
   getCollectionController,
   getFollowController,
   getAllUser,
+  getFollowForComicController,
+  searchController,
   //
   createComicForCollectionController,
   createComic,

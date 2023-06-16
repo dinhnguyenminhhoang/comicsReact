@@ -48,6 +48,9 @@ const handleGetTotalChapter = () => {
 const handleGetComicFollow = (userId) => {
   return axios.get(`/api/get-follow?userId=${userId}`);
 };
+const handleGetFollowByComic = (comicId) => {
+  return axios.get(`/api/get-followForComic?comicId=${comicId}`);
+};
 //post
 const handleCreateComic = (data) => {
   return axios.post(`/api/create-comic`, data);
@@ -61,6 +64,9 @@ const handleCreateComic_Categories = (data) => {
 
 const handleCreateFollow = (data) => {
   return axios.post(`/api/create-follow`, data);
+};
+const handlerSearch = (searchContent, type) => {
+  return axios.get(`/api/search?searchContent=${searchContent}&type=${type}`);
 };
 //put
 const handleUpdateViews = (comicId) => {
@@ -92,6 +98,8 @@ export {
   handleGetTotalComic,
   handleGetTotalChapter,
   handleGetComicFollow,
+  handleGetFollowByComic,
+  handlerSearch,
   //
   handleCreateComic,
   handleCreateChapter,

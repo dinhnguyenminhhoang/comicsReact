@@ -9,6 +9,7 @@ import {
   getChapterById,
   getCategoriesByComic,
   createFollow,
+  getFollowByComic,
 } from "~/redux/action/action.js";
 import {
   faCircleExclamation,
@@ -38,6 +39,7 @@ function DetailComic() {
   const chapterById = useSelector((state) => state.chapterById.data);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const userInfo = useSelector((state) => state.userInfo.data);
+  const followByComic = useSelector((state) => state.followByComic.data);
   const categoriesByComicData = useSelector(
     (state) => state.categoriesByComic.data
   );
@@ -49,6 +51,9 @@ function DetailComic() {
   }, [dispatch, id]);
   useEffect(() => {
     dispatch(getCategoriesByComic(id));
+  }, [dispatch, id]);
+  useEffect(() => {
+    dispatch(getFollowByComic(id));
   }, [dispatch, id]);
   useEffect(() => {
     if (refDescription.current) setHeight(refDescription.current.offsetHeight);
@@ -156,7 +161,11 @@ function DetailComic() {
                         />
                         <span className={cx("title__text")}>Lượt theo dõi</span>
                       </div>
-                      <span className={cx("title__content")}>1</span>
+                      {followByComic && (
+                        <span className={cx("title__content")}>
+                          {followByComic.data}
+                        </span>
+                      )}
                     </div>
                     <div className={cx("title__wrapper")}>
                       <div className={cx("title-name")}>

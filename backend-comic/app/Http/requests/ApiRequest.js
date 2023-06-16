@@ -4,8 +4,7 @@ const { raw } = require("body-parser");
 const { totalMonth } = require("../../utils/totalMonth");
 const { totalDays } = require("../../utils/totalDays");
 const { totaHour } = require("../../utils/totaHour");
-const follow = require("../../../database/models/follow");
-const { where } = require("sequelize");
+const { Op } = require("sequelize");
 let getAllCategories = () => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -460,6 +459,62 @@ let handleGetFollow = (userId) => {
     }
   });
 };
+let handleGetFollowByComic = (comicId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { count } = await db.Follow.findAndCountAll({
+        where: {
+          comicId,
+        },
+      });
+      resolve({
+        data: count || 0,
+        message: "get collection successfully",
+        errCode: 0,
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+let handleSearch = (searchContent, type) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let data = await db.Comic.findAll({
+        where: {
+          name: {
+            [Op.like]: `%${searchContent}%`,
+          },
+        },
+        limit: type,
+        attributes: ["name", "author", "image", "id"],
+      });
+      const totalCount = await db.Comic.count({
+        where: {
+          name: {
+            [Op.like]: `%${searchContent}%`,
+          },
+        },
+      });
+
+      if (data && data.length > 0) {
+        resolve({
+          data,
+          totalCount,
+          message: "get collection successfully",
+          errCode: 0,
+        });
+      } else {
+        resolve({
+          message: "không tìm thấy truyện tương ứng",
+          errCode: 1,
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 ////////////////////////////////////////////////////////////////
 let handleCreateComic = (data) => {
   return new Promise(async (resolve, reject) => {
@@ -790,19 +845,34 @@ let handleUpdateTimePass = (id) => {
 let handleUpdateUser = (userInfo) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await db.User.update(
-        {
-          email: userInfo.email,
-          username: userInfo.username,
-          image: userInfo.image,
-          roleId: userInfo.roleId || "R3",
-        },
-        {
-          where: {
-            id: userInfo.id,
+      if (userInfo.roleId) {
+        await db.User.update(
+          {
+            email: userInfo.email,
+            username: userInfo.username,
+            image: userInfo.image,
+            roleId: userInfo.roleId,
           },
-        }
-      );
+          {
+            where: {
+              id: userInfo.id,
+            },
+          }
+        );
+      } else {
+        await db.User.update(
+          {
+            email: userInfo.email,
+            username: userInfo.username,
+            image: userInfo.image,
+          },
+          {
+            where: {
+              id: userInfo.id,
+            },
+          }
+        );
+      }
       resolve({
         errCode: 0,
         message: "Update view successfully",
@@ -921,6 +991,8 @@ module.exports = {
   handleGetCollection,
   handleGetFollow,
   handleGetAllUser,
+  handleGetFollowByComic,
+  handleSearch,
   //
   handleCreateComic,
   handleCreateChapter,

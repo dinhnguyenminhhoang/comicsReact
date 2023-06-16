@@ -36,6 +36,11 @@ let initAPIRoutes = (app) => {
   router.get("/api/getTotalComic", ApiConntroller.getTotalComicController);
   router.get("/api/get-collection", ApiConntroller.getCollectionController);
   router.get("/api/get-follow", ApiConntroller.getFollowController);
+  router.get(
+    "/api/get-followForComic",
+    ApiConntroller.getFollowForComicController
+  );
+  router.get("/api/search", ApiConntroller.searchController);
   //post
   router.post("/api/create-comic", ApiConntroller.createComic);
   router.post("/api/create-chapter", ApiConntroller.createChapter);

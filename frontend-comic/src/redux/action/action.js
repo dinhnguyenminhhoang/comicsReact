@@ -21,6 +21,8 @@ import {
   handleGetTotalChapter,
   handleUpdateComic,
   handleDeleteComic,
+  handleGetFollowByComic,
+  handlerSearch,
 } from "~/services/ComicServices";
 import {
   handleGetAllUser,
@@ -200,6 +202,30 @@ export const getComicFollowed = createAsyncThunk(
   async (userId) => {
     try {
       const response = await handleGetComicFollow(userId);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const getFollowByComic = createAsyncThunk(
+  "followByComic/getFollowByComic",
+  async (comicId) => {
+    try {
+      const response = await handleGetFollowByComic(comicId);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const searchApi = createAsyncThunk(
+  "searchData/searchApi",
+  async (data) => {
+    try {
+      let searchContent = data.searchContent;
+      let type = data.type;
+      const response = await handlerSearch(searchContent, type);
       return response;
     } catch (error) {
       throw error;

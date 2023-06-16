@@ -7,9 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRepeat } from "@fortawesome/free-solid-svg-icons";
 import Books from "~/Components/Books/Books";
 import ModalUser from "~/Components/ModalUser/ModalUser";
+import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
 const cx = classNames.bind(styles);
 function Profile() {
   const [isModal, setIsModal] = useState(false);
+  const [imageToFile, setImageToFile] = useState();
   let dispatch = useDispatch();
   let followedData = useSelector((state) => state.comicFollowed.data);
   const userInfo = useSelector((state) => state.userInfo.data.user);
@@ -24,12 +26,16 @@ function Profile() {
   let handleShowRepearProfile = () => {
     setIsModal(true);
   };
+  useEffect(() => {
+    if (userInfo)
+      setImageToFile(coverBase64ToBlob(userInfo.image));
+  }, [userInfo])
   return (
     <div className={cx("profile__wrapper")}>
       {userInfo && (
         <div className={cx("profile__user")}>
           <img
-            src={userInfo.image}
+            src={imageToFile}
             alt=""
             className={cx("profile__image")}
             width={120}
@@ -61,7 +67,6 @@ function Profile() {
       <div className={cx("profile__content")}>
         <div className={cx("profile__header")}>
           <span className={cx("header__category")}>Bộ sưu tập</span>
-          {/* <span className={cx("header__love")}>Yêu thích</span> */}
         </div>
         <div className={cx("content__container")}>
           <div className={cx("profile__category-wrapper")}>

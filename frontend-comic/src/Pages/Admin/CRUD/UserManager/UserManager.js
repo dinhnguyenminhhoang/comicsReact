@@ -4,46 +4,49 @@ import classNames from "classnames/bind";
 import styles from "./UserManager.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
-import { getAllUser } from "~/redux/action/action";
+import { getAllUser, updateUser, getUserInfo, deleteUser } from "~/redux/action/action";
 import { useDispatch, useSelector } from "react-redux";
+import UploadAvata from "~/Components/UploadAvata/UploadAvata";
+import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
 const cx = classNames.bind(styles);
-const UserManage = (props) => {
+const UserManage = () => {
   const [formData, setFormData] = useState({
+    id: "",
     email: "",
     username: "",
     roleId: "",
     image: "",
     password: "",
   });
+  let users = useSelector((state) => state.allUser.data);
   const [isUpdate, setIsUpdate] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const [selectedFile, setSelectedFile] = useState();
   let [sortOrder, setSortOrder] = useState(true);
   const dispatch = useDispatch();
-  let users = useSelector((state) => state.allUser.data);
   useEffect(() => {
     dispatch(getAllUser());
   }, [dispatch]);
   const sortedUsers = [...users].sort((a, b) => {
     if (sortOrder) {
-      return a.id - b.id; // Sắp xếp tăng dần
+      return a.id - b.id;
     } else {
-      return b.id - a.id; // Sắp xếp giảm dần
+      return b.id - a.id;
     }
   });
   const handleSort = () => {
     setSortOrder(!sortOrder);
   };
   const handleDeleteUser = (user) => {
-    console.log("Deleting user with ID:", user);
+    dispatch(deleteUser(user.id)).then(() => {
+      dispatch(getAllUser())
+    });
   };
 
   const handleUpdateUser = (user) => {
+    setSelectedFile(user.image)
     setIsUpdate(true);
     setFormData({
+      id: user.id,
       email: user.email,
       username: user.username,
       image: user.image,
@@ -51,28 +54,37 @@ const UserManage = (props) => {
       password: user.password,
     });
   };
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(URL.createObjectURL(file));
-    if (file) {
-      const blobUrl = URL.createObjectURL(file);
-      setFormData({ ...formData, image: blobUrl });
-    }
-  };
-
   const handleRoleChange = (event) => {
     setFormData({ ...formData, roleId: event.target.value });
   };
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  const handleSetImage = (image) => {
+    setFormData({ ...formData, image: image });
+    setSelectedFile(coverBase64ToBlob(image))
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    dispatch(updateUser({
+      id: formData.id,
+      email: formData.email,
+      username: formData.username,
+      image: formData.image,
+      roleId: formData.roleId || "R3",
+    })).then(() => {
+      dispatch(getUserInfo(formData.email))
+    })
+      .then(() => { dispatch(getAllUser()) });
     setFormData({
       email: "",
+      image: "",
       username: "",
       roleId: "",
-      image: "",
-      password: "",
-    });
+      id: ""
+    })
+    setIsUpdate(false)
   };
   return (
     <div className={cx("container")}>
@@ -81,10 +93,22 @@ const UserManage = (props) => {
           <h1 className={cx("mb-4", "header")}>
             cập nhật thông tin người dùng
           </h1>
-          <div className={cx("from-container")}>
+          <div className={cx("from-container")} >
+            {selectedFile && (
+              <div style={{
+                display: "flex", justifyContent: "center", margin: "18px 0"
+              }}>
+                < img
+                  src={selectedFile}
+                  alt="avatar"
+                  className={cx("modal__image")}
+                  style={{ height: "100px", width: "100px", objectFit: "cover", borderRadius: "999px" }}
+                />
+              </div>
+            )}
             <Row className={cx("mb-3")}>
               <Form.Group as={Col} controlId="email">
-                <Form.Label>tên truyện:</Form.Label>
+                <Form.Label>email:</Form.Label>
                 <Form.Control
                   className={cx("form-control-lg")}
                   style={{ borderRadius: "10px" }}
@@ -138,37 +162,22 @@ const UserManage = (props) => {
             </Row>
             <Row>
               <Form.Group controlId="formFileLg" className="mb-3" as={Col}>
-                <Form.Label>upload avata</Form.Label>
-                <Form.Control
-                  type="file"
-                  size="lg"
-                  onChange={handleFileUpload}
-                />
+                <UploadAvata handleSetImage={handleSetImage} />
               </Form.Group>
-
-              {selectedFile && (
-                <div>
-                  <img
-                    src={selectedFile}
-                    alt="avatar"
-                    className={cx("modal__image")}
-                  />
-                </div>
-              )}
             </Row>
             <Form onSubmit={handleSubmit}>
-              {/* Các trường dữ liệu */}
               <Row className="justify-content-center">
                 <Col sm={2}>
                   <Button variant="primary" type="submit" className="w-100">
-                    Thêm mới
+                    Lưu thay đổi
                   </Button>
                 </Col>
               </Row>
             </Form>
           </div>
         </>
-      )}
+      )
+      }
       <h1 className={cx("mb-4", "header")}>QUẢN LÍ NGƯỜI DÙNG</h1>
       <Table bordered className={cx("table")}>
         <thead className={cx("table__method")}>
@@ -199,10 +208,10 @@ const UserManage = (props) => {
                   {user.roleId === "R1"
                     ? "user"
                     : user.roleId === "R2"
-                    ? "manage"
-                    : user.roleId === "R3"
-                    ? "admin"
-                    : ""}
+                      ? "manage"
+                      : user.roleId === "R3"
+                        ? "admin"
+                        : ""}
                 </td>
                 <td>
                   <Button
@@ -224,7 +233,7 @@ const UserManage = (props) => {
             ))}
         </tbody>
       </Table>
-    </div>
+    </div >
   );
 };
 

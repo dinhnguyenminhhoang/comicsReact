@@ -6,13 +6,14 @@ import {
   faAddressBook,
   faPlus,
   faRightFromBracket,
-  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategoryData, getUserInfo } from "~/redux/action/action";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login, logout } from "~/redux/slices/authSlices";
+import { logout } from "~/redux/slices/authSlices";
+import Search from "~/Components/Search/Search";
+import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
 const cx = classNames.bind(Styles);
 function Header() {
   let navigator = useNavigate();
@@ -26,12 +27,13 @@ function Header() {
   }, [dispatch]);
   useEffect(() => {
     if (isLoggedIn) dispatch(getUserInfo(user.email));
-  }, [dispatch]);
+  }, [dispatch, isLoggedIn]);
 
   const handleLogOut = () => {
     dispatch(logout());
     navigator("/");
   };
+
   return (
     <div className={cx("header-wrapper")}>
       <Container className={cx("container")}>
@@ -55,14 +57,7 @@ function Header() {
               })}
           </ul>
         </div>
-        <div className={cx("search-box")}>
-          <div className={cx("input-search")}>
-            <input type="text" placeholder="BẠN MUỐN TÌM CHUYỆN GÌ ?" />
-            <button className={cx("icon-btn-search")}>
-              <FontAwesomeIcon icon={faSearch} />
-            </button>
-          </div>
-        </div>
+        <Search />
         {!isLoggedIn || !userInfo.user ? (
           <div className={cx("auth")}>
             <Link to="/auth/register">
@@ -76,7 +71,7 @@ function Header() {
           <div className={cx("account")}>
             <img
               className={cx("avata")}
-              src={userInfo.user.image}
+              src={coverBase64ToBlob(userInfo.user.image)}
               alt="avata"
             />
             <span className={cx("name")}>

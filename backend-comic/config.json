@@ -3,7 +3,7 @@
     "username": "root",
     "password": null,
     "database": "comic",
-    "host": "localhost",
+    "host": "103.145.63.51",
     "dialect": "mysql",
     "logging": false,
     "query": {
@@ -14,14 +14,14 @@
     "username": "root",
     "password": null,
     "database": "database_test",
-    "host": "localhost",
+    "host": "103.145.63.51",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "database_production",
-    "host": "localhost",
+    "host": "103.145.63.51",
     "dialect": "mysql"
   }
 }
