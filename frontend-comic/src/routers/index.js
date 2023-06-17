@@ -1,12 +1,11 @@
-import Following from "~/Pages/Following/Following.js";
 import Home from "~/Pages/Home/Home.js";
 import HeaderOnly from "~/Layout/HeaderOnly/HeaderOnly.js";
+import HeaderFooter from "~/Layout/HeaderFooter/HeaderFooter.js";
 import DetailComic from "~/Pages/DetailComic/DetailComic.js";
 import UserManager from "~/Pages/Admin/CRUD/UserManager/UserManager.js";
 import ComicManage from "~/Pages/Admin/CRUD/ComicManage/ComicManage.js";
 import CreateChapters from "~/Pages/Admin/CRUD/CreateChapters/CreateChapters.js";
 import Categories from "~/Pages/Categories/Categories.js";
-import CreateCategoryForComic from "~/Pages/Admin/CRUD/CreateCategoryForComic/CreateCategoryForComic.js";
 import DetailChapter from "~/Pages/DetailChapter/DetailChapter.js";
 import Login from "~/Pages/Auth/Login/Login.js";
 import Register from "~/Pages/Auth/Register/Register.js";
@@ -16,16 +15,11 @@ const publishRouter = [
   {
     path: "/",
     element: Home,
-    Layout: HeaderOnly,
+    Layout: HeaderFooter,
   },
   {
     path: "/pages/:pageNumber",
     element: Home,
-    Layout: HeaderOnly,
-  },
-  {
-    path: "/following",
-    element: Following,
     Layout: HeaderOnly,
   },
   {
@@ -72,10 +66,6 @@ const privateRouter = [
   {
     path: "/admin/3/:route",
     element: CreateChapters,
-  },
-  {
-    path: "/admin/4/:route",
-    element: CreateCategoryForComic,
   },
   {
     path: "/admin/5/:route",

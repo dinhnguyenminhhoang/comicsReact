@@ -11,10 +11,10 @@ const cx = classNames.bind(styles);
 function ModalUser(props) {
   const { userInfo, handleCloseFormParent } = props;
   const [formData, setFormData] = useState({
-    ...userInfo
+    ...userInfo,
   });
   const [imageData, setImageData] = useState(userInfo.image);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -22,28 +22,30 @@ function ModalUser(props) {
   const handleSetImage = (image) => {
     setImageData(image);
     setFormData({ ...formData, image: image });
-  }
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(updateUser({
-      id: formData.id,
-      email: formData.email,
-      username: formData.username,
-      image: formData.image,
-      roleId: formData.roleId || "R3",
-    })).then(() => {
+    dispatch(
+      updateUser({
+        id: formData.id,
+        email: formData.email,
+        username: formData.username,
+        image: formData.image,
+        roleId: formData.roleId || "R3",
+      })
+    ).then(() => {
       dispatch(getUserInfo(userInfo.email));
-    })
+    });
     setFormData({
       email: "",
       image: "",
       username: "",
-    })
+    });
     handleCloseFormParent(true);
   };
   const handleClose = () => {
     handleCloseFormParent(true);
-  }
+  };
   return (
     <div className={cx("modal-container")}>
       <div className={cx("modal-user")}>
@@ -54,8 +56,16 @@ function ModalUser(props) {
           <div className={cx("container")}>
             <h1 className={cx("mb-4", "header")}>
               {imageData && (
-                <img className={cx("modal__image")} src={imageData} alt="" width={100} height={100} style={{ objectFit: "cover", borderRadius: "999px" }} />
-              )}</h1>
+                <img
+                  className={cx("modal__image")}
+                  src={imageData}
+                  alt=""
+                  width={100}
+                  height={100}
+                  style={{ objectFit: "cover", borderRadius: "999px" }}
+                />
+              )}
+            </h1>
             <div className={cx("from-container")}>
               <Row className={cx("mb-3")}>
                 <Form.Group as={Col} controlId="username">
@@ -71,7 +81,7 @@ function ModalUser(props) {
                   />
                 </Form.Group>
               </Row>
-              {/* <Row className={cx("mb-3")}>
+              <Row className={cx("mb-3")}>
                 <Form.Group as={Col} controlId="email">
                   <Form.Label>Email:</Form.Label>
                   <Form.Control
@@ -87,25 +97,9 @@ function ModalUser(props) {
                 </Form.Group>
               </Row>
               <Row className={cx("mb-3")}>
-                <Form.Group as={Col} controlId="password">
-                  <Form.Label>Mật khẩu:</Form.Label>
-                  <Form.Control
-                    className={cx("form-control-lg")}
-                    style={{ borderRadius: "10px" }}
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    placeholder="Nhập mật khẩu"
-                    disabled
-                  />
-                </Form.Group>
-              </Row> */}
-              <Row className={cx("mb-3")}>
-                <UploadAvata handleSetImage={handleSetImage} />
+                <UploadAvata handleSetImage={handleSetImage} className={true} />
               </Row>
               <Form onSubmit={handleSubmit}>
-                {/* Các trường dữ liệu */}
                 <Row className="justify-content-center">
                   <Col sm={2}>
                     <Button variant="primary" type="submit" className="w-100">

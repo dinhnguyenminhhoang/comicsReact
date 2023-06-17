@@ -1,7 +1,10 @@
 .profile__wrapper {
     margin-left: 32px;
-    padding: 12px 10px;
+    padding: 18px 20px;
     min-height: 100vh;
+    background-color: var(--background-content-color);
+    border-radius: 10px;
+    margin-bottom: 60px;
 
     .profile__user {
         display: flex;
@@ -30,7 +33,7 @@
             }
 
             .profile__repear {
-                background-color: #252525;
+                background-color: #383838;
                 color: #fff;
                 font-size: 1.6rem;
                 padding: 6px 12px;
@@ -60,13 +63,10 @@
         margin-top: 16px;
         font-weight: 300;
 
-        .profile__follow {
-            margin-right: 16px;
-        }
-
         .number__folow,
         .number__like {
             font-weight: 700;
+            margin-right: 4px;
         }
     }
 
@@ -110,6 +110,24 @@
             .follow-item {
                 width: 25%;
             }
+
+            .no__follow {
+                text-align: center;
+                margin: 0 auto;
+
+                .no__follow--title {
+                    color: #fff;
+                    font-size: 1.8rem;
+                    padding: 10px 0;
+                }
+
+                .no__follow--image {
+                    max-width: 300px;
+                    max-height: 300px;
+                    object-fit: cover;
+                }
+            }
+
         }
     }
 

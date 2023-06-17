@@ -1,19 +1,18 @@
 import classNames from "classnames/bind";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useRef } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import styles from "./CreateCategoryForComic.module.scss";
-import Selector from "~/Components/Selector/Selector";
+import { fetchCategoryData } from "~/redux/action/action";
 const cx = classNames.bind(styles);
 function CreateCategoryForComic(props) {
-  let { comicData, categories } = props;
-  const [optionData, setOptionData] = useState(null);
+  let { handleCategories } = props;
+  const categories = useSelector((state) => state.categoryApi.data);
   const [checkedIds, setCheckedIds] = useState(new Set());
-  const [comicValue, setComiValue] = useState();
+  const inputRef = useRef();
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (comicData && comicData.length > 0) setOptionData(comicData);
-  }, [comicData]);
-
+    dispatch(fetchCategoryData());
+  }, [dispatch]);
   const handleCheckboxChange = (event) => {
     const checkboxId = event.target.id;
     const isChecked = event.target.checked;
@@ -26,25 +25,22 @@ function CreateCategoryForComic(props) {
       setCheckedIds(new Set(checkedIds));
     }
   };
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const arrayOfIds = Array.from(checkedIds, Number);
-  //   console.log(arrayOfIds);
-  // };
-  const handleValueChange = (value) => {
-    if (value) setComiValue(value.value);
-  };
+  useEffect(() => {
+    if (handleCategories) {
+      const arrayOfIds = Array.from(checkedIds, Number);
+      handleCategories(arrayOfIds);
+    }
+  }, [checkedIds]);
   return (
     <div className={cx("categories__comic")}>
-      {optionData && (
-        <Selector optionData={optionData} onValueChange={handleValueChange} />
-      )}
+      <h1 className={cx("heading")}>Thêm thể loại cho truyện</h1>
       <div className={cx("categories__wrapper")}>
         {categories &&
           categories.length > 0 &&
           categories.map((category) => (
             <label key={category.id} htmlFor={category.id}>
               <input
+                ref={inputRef}
                 type="checkbox"
                 id={category.id}
                 onChange={handleCheckboxChange}

@@ -20,7 +20,7 @@ function TopComic() {
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 2000,
   };
 
   const comicData = useSelector((state) => state.comicApi.data);

@@ -1,11 +1,12 @@
 import { Container, Row, Col } from "react-bootstrap";
 import classNames from "classnames/bind";
 import { Helmet } from "react-helmet";
-import Header from "../DefaultLayout/Header/Header";
-import styles from "./HeaderOnly.module.scss";
 import { icon } from "~/assets/images";
+import Footer from "./Footer/Footer";
+import Header from "../DefaultLayout/Header/Header";
+import styles from "./HeaderFooter.module.scss";
 const cx = classNames.bind(styles);
-function HeaderOnly({ children }) {
+function HeaderFooter({ children }) {
   return (
     <div>
       <Helmet>
@@ -21,8 +22,9 @@ function HeaderOnly({ children }) {
           </Row>
         </Container>
       </div>
+      <Footer />
     </div>
   );
 }
 
-export default HeaderOnly;
+export default HeaderFooter;

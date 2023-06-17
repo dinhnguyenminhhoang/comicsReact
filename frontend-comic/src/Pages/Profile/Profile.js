@@ -8,6 +8,7 @@ import { faRepeat } from "@fortawesome/free-solid-svg-icons";
 import Books from "~/Components/Books/Books";
 import ModalUser from "~/Components/ModalUser/ModalUser";
 import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
+import { chipi } from "~/assets/images";
 const cx = classNames.bind(styles);
 function Profile() {
   const [isModal, setIsModal] = useState(false);
@@ -27,9 +28,8 @@ function Profile() {
     setIsModal(true);
   };
   useEffect(() => {
-    if (userInfo)
-      setImageToFile(coverBase64ToBlob(userInfo.image));
-  }, [userInfo])
+    if (userInfo) setImageToFile(coverBase64ToBlob(userInfo.image));
+  }, [userInfo]);
   return (
     <div className={cx("profile__wrapper")}>
       {userInfo && (
@@ -59,7 +59,7 @@ function Profile() {
           <span className={cx("profile__follow")}>
             <span className={cx("number__folow")}>
               {followedData.data.length}
-            </span>{" "}
+            </span>
             đang theo dõi
           </span>
         )}
@@ -71,7 +71,8 @@ function Profile() {
         <div className={cx("content__container")}>
           <div className={cx("profile__category-wrapper")}>
             {followedData &&
-              followedData.errCode === 0 &&
+            followedData.errCode === 0 &&
+            followedData.data.length > 0 ? (
               followedData.data.map((comic, index) => {
                 return (
                   <div className={cx("follow-item")} key={index}>
@@ -85,7 +86,15 @@ function Profile() {
                     />
                   </div>
                 );
-              })}
+              })
+            ) : (
+              <div className={cx("no__follow")}>
+                <h1 className={cx("no__follow--title")}>
+                  Theo dõi truyện đi nào !!
+                </h1>
+                <img src={chipi} alt="" className={cx("no__follow--image")} />
+              </div>
+            )}
           </div>
           <div className={cx("profile__love-wrapper")}></div>
         </div>

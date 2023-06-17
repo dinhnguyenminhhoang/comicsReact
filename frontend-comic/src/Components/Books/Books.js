@@ -3,7 +3,7 @@ import styles from "./Books.module.scss";
 import { Col, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateViews } from "~/redux/action/action";
 import calculateTimePassed from "~/utils/timePass";
 import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
@@ -23,7 +23,6 @@ function Books(props) {
   useEffect(() => {
     setUpdatedAt(props.timePassed);
   }, [props.timePassed]);
-  //
   let handleUpdateViews = () => {
     dispatch(updateViews(props.id));
   };
@@ -55,7 +54,11 @@ function Books(props) {
                 ? timePassed[props.index].timePassed + " trước"
                 : "chưa cập nhật"}
             </span>
-            <span className={cx("hot")}>Hot</span>
+            {timePassed &&
+              timePassed.length > 0 &&
+              timePassed[props.index].timePassed.substring(
+                timePassed[props.index].timePassed.indexOf(" ") + 1
+              ) !== "tháng" && <span className={cx("hot")}>Hot</span>}
           </div>
           <div className={cx("info-wrapper")}>
             <span className={cx("pratice")}>{props.name}</span>

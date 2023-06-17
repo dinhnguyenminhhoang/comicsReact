@@ -12,6 +12,7 @@
 
     .modal-user {
         background-color: #fff;
+        box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
         margin: 0 auto;
         padding: 20px 16px;
         min-width: 600px;
@@ -55,4 +56,8 @@
         font-size: 1.4rem;
         padding: 10px 0;
     }
+}
+
+.uploadTitle {
+    color: #000 !important;
 }

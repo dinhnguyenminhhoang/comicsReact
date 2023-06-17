@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { publishRouter, privateRouter } from "~/routers";
 import DefaultLayout from "~/Layout/DefaultLayout/DefaultLayout.js";
-import { Fragment, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Fragment } from "react";
+import { useDispatch } from "react-redux";
 import { login, logout } from "./redux/slices/authSlices";
+
 function App() {
   const dispatch = useDispatch();
-  // Kiểm tra localStorage để khôi phục trạng thái đăng nhập
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const user = JSON.parse(localStorage.getItem("user"));
   if (isLoggedIn && user) {

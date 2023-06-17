@@ -8,20 +8,16 @@ import Books from "../Books/Books";
 import Paginations from "~/Components/Paginations/Paginations";
 import { useParams } from "react-router-dom";
 import { toNumber } from "lodash";
-
 const cx = classNames.bind(styles);
-
 function AllComic() {
-  const dispatch = useDispatch();
-  const paginationData = useSelector((state) => state.pagination.data);
-  const { pageNumber } = useParams();
-
+  let { pageNumber } = useParams();
   const [pagination, setPagination] = useState({
     currentPage: toNumber(pageNumber) || 1,
-    totalPage: paginationData.totalPage || 1,
+    totalPage: 1,
     pageSize: 12,
   });
-
+  const dispatch = useDispatch();
+  const paginationData = useSelector((state) => state.pagination.data);
   useEffect(() => {
     dispatch(
       getPagination({
@@ -29,22 +25,13 @@ function AllComic() {
         pageSize: pagination.pageSize,
       })
     );
-  }, [dispatch, pagination.currentPage, pagination.pageSize]);
-
+  }, [dispatch]);
   useEffect(() => {
-    if (paginationData.totalPage) {
-      setPagination((prevPagination) => ({
-        ...prevPagination,
-        totalPage: paginationData.totalPage,
-      }));
-    }
+    if (paginationData.totalPage)
+      setPagination({ ...pagination, totalPage: paginationData.totalPage });
   }, [paginationData]);
-
-  const handlePageChange = (newPage) => {
-    setPagination((prevPagination) => ({
-      ...prevPagination,
-      currentPage: newPage,
-    }));
+  const handlePageChange = (newPage, oldPage) => {
+    setPagination({ ...pagination, currentPage: newPage });
     dispatch(
       getPagination({
         pageNumber: newPage,
@@ -52,24 +39,25 @@ function AllComic() {
       })
     );
   };
-
   return (
     <div className={cx("allComic__container")}>
       <Heading heading="truyện mới nhất" />
       <div className={cx("allComic__wrapper")}>
         {paginationData.data &&
-          paginationData.data.map((comic, index) => (
-            <div className={cx("book")} key={index}>
-              <Books
-                image={comic.image}
-                name={comic.name}
-                timePassed={paginationData.data}
-                index={index}
-                className={true}
-                id={comic.id}
-              />
-            </div>
-          ))}
+          paginationData.data.map((comic, index) => {
+            return (
+              <div className={cx("book")} key={index}>
+                <Books
+                  image={comic.image}
+                  name={comic.name}
+                  timePassed={paginationData.data}
+                  index={index}
+                  className={true}
+                  id={comic.id}
+                />
+              </div>
+            );
+          })}
       </div>
       <Paginations
         pagination={pagination}

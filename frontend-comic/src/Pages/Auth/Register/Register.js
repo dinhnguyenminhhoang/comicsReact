@@ -7,13 +7,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 const cx = classNames.bind(styles);
-// if (err) {
-//   reject({
-//     errCode: 1,
-//     message: "password not found",
-//   });
-//   return;
-// } else
 function Register() {
   let navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -135,6 +128,8 @@ function Register() {
             username: formData.username,
             email: formData.email,
             password: formData.password,
+            image:
+              "https://tse2.mm.bing.net/th?id=OIP.1yoSL-WO0YU5mQKROudvswHaHa&pid=Api&P=0&h=180",
           })
         );
       } catch (error) {

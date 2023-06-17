@@ -74,9 +74,9 @@ const Search = () => {
             <div className={cx("search__results--container")} ref={searchRef}>
               <ul className={cx("list_result")}>
                 {searchData &&
-                  searchText &&
-                  searchData.data &&
-                  searchData.data.length > 0 &&
+                searchText &&
+                searchData.data &&
+                searchData.data.length > 0 ? (
                   searchData.data.map((comic, index) => (
                     <Link to={`/detail-comic/${comic.id}`} key={index}>
                       <li className={cx("item-result")}>
@@ -91,7 +91,16 @@ const Search = () => {
                         </div>
                       </li>
                     </Link>
-                  ))}
+                  ))
+                ) : searchData.errCode === 1 ? (
+                  <li className={cx("item-result")}>
+                    <span className={cx("name")}>
+                      Không tìm thấy kết quả nào
+                    </span>
+                  </li>
+                ) : (
+                  ""
+                )}
               </ul>
             </div>
           )}

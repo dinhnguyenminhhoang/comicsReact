@@ -6,6 +6,7 @@ import {
   faAddressBook,
   faPlus,
   faRightFromBracket,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategoryData, getUserInfo } from "~/redux/action/action";
@@ -14,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "~/redux/slices/authSlices";
 import Search from "~/Components/Search/Search";
 import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
+import { logo } from "~/assets/images/index";
 const cx = classNames.bind(Styles);
 function Header() {
   let navigator = useNavigate();
@@ -40,8 +42,11 @@ function Header() {
         <div className={cx("logo")}>
           <Link to="/">
             <Image
-              src="https://www.truyenqq.com.vn/assets/images/logo-icon.png"
+              src={logo}
               alt="logo"
+              width={40}
+              height={40}
+              style={{ borderRadius: "999px" }}
             />
           </Link>
         </div>
@@ -69,15 +74,20 @@ function Header() {
           </div>
         ) : userInfo && userInfo.user ? (
           <div className={cx("account")}>
-            <img
-              className={cx("avata")}
-              src={coverBase64ToBlob(userInfo.user.image)}
-              alt="avata"
-            />
-            <span className={cx("name")}>
-              {userInfo.user.username || userInfo.user.email}
-            </span>
+            <div>
+              <img
+                className={cx("avata")}
+                src={coverBase64ToBlob(userInfo.user.image)}
+                alt="avata"
+              />
+            </div>
             <div className={cx("userInfo")}>
+              <div className={cx("info__name")}>
+                <span className={cx("name")}>
+                  <FontAwesomeIcon icon={faUser} className={cx("icon-info")} />
+                  {userInfo.user.username || userInfo.user.email}
+                </span>
+              </div>
               <ul className={cx("info__list")}>
                 <li className={cx("info__item")}>
                   <Link to={`/profile/${userInfo.user.id}`}>
@@ -87,10 +97,6 @@ function Header() {
                     />
                     Profile
                   </Link>
-                </li>
-                <li className={cx("info__item")}>
-                  <FontAwesomeIcon className={cx("icon-info")} icon={faPlus} />
-                  theo dõi
                 </li>
                 <li className={cx("info__item")} onClick={handleLogOut}>
                   <FontAwesomeIcon

@@ -10,6 +10,7 @@ import {
   getCategoriesByComic,
   createFollow,
   getFollowByComic,
+  getPagination,
 } from "~/redux/action/action.js";
 import {
   faCircleExclamation,
@@ -24,6 +25,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
+import { toNumber } from "lodash";
 
 import calculateTimePassed from "~/utils/timePass.js";
 const cx = classNames.bind(styles);
@@ -45,16 +47,11 @@ function DetailComic() {
   );
   useEffect(() => {
     dispatch(getComicById(id));
-  }, [dispatch, id]);
-  useEffect(() => {
     dispatch(getChapterById(id));
-  }, [dispatch, id]);
-  useEffect(() => {
     dispatch(getCategoriesByComic(id));
-  }, [dispatch, id]);
-  useEffect(() => {
     dispatch(getFollowByComic(id));
   }, [dispatch, id]);
+
   useEffect(() => {
     if (refDescription.current) setHeight(refDescription.current.offsetHeight);
   }, [refDescription]);
@@ -189,19 +186,15 @@ function DetailComic() {
                       </div>
                       <span className={cx("title__content")}>
                         <ul className={cx("list-action")}>
-                          {categoriesByComicData &&
-                            categoriesByComicData.categories &&
-                            categoriesByComicData.categories.map(
-                              (category, index) => {
-                                return (
-                                  <li key={index}>
-                                    <Link to={`/categories/${category.id}`}>
-                                      {category.name}
-                                    </Link>
-                                  </li>
-                                );
-                              }
-                            )}
+                          {categoriesByComicData?.categories?.map(
+                            (category, index) => (
+                              <li key={index}>
+                                <Link to={`/categories/${category.id}`}>
+                                  {category.name}
+                                </Link>
+                              </li>
+                            )
+                          )}
                         </ul>
                       </span>
                     </div>

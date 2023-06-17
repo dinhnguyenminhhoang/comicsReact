@@ -4,16 +4,21 @@ import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { updateComic, getAllComic } from "~/redux/action/action";
+import {
+  updateComic,
+  getAllComic,
+  createComic_categories,
+} from "~/redux/action/action";
 import { useDropzone } from "react-dropzone";
 import CoverImage from "~/Components/CoverImage/CoverImage";
-
+import CreateCategoryForComic from "~/Components/CreateCategoryForComic/CreateCategoryForComic";
 const cx = classNames.bind(styles);
 function Update(props) {
   let { formData, handleSetIsUpdate } = props;
   const [imageData, setImageData] = useState("");
   const [isImage, setIsImage] = useState(false);
   const [form, setFormData] = useState(formData);
+  const [category, setCategory] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     setFormData(formData);
@@ -68,6 +73,12 @@ function Update(props) {
         })
       ).then(() => {
         dispatch(getAllComic());
+        dispatch(
+          createComic_categories({
+            comicId: form.id,
+            categoryId: category,
+          })
+        );
         setFormData({
           name: "",
           author: "",
@@ -90,7 +101,9 @@ function Update(props) {
   const handleIsImage = (isImage) => {
     setIsImage(isImage);
   };
-
+  const handleCategories = (categories) => {
+    setCategory(categories);
+  };
   return (
     <>
       <h1 className={cx("mb-4", "header")}>Cập nhật truyện</h1>
@@ -148,7 +161,10 @@ function Update(props) {
             />
           </Form.Group>
         </Row>
-        <div className={cx("mb-3")} style={{ display: "flex" }}>
+        <div
+          className={cx("mb-3")}
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
           {form.image && !isImage ? (
             <CoverImage base64Data={form.image} handleIsImage={handleIsImage} />
           ) : (
@@ -168,6 +184,10 @@ function Update(props) {
               )}
             </div>
           )}
+          <CreateCategoryForComic
+            id={form.id}
+            handleCategories={handleCategories}
+          />
         </div>
         <Form onSubmit={handleUpdate}>
           <Row className="justify-content-center">

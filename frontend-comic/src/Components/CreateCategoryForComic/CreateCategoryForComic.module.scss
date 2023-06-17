@@ -1,6 +1,14 @@
 .categories__comic {
-    width: 90%;
-    margin: 0 auto;
+
+    // min-height: 100vh;
+    // background-color: var(--background-content-color);
+    // margin-left: 32px;
+    // padding: 12px 10px;
+    .heading {
+        display: flex;
+        justify-content: center;
+        color: #fff;
+    }
 
     .categories__wrapper {
         margin-top: 20px;

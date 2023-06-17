@@ -4,7 +4,12 @@ import classNames from "classnames/bind";
 import styles from "./UserManager.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
-import { getAllUser, updateUser, getUserInfo, deleteUser } from "~/redux/action/action";
+import {
+  getAllUser,
+  updateUser,
+  getUserInfo,
+  deleteUser,
+} from "~/redux/action/action";
 import { useDispatch, useSelector } from "react-redux";
 import UploadAvata from "~/Components/UploadAvata/UploadAvata";
 import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
@@ -38,12 +43,12 @@ const UserManage = () => {
   };
   const handleDeleteUser = (user) => {
     dispatch(deleteUser(user.id)).then(() => {
-      dispatch(getAllUser())
+      dispatch(getAllUser());
     });
   };
 
   const handleUpdateUser = (user) => {
-    setSelectedFile(user.image)
+    setSelectedFile(user.image);
     setIsUpdate(true);
     setFormData({
       id: user.id,
@@ -63,28 +68,29 @@ const UserManage = () => {
   };
   const handleSetImage = (image) => {
     setFormData({ ...formData, image: image });
-    setSelectedFile(coverBase64ToBlob(image))
-  }
+    setSelectedFile(coverBase64ToBlob(image));
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(updateUser({
-      id: formData.id,
-      email: formData.email,
-      username: formData.username,
-      image: formData.image,
-      roleId: formData.roleId || "R3",
-    })).then(() => {
-      dispatch(getUserInfo(formData.email))
-    })
-      .then(() => { dispatch(getAllUser()) });
+    dispatch(
+      updateUser({
+        id: formData.id,
+        email: formData.email,
+        username: formData.username,
+        image: formData.image,
+        roleId: formData.roleId || "R3",
+      })
+    ).then(() => {
+      dispatch(getAllUser());
+    });
     setFormData({
       email: "",
       image: "",
       username: "",
       roleId: "",
-      id: ""
-    })
-    setIsUpdate(false)
+      id: "",
+    });
+    setIsUpdate(false);
   };
   return (
     <div className={cx("container")}>
@@ -93,16 +99,25 @@ const UserManage = () => {
           <h1 className={cx("mb-4", "header")}>
             cập nhật thông tin người dùng
           </h1>
-          <div className={cx("from-container")} >
+          <div className={cx("from-container")}>
             {selectedFile && (
-              <div style={{
-                display: "flex", justifyContent: "center", margin: "18px 0"
-              }}>
-                < img
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: "18px 0",
+                }}
+              >
+                <img
                   src={selectedFile}
                   alt="avatar"
                   className={cx("modal__image")}
-                  style={{ height: "100px", width: "100px", objectFit: "cover", borderRadius: "999px" }}
+                  style={{
+                    height: "100px",
+                    width: "100px",
+                    objectFit: "cover",
+                    borderRadius: "999px",
+                  }}
                 />
               </div>
             )}
@@ -176,8 +191,7 @@ const UserManage = () => {
             </Form>
           </div>
         </>
-      )
-      }
+      )}
       <h1 className={cx("mb-4", "header")}>QUẢN LÍ NGƯỜI DÙNG</h1>
       <Table bordered className={cx("table")}>
         <thead className={cx("table__method")}>
@@ -208,10 +222,10 @@ const UserManage = () => {
                   {user.roleId === "R1"
                     ? "user"
                     : user.roleId === "R2"
-                      ? "manage"
-                      : user.roleId === "R3"
-                        ? "admin"
-                        : ""}
+                    ? "manage"
+                    : user.roleId === "R3"
+                    ? "admin"
+                    : ""}
                 </td>
                 <td>
                   <Button
@@ -233,7 +247,7 @@ const UserManage = () => {
             ))}
         </tbody>
       </Table>
-    </div >
+    </div>
   );
 };
 
