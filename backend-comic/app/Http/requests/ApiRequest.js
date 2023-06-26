@@ -243,6 +243,7 @@ let handleGetcategoriesByComic = (comicId) => {
             through: {
               attributes: [],
             },
+            attributes: [],
           },
         ],
 
@@ -442,7 +443,7 @@ let handleGetFollow = (userId) => {
       const followedComics = data.flatMap((follows) => {
         return follows.follows.comic;
       });
-      if (followedComics) {
+      if (followedComics && followedComics[0].id) {
         resolve({
           data: followedComics,
           message: "get collection successfully",
@@ -508,6 +509,37 @@ let handleSearch = (searchContent, type) => {
         resolve({
           message: "không tìm thấy truyện tương ứng",
           errCode: 1,
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+const handleGetComment = (comicId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = await db.User.findAll({
+        attributes: ["username", "image", "id"],
+        include: {
+          model: db.Comment,
+          as: "comments",
+          where: { comicId },
+          attributes: ["comicId", "comment", "postDateComment", "id"],
+        },
+        raw: true,
+        nest: true,
+      });
+      if (data && data.length > 0) {
+        resolve({
+          data,
+          message: "get comment successfully",
+          errCode: 0,
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "comment not found",
         });
       }
     } catch (error) {
@@ -593,26 +625,19 @@ let handleCreateCategory = (data) => {
     }
   });
 };
-let handleCreateComment = (data) => {
+let handleCreateComment = (userId, comicId, comment) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (data && data.userId && (data.chapterId || data.comicId)) {
-        await db.Comment.create({
-          comicId: data.comicId,
-          userId: data.userId,
-          chapterId: data.chapterId,
-          comment: data.comment,
-        });
-        resolve({
-          errCode: 0,
-          message: "create comment is successfully",
-        });
-      } else {
-        resolve({
-          errCode: 1,
-          message: "missing required parameter",
-        });
-      }
+      await db.Comment.create({
+        comicId: comicId,
+        userId: userId,
+        comment: comment,
+        postDateComment: Date(),
+      });
+      resolve({
+        errCode: 0,
+        message: "create comment is successfully",
+      });
     } catch (error) {
       reject(error);
     }
@@ -683,7 +708,9 @@ const createUser = (data) => {
           email: data.email,
           password: data.password,
           username: data.username,
-          image: data.image || null,
+          image:
+            data.image ||
+            "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-0.jpg",
           roleId: data.roleId || "R1",
         });
         resolve({
@@ -915,6 +942,32 @@ let handleUpdateComic = (comicInfo) => {
     }
   });
 };
+const handleUpdateComment = (comment) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db.Comment.update(
+        {
+          comment: comment.comment,
+        },
+        {
+          where: {
+            id: comment.id,
+          },
+        }
+      );
+      resolve({
+        errCode: 0,
+        message: "Update comment successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      reject({
+        error: 1,
+        message: "update view failed",
+      });
+    }
+  });
+};
 //delete
 let handleDeleteUser = (userId) => {
   return new Promise(async (resolve, reject) => {
@@ -972,6 +1025,33 @@ let handleDeleteComic = (comicId) => {
     }
   });
 };
+const handleDeleteComment = (commentId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let commentDelete = await db.Comment.destroy({
+        where: {
+          id: commentId,
+        },
+      });
+      if (commentDelete) {
+        resolve({
+          errCode: 0,
+          message: "delete comment successfully",
+        });
+      } else {
+        resolve({
+          errCode: 1,
+          message: "delete comment failed",
+        });
+      }
+    } catch (error) {
+      reject({
+        error: 1,
+        message: "delete comic failed",
+      });
+    }
+  });
+};
 module.exports = {
   handleLogin,
   getComicsByType,
@@ -993,6 +1073,7 @@ module.exports = {
   handleGetAllUser,
   handleGetFollowByComic,
   handleSearch,
+  handleGetComment,
   //
   handleCreateComic,
   handleCreateChapter,
@@ -1008,7 +1089,9 @@ module.exports = {
   handleUpdateTimePass,
   handleUpdateUser,
   handleUpdateComic,
+  handleUpdateComment,
   //delete
   handleDeleteUser,
   handleDeleteComic,
+  handleDeleteComment,
 };

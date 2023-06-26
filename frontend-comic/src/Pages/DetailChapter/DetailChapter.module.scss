@@ -38,4 +38,23 @@
         max-height: 600px;
         object-fit: cover;
     }
+
+    .btn__home {
+        position: fixed;
+        bottom: 40px;
+        right: 72px;
+        padding: 4px 8px;
+        background-color: transparent;
+        color: #fff;
+        border: 1px solid #0c6fc2;
+        border-radius: 5px;
+        font-size: 2rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity .8s ease-in-out;
+    }
+
+    .show {
+        opacity: 1;
+    }
 }

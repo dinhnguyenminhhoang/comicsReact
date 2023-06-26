@@ -129,13 +129,16 @@
                         border-bottom: 1px solid #999;
                         color: #fff;
 
+                        &:hover {
+                            color: #cfcdcd;
+                        }
 
                         a {
                             color: #fff;
-                        }
 
-                        &:first-child {
-                            border-top: 1px solid #999;
+                            &:hover {
+                                color: #cfcdcd;
+                            }
                         }
 
                         &:last-child {
@@ -144,9 +147,6 @@
                             border-bottom: 1px solid transparent;
                         }
 
-                        &:hover {
-                            background-color: #999;
-                        }
 
                         .icon-info {
                             margin-right: 6px;

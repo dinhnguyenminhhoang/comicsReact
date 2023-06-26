@@ -386,6 +386,26 @@ let searchController = async (req, res) => {
     });
   }
 };
+let getCommentController = async (req, res) => {
+  try {
+    let { comicId } = req.query;
+    if (comicId) {
+      let data = await ApiRequest.handleGetComment(+comicId);
+      return res.status(200).json({ data });
+    } else {
+      return res.status(404).json({
+        message: "missing required parameter",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "error form server",
+      errCode: 1,
+    });
+  }
+};
 ////////////////////////////////////////////////////////////////////////////
 let createComic = async (req, res) => {
   try {
@@ -428,14 +448,16 @@ let createCategory = async (req, res) => {
   }
 };
 let createComment = async (req, res) => {
-  let data = await ApiRequest.handleCreateComment(req.body);
-  if (data) {
+  try {
+    let { userId, comicId, comment } = req.body;
+    let data = await ApiRequest.handleCreateComment(+userId, +comicId, comment);
     return res.status(200).json({
       data,
     });
-  } else {
+  } catch (error) {
     return res.status(400).json({
-      message: "data not found",
+      errCode: 1,
+      message: "error from server",
     });
   }
 };
@@ -459,7 +481,10 @@ let createCategoryComic = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    return res.status(400).json({
+      errCode: 1,
+      message: "error from server",
+    });
   }
 };
 let createUserController = async (req, res) => {
@@ -537,6 +562,31 @@ let createFollowController = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: "err creating collection",
+      errCode: 1,
+    });
+  }
+};
+const createCommentController = async (req, res) => {
+  try {
+    let userId = req.body.userId;
+    let comicId = req.body.comicId;
+    let comment = req.body.comment;
+    if (userId && comicId) {
+      let data = await ApiRequest.handleCreateComment(
+        +userId,
+        +comicId,
+        comment
+      );
+      return res.status(200).json(data);
+    } else {
+      return res.status(404).json({
+        message: "missing parameter",
+        errCode: 1,
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: "err created comment",
       errCode: 1,
     });
   }
@@ -628,6 +678,27 @@ let updateComicController = async (req, res) => {
     });
   }
 };
+const updateCommentController = async (req, res) => {
+  try {
+    const comment = req.body;
+    let data = await ApiRequest.handleUpdateComment(comment);
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    } else {
+      return res.status(400).json({
+        errCode: 1,
+        message: "data not found",
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: 1,
+      message: "error form server",
+    });
+  }
+};
 //delete
 let deleteUserController = async (req, res) => {
   try {
@@ -646,7 +717,7 @@ let deleteUserController = async (req, res) => {
     });
   }
 };
-let deleteComicController = async (req, res) => {
+const deleteComicController = async (req, res) => {
   try {
     let comicId = req.query.comicId;
     if (!comicId)
@@ -654,6 +725,26 @@ let deleteComicController = async (req, res) => {
         message: "comicId not found",
       });
     let data = await ApiRequest.handleDeleteComic(+comicId);
+    if (data) {
+      return res.status(200).json({
+        data,
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: 1,
+      message: "error form server",
+    });
+  }
+};
+const deleteCommentController = async (req, res) => {
+  try {
+    let { commentId } = req.query;
+    if (!commentId)
+      return res.status(404).json({
+        message: "missing required parameter",
+      });
+    let data = await ApiRequest.handleDeleteComment(+commentId);
     if (data) {
       return res.status(200).json({
         data,
@@ -688,6 +779,7 @@ module.exports = {
   getAllUser,
   getFollowForComicController,
   searchController,
+  getCommentController,
   //
   createComicForCollectionController,
   createComic,
@@ -698,12 +790,15 @@ module.exports = {
   createUserController,
   createCollectionController,
   createFollowController,
+  createCommentController,
   //
   updateViews,
   updateTimePass,
   updateUserController,
   updateComicController,
+  updateCommentController,
   //delete
   deleteUserController,
   deleteComicController,
+  deleteCommentController,
 };

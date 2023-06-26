@@ -4,7 +4,7 @@ import { Container, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAddressBook,
-  faPlus,
+  faClock,
   faRightFromBracket,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
@@ -31,7 +31,7 @@ function Header() {
     if (isLoggedIn) dispatch(getUserInfo(user.email));
   }, [dispatch, isLoggedIn]);
 
-  const handleLogOut = () => {
+  const handleLogOut = (e) => {
     dispatch(logout());
     navigator("/");
   };
@@ -82,12 +82,6 @@ function Header() {
               />
             </div>
             <div className={cx("userInfo")}>
-              <div className={cx("info__name")}>
-                <span className={cx("name")}>
-                  <FontAwesomeIcon icon={faUser} className={cx("icon-info")} />
-                  {userInfo.user.username || userInfo.user.email}
-                </span>
-              </div>
               <ul className={cx("info__list")}>
                 <li className={cx("info__item")}>
                   <Link to={`/profile/${userInfo.user.id}`}>
@@ -95,7 +89,7 @@ function Header() {
                       className={cx("icon-info")}
                       icon={faAddressBook}
                     />
-                    Profile
+                    trang cá nhân
                   </Link>
                 </li>
                 <li className={cx("info__item")} onClick={handleLogOut}>

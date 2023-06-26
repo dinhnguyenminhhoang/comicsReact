@@ -56,7 +56,34 @@ const updateComicMiddleware = async (req, res, next) => {
     });
   }
 };
+const updateCategoriesMiddleware = async (req, res, next) => {
+  try {
+    let comicId = req.body.comicId;
+    let categoryId = req.body.categoryId;
+    if (!comicId || categoryId.length === 0) {
+      return res.status(200).json({
+        data: {
+          errCode: 1,
+          message: "missing parameter",
+        },
+      });
+    } else {
+      await db.Comic_Categories.destroy({
+        where: { comicId: comicId },
+      });
+      next();
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "error from server",
+      errCode: 1,
+    });
+  }
+};
+
 module.exports = {
   createComicMiddleware,
   updateComicMiddleware,
+  updateCategoriesMiddleware,
 };

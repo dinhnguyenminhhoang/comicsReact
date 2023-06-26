@@ -145,7 +145,7 @@ function Register() {
       handleToast();
     }
   }, [dataUser]);
-  const handleToast = () => {
+  const handleToast = (e) => {
     console.log(dataUser);
     if (dataUser && dataUser.errCode === 0) {
       setFormData({

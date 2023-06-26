@@ -3,6 +3,8 @@ import styles from "./DetailComic.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { icon } from "~/assets/images";
+import { Helmet } from "react-helmet";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getComicById,
@@ -10,7 +12,6 @@ import {
   getCategoriesByComic,
   createFollow,
   getFollowByComic,
-  getPagination,
 } from "~/redux/action/action.js";
 import {
   faCircleExclamation,
@@ -25,8 +26,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
-import { toNumber } from "lodash";
-
+import Comment from "~/Components/Comment/Comment";
 import calculateTimePassed from "~/utils/timePass.js";
 const cx = classNames.bind(styles);
 function DetailComic() {
@@ -77,12 +77,19 @@ function DetailComic() {
           userId: userInfo.user.id,
           comicId,
         })
-      );
+      ).then(() => dispatch(getFollowByComic(id)));
       setIsFollow(true);
     }
   };
   return (
     <div className={cx("detail__doctor")}>
+      {comicById?.data && (
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{comicById.data.name || "truyện hay"}</title>
+          <link rel="icon" href={icon} />
+        </Helmet>
+      )}
       <div className={cx("detail__container")}>
         {comicById && comicById.errCode === 0 && (
           <div>
@@ -201,12 +208,11 @@ function DetailComic() {
                   </div>
                 </div>
                 <div className={cx("read__type")}>
-                  {comicById &&
-                  comicById.data &&
-                  chapterById &&
-                  chapterById.data ? (
+                  {comicById?.data && chapterById?.data ? (
                     <Link
-                      to={`/reading/${comicById.data.name}/${comicById.data.id}/1`}
+                      to={`/reading/${comicById.data.name}/${
+                        comicById.data.id
+                      }/${chapterById.data[chapterById.data.length - 1].id}`}
                     >
                       <button
                         className={cx("read__btn--first")}
@@ -218,10 +224,7 @@ function DetailComic() {
                   ) : (
                     ""
                   )}
-                  {comicById &&
-                  comicById.data &&
-                  chapterById &&
-                  chapterById.data ? (
+                  {comicById?.data && chapterById?.data ? (
                     <Link
                       to={`/reading/${comicById.data.name}/${comicById.data.id}/${chapterById.data[0].id}`}
                     >
@@ -301,6 +304,7 @@ function DetailComic() {
             )}
           </div>
         </div>
+        <Comment comicId={id} />
       </div>
     </div>
   );

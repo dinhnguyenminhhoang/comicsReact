@@ -6,10 +6,12 @@ const {
   createCollectionMiddleware,
   deleteUserMiddleware,
   updateUserMiddleware,
+  createCommentMiddleWare,
 } = require("../middleware/User");
 const {
   createComicMiddleware,
   updateComicMiddleware,
+  updateCategoriesMiddleware,
 } = require("../middleware/Comic");
 let router = express.Router();
 let initAPIRoutes = (app) => {
@@ -41,11 +43,16 @@ let initAPIRoutes = (app) => {
     ApiConntroller.getFollowForComicController
   );
   router.get("/api/search", ApiConntroller.searchController);
+  router.get("/api/get-comment", ApiConntroller.getCommentController);
   //post
   router.post("/api/create-comic", ApiConntroller.createComic);
   router.post("/api/create-chapter", ApiConntroller.createChapter);
   router.post("/api/create-category", ApiConntroller.createCategory);
-  router.post("/api/create-comment", ApiConntroller.createComment);
+  router.post(
+    "/api/create-comment",
+    createCommentMiddleWare,
+    ApiConntroller.createComment
+  );
   router.post(
     "/api/create-Collection",
     createCollectionMiddleware,
@@ -63,6 +70,7 @@ let initAPIRoutes = (app) => {
   );
   router.post(
     "/api/create-categories-comic",
+    updateCategoriesMiddleware,
     ApiConntroller.createCategoryComic
   );
   router.post(
@@ -70,7 +78,6 @@ let initAPIRoutes = (app) => {
     Authenticate,
     ApiConntroller.createUserController
   );
-
   //update
   router.put("/api/update-views", ApiConntroller.updateViews);
   router.put("/api/day-update", ApiConntroller.updateTimePass);
@@ -84,13 +91,15 @@ let initAPIRoutes = (app) => {
     updateComicMiddleware,
     ApiConntroller.updateComicController
   );
+  router.put("/api/update-comment", ApiConntroller.updateCommentController);
   delete router.delete(
     "/api/delete-user",
     deleteUserMiddleware,
     ApiConntroller.deleteUserController
   );
-
+  //delete
   router.delete("/api/delete-comic", ApiConntroller.deleteComicController);
+  router.delete("/api/delete-comment", ApiConntroller.deleteCommentController);
   return app.use("/", router);
 };
 module.exports = initAPIRoutes;

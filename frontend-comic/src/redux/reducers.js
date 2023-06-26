@@ -30,6 +30,7 @@ import updateUserSlice from "./slices/updateUserSlice";
 import updateComicSlice from "./slices/updateComicSlice";
 import followByComicSlice from "./slices/followByComicSlice";
 import searchSlice from "./slices/searchSlice";
+import allCommentsSlice from "./slices/allCommentsSlice";
 const rootReducer = combineReducers({
   counter: counterReducer,
   categoryApi: categorySlice,
@@ -61,6 +62,7 @@ const rootReducer = combineReducers({
   updateComic: updateComicSlice,
   followByComic: followByComicSlice,
   searchData: searchSlice,
+  allComments: allCommentsSlice,
   // Thêm reducers khác của bạn tại đây
 });
 

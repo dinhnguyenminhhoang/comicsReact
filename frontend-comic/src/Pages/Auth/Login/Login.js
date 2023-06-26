@@ -22,11 +22,12 @@ function Login() {
   const [formErrors, setFormErrors] = useState({});
 
   const loginInfo = useSelector((state) => state.login.data);
+  const [islogin, setIsLogin] = useState(false);
+  const dispatch = useDispatch();
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
-  const dispatch = useDispatch();
 
   const validationRules = {
     email: {
@@ -108,27 +109,18 @@ function Login() {
       })
     );
   };
-  useEffect(() => {
-    if (loginInfo) handleToast();
-  }, [loginInfo]);
   const handleToast = () => {
     if (loginInfo && loginInfo.errCode === 0) {
       handleLogin();
-      navigate("/");
+      setIsLogin(true);
     } else if (loginInfo && loginInfo.errCode === 1) {
       toast.error(`❌ đăng nhập thất bại`, {
         position: "top-right",
         autoClose: 2000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
       });
       toast.error(`❌ ${loginInfo.message}`, {
         position: "top-right",
         autoClose: 2000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
       });
       const param = loginInfo.message.split(" ")[0];
       setFormData({
@@ -154,6 +146,15 @@ function Login() {
       });
     }
   };
+
+  useEffect(() => {
+    if (loginInfo) {
+      handleToast();
+      if (islogin) {
+        navigate("/");
+      }
+    }
+  }, [loginInfo]);
   return (
     <div className={cx("login__container")}>
       <div className={cx("login-background")}>

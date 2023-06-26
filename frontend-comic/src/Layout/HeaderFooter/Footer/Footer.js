@@ -82,7 +82,7 @@ function Footer() {
                       className={cx("footer-icon")}
                       icon={faPhone}
                     />
-                    +84 337972340
+                    +84 33797234X
                   </li>
                   <li>
                     <FontAwesomeIcon

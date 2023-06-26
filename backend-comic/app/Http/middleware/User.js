@@ -113,10 +113,52 @@ const updateUserMiddleware = async (req, res, next) => {
     });
   }
 };
+const createCommentMiddleWare = async (req, res, next) => {
+  try {
+    const { userId, comicId, comment } = req.body;
+    if (!userId || !comicId || !comment) {
+      return res.status(200).json({
+        data: {
+          message: "missing parameter",
+          errCode: 1,
+        },
+      });
+    }
+
+    const comments = await db.Comment.findAll({
+      where: {
+        userId,
+        comicId,
+      },
+    });
+
+    if (
+      comments &&
+      comments.some((commentUser) => commentUser.comment === comment)
+    ) {
+      return res.status(200).json({
+        data: {
+          message: "comment đã tồn tại",
+          errCode: 1,
+        },
+      });
+    }
+
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "lỗi từ server",
+      errCode: 1,
+    });
+  }
+};
+
 module.exports = {
   UserByRoleIdMiddleWare,
   createComicForCollectionMiddleware,
   createCollectionMiddleware,
   deleteUserMiddleware,
   updateUserMiddleware,
+  createCommentMiddleWare,
 };

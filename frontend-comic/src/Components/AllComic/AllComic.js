@@ -15,7 +15,6 @@ function AllComic() {
   const dispatch = useDispatch();
   const paginationData = useSelector((state) => state.pagination.data);
   const { pageNumber } = useParams();
-
   const [pagination, setPagination] = useState({
     currentPage: toNumber(pageNumber) || 1,
     totalPage: paginationData.totalPage || 1,

@@ -32,6 +32,10 @@ import {
   handleCreateFollow,
   handleUpdateUser,
   handleDeleteUser,
+  handleGetAllComments,
+  handleCreateComment,
+  handleDeleteComment,
+  handleUpdateComment,
 } from "~/services/UserServices";
 // Action creator sử dụng createAsyncThunk
 export const fetchCategoryData = createAsyncThunk(
@@ -219,6 +223,17 @@ export const getFollowByComic = createAsyncThunk(
     }
   }
 );
+export const getAllComments = createAsyncThunk(
+  "allComments/getAllComments",
+  async (comicId) => {
+    try {
+      const response = await handleGetAllComments(comicId);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 export const searchApi = createAsyncThunk(
   "searchData/searchApi",
   async (data) => {
@@ -285,6 +300,17 @@ export const createFollow = createAsyncThunk(
     }
   }
 );
+export const createComment = createAsyncThunk(
+  "FollowData/createFollow",
+  async (data) => {
+    try {
+      const response = await handleCreateComment(data);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 //update
 export const updateViews = createAsyncThunk(
   "views/updateViews",
@@ -330,6 +356,18 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
+export const updateComment = createAsyncThunk(
+  "updateComment/updateComment",
+  async (comment) => {
+    try {
+      const response = await handleUpdateComment(comment);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const deleteComic = createAsyncThunk(
   "deletecomic/deleteComic",
   async (comicId) => {
@@ -346,6 +384,17 @@ export const deleteUser = createAsyncThunk(
   async (userId) => {
     try {
       const response = await handleDeleteUser(userId);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const deleteComment = createAsyncThunk(
+  "deleteComment/deleteComment",
+  async (commentId) => {
+    try {
+      const response = await handleDeleteComment(commentId);
       return response.data;
     } catch (error) {
       throw error;

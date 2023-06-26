@@ -9,14 +9,16 @@ const cx = classNames.bind(styles);
 function PaginationsChapter(props) {
   let [disabledPre, setDisabledPre] = useState(false);
   let [disabledNext, setDisabledNext] = useState(false);
-  let { options, comicId, sendDataToParent, chapterId } = props;
+  let { options, comicId, sendDataToParent, chapterId, endPage } = props;
   let dispatch = useDispatch();
   const handlePreChapter = () => {
     sendDataToParent({ value: chapterId - 1 });
+    window.scrollTo(0, 0);
   };
   const handleNextChapter = () => {
     let newchapterId = toNumber(chapterId) + 1;
     sendDataToParent({ value: newchapterId });
+    window.scrollTo(0, 0);
   };
   let handleChange = (selectedOption) => {
     dispatch(
@@ -50,11 +52,13 @@ function PaginationsChapter(props) {
         </button>
       </div>
       <div className={cx("select__chapter")}>
-        <Selector
-          optionData={options}
-          onValueChange={handleChange}
-          className={true}
-        />
+        {!endPage && (
+          <Selector
+            optionData={options}
+            onValueChange={handleChange}
+            className={true}
+          />
+        )}
       </div>
       <div className={cx("pagination__next")} disabled={disabledNext}>
         <button onClick={handleNextChapter} disabled={disabledNext}>

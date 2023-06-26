@@ -20,17 +20,17 @@ const publishRouter = [
   {
     path: "/pages/:pageNumber",
     element: Home,
-    Layout: HeaderOnly,
+    Layout: HeaderFooter,
   },
   {
     path: "/detail-comic/:id",
     element: DetailComic,
-    Layout: HeaderOnly,
+    Layout: HeaderFooter,
   },
   {
     path: "/categories/:id",
     element: Categories,
-    Layout: HeaderOnly,
+    Layout: HeaderFooter,
   },
   {
     path: "/reading/:name/:id/:chapterId",

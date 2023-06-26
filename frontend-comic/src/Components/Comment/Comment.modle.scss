@@ -1,0 +1,183 @@
+.comment__wrapper {
+    margin-top: 22px;
+
+    .heading {
+        display: flex;
+        justify-content: space-between;
+
+        .heading__title {
+            font-size: 2rem;
+            color: #ee7f21;
+
+            .heading__icon {
+                margin-right: 10px;
+            }
+        }
+
+        .sort__comment {
+            font-size: 2rem;
+            color: #ee7f21;
+        }
+    }
+
+    .account__comment {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        border-top: 1px solid #fff;
+        padding-top: 16px;
+        align-items: center;
+
+        .accout__avata {
+            width: 60px;
+            height: 60px;
+            border-radius: 999px;
+            margin-right: 8px;
+            object-fit: cover;
+        }
+
+        .comment_area {
+            flex: 1;
+            position: relative;
+
+            .comment__content {
+                height: 50px !important;
+                outline: none;
+                border-radius: 10px;
+                padding: 4px 12px;
+                font-size: 1.6rem;
+                width: 100%;
+            }
+
+            .send__comment {
+                position: absolute;
+                right: 0;
+                bottom: -30px;
+                background-color: transparent;
+                border: none;
+                color: red;
+                font-size: 2rem;
+            }
+        }
+    }
+
+    .list__comment {
+        ul {
+            margin-top: 32px;
+            padding: 0;
+
+            .list__item {
+                display: flex;
+                align-items: flex-start;
+                color: #fff;
+                list-style: none;
+                margin-top: 20px;
+                position: relative;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid rgba(153, 153, 153, .4);
+                    padding-bottom: 26px;
+                }
+
+                &:hover .task__wrapper {
+                    display: flex;
+                    align-items: flex-start;
+                }
+
+                .task__wrapper {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    display: none;
+
+                    .delete__comment {
+                        background-color: transparent;
+                        font-size: 2rem;
+                        border: none;
+                        color: #fff;
+                    }
+
+                    .task__comment {
+
+                        .task__list {
+                            margin: 0;
+                            background-color: var(--header-background-color);
+                            box-shadow: 0 0 6px rgba(0, 0, 0, .6);
+                            border-radius: 5px;
+
+                            .task__item {
+                                list-style: none;
+                                font-size: 1.4rem;
+                                padding: 8px 14px;
+                                cursor: pointer;
+
+                                &:first-child {
+                                    border-top-left-radius: 5px;
+                                    border-top-right-radius: 5px;
+                                }
+
+                                &:last-child {
+                                    border-bottom-left-radius: 5px;
+                                    border-bottom-right-radius: 5px;
+                                }
+
+                                &:not(:last-child) {
+                                    border-bottom: 1px solid #999;
+                                }
+
+                                &:hover {
+                                    background-color: #999;
+                                    color: #161515;
+                                    transition: all .4s ease-in-out;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                .item__avata {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 999px;
+                }
+
+                .item__info {
+                    margin-left: 10px;
+
+                    span {
+                        display: block;
+                        color: #fff;
+                    }
+
+                    .info__content {
+                        font-size: 1.4rem;
+                    }
+
+                    .update_content {
+                        border: none;
+                        border-bottom: 1px solid #999;
+                        background-color: transparent;
+                        width: 100%;
+                        outline: none;
+                        color: #fff;
+                        font-size: 1.4rem;
+                        padding: 0 4px;
+                    }
+
+                    .update-btn {
+                        font-size: 1.2rem;
+                        margin: 4px 6px 0 0;
+                    }
+
+                    .info__name {
+                        font-size: 1.8rem;
+                        font-weight: 700;
+                        margin-bottom: 4px;
+                    }
+                }
+
+            }
+        }
+    }
+}

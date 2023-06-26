@@ -8,19 +8,32 @@ const handleGetUserInfo = (email) => {
 const handleGetComicFollow = (userId) => {
   return axios.get(`/api/get-follow?userId=${userId}`);
 };
+const handleGetAllComments = (comicId) => {
+  return axios.get(`/api/get-comment?comicId=${comicId}`);
+};
+//
 const handleCreateUser = (data) => {
   return axios.post(`/api/create-user`, data);
 };
 const handleCreateFollow = (data) => {
   return axios.post(`/api/create-follow`, data);
 };
+const handleCreateComment = (data) => {
+  return axios.post(`/api/create-comment`, data);
+};
 //update
 const handleUpdateUser = (userInfo) => {
   return axios.put(`/api/update-user`, userInfo);
 };
+const handleUpdateComment = (comment) => {
+  return axios.put(`/api/update-comment`, comment);
+};
 //delete
 const handleDeleteUser = (userId) => {
   return axios.delete(`/api/delete-user?userId=${userId}`);
+};
+const handleDeleteComment = (commentId) => {
+  return axios.delete(`/api/delete-comment?commentId=${commentId}`);
 };
 export {
   handleGetAllUser,
@@ -30,4 +43,8 @@ export {
   handleCreateFollow,
   handleUpdateUser,
   handleDeleteUser,
+  handleGetAllComments,
+  handleCreateComment,
+  handleDeleteComment,
+  handleUpdateComment,
 };

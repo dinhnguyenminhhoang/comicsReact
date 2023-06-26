@@ -43,7 +43,9 @@ const Search = () => {
   const handleClear = () => {
     setSearchText("");
   };
-
+  const handleCloseByDetailComic = () => {
+    setIsShow(false);
+  };
   useEffect(() => {
     if (debounce.trim()) {
       dispatch(
@@ -78,7 +80,11 @@ const Search = () => {
                 searchData.data &&
                 searchData.data.length > 0 ? (
                   searchData.data.map((comic, index) => (
-                    <Link to={`/detail-comic/${comic.id}`} key={index}>
+                    <Link
+                      to={`/detail-comic/${comic.id}`}
+                      key={index}
+                      onClick={handleCloseByDetailComic}
+                    >
                       <li className={cx("item-result")}>
                         <img
                           src={coverBase64ToBlob(comic.image)}
