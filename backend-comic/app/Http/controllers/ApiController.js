@@ -6,17 +6,14 @@ let testApiController = (req, res) => {
 let getCetagoryController = async (req, res) => {
   try {
     let data = await ApiRequest.getAllCategories();
-    if (data.errCode === 0) {
-      return res.status(200).json({
-        data,
-      });
-    } else if (data.errCode === 1) {
-      return res.status(400).json({
-        data,
-      });
-    }
+    return res.status(200).json({
+      data,
+    });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      errCode: 1,
+      message: "error form server",
+    });
   }
 };
 let getComicController = async (req, res) => {
@@ -28,7 +25,10 @@ let getComicController = async (req, res) => {
       data,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      errCode: 1,
+      message: "error form server",
+    });
   }
 };
 let getChapterController = async (req, res) => {
@@ -38,7 +38,10 @@ let getChapterController = async (req, res) => {
       data,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      errCode: 1,
+      message: "error form server",
+    });
   }
 };
 let getChapterByIdController = async (req, res) => {
@@ -56,7 +59,10 @@ let getChapterByIdController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      errCode: 1,
+      message: "error form server",
+    });
   }
 };
 let getAllComic = async (req, res) => {
@@ -67,12 +73,12 @@ let getAllComic = async (req, res) => {
         data,
       });
     }
-    return res.status(200).json({
+    return res.status(400).json({
       errCode: 1,
       message: "comic not found",
     });
   } catch (error) {
-    return res.status(200).json({
+    return res.status(500).json({
       errCode: 1,
       message: "error form server",
     });
@@ -81,17 +87,11 @@ let getAllComic = async (req, res) => {
 let getAllUser = async (req, res) => {
   try {
     let data = await ApiRequest.handleGetAllUser();
-    if (data) {
-      return res.status(200).json({
-        data,
-      });
-    }
     return res.status(200).json({
-      errCode: 1,
-      message: "user not found",
+      data,
     });
   } catch (error) {
-    return res.status(200).json({
+    return res.status(500).json({
       errCode: 1,
       message: "error form server",
     });
@@ -104,12 +104,14 @@ let getPagination = async (req, res) => {
   if (!pageSize) pageSize = 12;
   try {
     let data = await ApiRequest.handleGetPagination(+pageNumber, +pageSize);
-
     return res.status(200).json({
       data,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      errCode: 1,
+      message: "error form server",
+    });
   }
 };
 let getComicById = async (req, res) => {
@@ -117,11 +119,9 @@ let getComicById = async (req, res) => {
     let id = req.query.id;
     if (id) {
       let data = await ApiRequest.handleGetComicById(id);
-      if (data) {
-        return res.status(200).json({
-          data,
-        });
-      }
+      return res.status(200).json({
+        data,
+      });
     } else {
       return res.status(400).json({
         errCode: 1,
@@ -140,11 +140,9 @@ let getComicByCategory = async (req, res) => {
     let categoryId = req.query.categoryId;
     if (categoryId) {
       let data = await ApiRequest.handleGetComicByCategory(+categoryId);
-      if (data) {
-        return res.status(200).json({
-          data,
-        });
-      }
+      return res.status(200).json({
+        data,
+      });
     } else {
       return res.status(400).json({
         errCode: 1,
@@ -152,7 +150,7 @@ let getComicByCategory = async (req, res) => {
       });
     }
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       errCode: 1,
       message: error,
     });
@@ -163,11 +161,9 @@ let getCategoriesByComic = async (req, res) => {
     let comicId = req.query.comicId;
     if (comicId) {
       let data = await ApiRequest.handleGetcategoriesByComic(+comicId);
-      if (data) {
-        return res.status(200).json({
-          data,
-        });
-      }
+      return res.status(200).json({
+        data,
+      });
     } else {
       return res.status(400).json({
         errCode: 1,
@@ -190,16 +186,9 @@ let getOnlyChapterByIdController = async (req, res) => {
         +chapterId,
         +comicId
       );
-      if (data) {
-        return res.status(200).json({
-          data,
-        });
-      } else {
-        return res.status(400).json({
-          errCode: 1,
-          message: "data not found",
-        });
-      }
+      return res.status(200).json({
+        data,
+      });
     } else {
       return res.status(400).json({
         errCode: 1,
@@ -228,7 +217,7 @@ let getUserController = async (req, res) => {
       });
     }
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       message: "error form server",
       errCode: 1,
     });
@@ -291,15 +280,9 @@ let getTotalChapterController = async (req, res) => {
 let getTotalComicController = async (req, res) => {
   try {
     let data = await ApiRequest.handleGetTotalComic();
-    if (data) {
-      return res.status(200).json({
-        data,
-      });
-    } else {
-      return res.status(400).json({
-        message: "comic not found",
-      });
-    }
+    return res.status(200).json({
+      data,
+    });
   } catch (error) {
     return res.status(500).json({ message: "error form server", errCode: 1 });
   }
@@ -317,10 +300,9 @@ let getCollectionController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
-      message: "error form server",
       errCode: 1,
+      message: "error form server",
     });
   }
 };
@@ -337,10 +319,9 @@ let getFollowController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
-      message: "error form server",
       errCode: 1,
+      message: "error form server",
     });
   }
 };
@@ -357,10 +338,9 @@ let getFollowForComicController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
-      message: "error form server",
       errCode: 1,
+      message: "error form server",
     });
   }
 };
@@ -379,10 +359,9 @@ let searchController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
-      message: "error form server",
       errCode: 1,
+      message: "error form server",
     });
   }
 };
@@ -399,10 +378,9 @@ let getCommentController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
-      message: "error form server",
       errCode: 1,
+      message: "error form server",
     });
   }
 };
@@ -410,40 +388,39 @@ let getCommentController = async (req, res) => {
 let createComic = async (req, res) => {
   try {
     let data = await ApiRequest.handleCreateComic(req.body);
-    if (data) {
-      return res.status(200).json({
-        data,
-      });
-    } else {
-      return res.status(400).json({
-        message: "data not found",
-      });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-let createChapter = async (req, res) => {
-  let data = await ApiRequest.handleCreateChapter(req.body);
-  if (data) {
     return res.status(200).json({
       data,
     });
-  } else {
-    return res.status(400).json({
-      message: "data not found",
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      message: "error form server",
+    });
+  }
+};
+let createChapter = async (req, res) => {
+  try {
+    let data = await ApiRequest.handleCreateChapter(req.body);
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      message: "error form server",
     });
   }
 };
 let createCategory = async (req, res) => {
-  let data = await ApiRequest.handleCreateCategory(req.body);
-  if (data) {
+  try {
+    let data = await ApiRequest.handleCreateCategory(req.body);
     return res.status(200).json({
       data,
     });
-  } else {
-    return res.status(400).json({
-      message: "data not found",
+  } catch (error) {
+    return res.status(500).json({
+      errCode: 1,
+      message: "error form server",
     });
   }
 };
@@ -466,15 +443,9 @@ let createCategoryComic = async (req, res) => {
     let dataReq = req.body;
     if (dataReq.comicId && dataReq.categoryId.length > 0) {
       let data = await ApiRequest.handleCreateCategoryComic(dataReq);
-      if (data) {
-        return res.status(200).json({
-          data,
-        });
-      } else {
-        return res.status(400).json({
-          message: "data not found",
-        });
-      }
+      return res.status(200).json({
+        data,
+      });
     } else {
       return res.status(400).json({
         message: "missing parameter",
@@ -490,17 +461,10 @@ let createCategoryComic = async (req, res) => {
 let createUserController = async (req, res) => {
   try {
     let dataReq = req.body;
-    if (dataReq) {
-      let data = await ApiRequest.createUser(req.body);
-      return res.status(200).json({
-        data,
-      });
-    } else {
-      return res.status(404).json({
-        errCode: 1,
-        message: "data not found",
-      });
-    }
+    let data = await ApiRequest.createUser(dataReq);
+    return res.status(200).json({
+      data,
+    });
   } catch (error) {
     return res.status(400).json({
       errCode: 1,
@@ -597,16 +561,9 @@ let updateViews = async (req, res) => {
     let comicId = req.query.comicId;
     if (!comicId) return;
     let data = await ApiRequest.handleUpdateViews(+comicId);
-    if (data) {
-      return res.status(200).json({
-        data,
-      });
-    } else {
-      return res.status(400).json({
-        errCode: 1,
-        message: "data not found",
-      });
-    }
+    return res.status(200).json({
+      data,
+    });
   } catch (error) {
     return res.status(400).json({
       error: 1,
@@ -619,16 +576,9 @@ let updateTimePass = async (req, res) => {
     let comicId = req.query.comicId;
     if (!comicId) return;
     let data = await ApiRequest.handleUpdateTimePass(+comicId);
-    if (data) {
-      return res.status(200).json({
-        data,
-      });
-    } else {
-      return res.status(400).json({
-        errCode: 1,
-        message: "data not found",
-      });
-    }
+    return res.status(200).json({
+      data,
+    });
   } catch (error) {
     return res.status(400).json({
       error: 1,
@@ -640,16 +590,9 @@ let updateUserController = async (req, res) => {
   try {
     const userInfo = req.body;
     let data = await ApiRequest.handleUpdateUser(userInfo);
-    if (data) {
-      return res.status(200).json({
-        data,
-      });
-    } else {
-      return res.status(400).json({
-        errCode: 1,
-        message: "data not found",
-      });
-    }
+    return res.status(200).json({
+      data,
+    });
   } catch (error) {
     return res.status(400).json({
       error: 1,
@@ -661,16 +604,9 @@ let updateComicController = async (req, res) => {
   try {
     const comicInfo = req.body;
     let data = await ApiRequest.handleUpdateComic(comicInfo);
-    if (data) {
-      return res.status(200).json({
-        data,
-      });
-    } else {
-      return res.status(400).json({
-        errCode: 1,
-        message: "data not found",
-      });
-    }
+    return res.status(200).json({
+      data,
+    });
   } catch (error) {
     return res.status(400).json({
       error: 1,
@@ -682,16 +618,9 @@ const updateCommentController = async (req, res) => {
   try {
     const comment = req.body;
     let data = await ApiRequest.handleUpdateComment(comment);
-    if (data) {
-      return res.status(200).json({
-        data,
-      });
-    } else {
-      return res.status(400).json({
-        errCode: 1,
-        message: "data not found",
-      });
-    }
+    return res.status(200).json({
+      data,
+    });
   } catch (error) {
     return res.status(400).json({
       error: 1,
@@ -705,11 +634,9 @@ let deleteUserController = async (req, res) => {
     let userId = req.query.userId;
     if (!userId) return;
     let data = await ApiRequest.handleDeleteUser(+userId);
-    if (data) {
-      return res.status(200).json({
-        data,
-      });
-    }
+    return res.status(200).json({
+      data,
+    });
   } catch (error) {
     return res.status(400).json({
       error: 1,
@@ -725,11 +652,9 @@ const deleteComicController = async (req, res) => {
         message: "comicId not found",
       });
     let data = await ApiRequest.handleDeleteComic(+comicId);
-    if (data) {
-      return res.status(200).json({
-        data,
-      });
-    }
+    return res.status(200).json({
+      data,
+    });
   } catch (error) {
     return res.status(400).json({
       error: 1,

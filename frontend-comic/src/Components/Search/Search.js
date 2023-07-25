@@ -75,10 +75,7 @@ const Search = () => {
           {isShow && (
             <div className={cx("search__results--container")} ref={searchRef}>
               <ul className={cx("list_result")}>
-                {searchData &&
-                searchText &&
-                searchData.data &&
-                searchData.data.length > 0 ? (
+                {searchText && searchData?.data?.length > 0 ? (
                   searchData.data.map((comic, index) => (
                     <Link
                       to={`/detail-comic/${comic.id}`}
@@ -99,7 +96,10 @@ const Search = () => {
                     </Link>
                   ))
                 ) : searchData.errCode === 1 ? (
-                  <li className={cx("item-result")}>
+                  <li
+                    className={cx("item-result", "no-result")}
+                    style={{ pointerEvents: "none", cursor: "default" }}
+                  >
                     <span className={cx("name")}>
                       Không tìm thấy kết quả nào
                     </span>

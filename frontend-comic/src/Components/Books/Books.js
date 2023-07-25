@@ -50,12 +50,11 @@ function Books(props) {
           />
           <div className={cx("sticker-container")}>
             <span className={cx("day-update")}>
-              {timePassed && timePassed.length > 0
+              {timePassed?.length > 0
                 ? timePassed[props.index].timePassed + " trước"
                 : "chưa cập nhật"}
             </span>
-            {timePassed &&
-              timePassed.length > 0 &&
+            {timePassed?.length > 0 &&
               timePassed[props.index].timePassed.substring(
                 timePassed[props.index].timePassed.indexOf(" ") + 1
               ) !== "tháng" && <span className={cx("hot")}>Hot</span>}

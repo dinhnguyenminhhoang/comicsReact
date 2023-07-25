@@ -56,19 +56,18 @@ function AllComic() {
     <div className={cx("allComic__container")}>
       <Heading heading="truyện mới nhất" />
       <div className={cx("allComic__wrapper")}>
-        {paginationData.data &&
-          paginationData.data.map((comic, index) => (
-            <div className={cx("book")} key={index}>
-              <Books
-                image={comic.image}
-                name={comic.name}
-                timePassed={paginationData.data}
-                index={index}
-                className={true}
-                id={comic.id}
-              />
-            </div>
-          ))}
+        {paginationData?.data?.map((comic, index) => (
+          <div className={cx("book")} key={index}>
+            <Books
+              image={comic.image}
+              name={comic.name}
+              timePassed={paginationData.data}
+              index={index}
+              className={true}
+              id={comic.id}
+            />
+          </div>
+        ))}
       </div>
       <Paginations
         pagination={pagination}
