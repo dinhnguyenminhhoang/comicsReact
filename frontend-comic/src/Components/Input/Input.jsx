@@ -9,6 +9,7 @@ const Input = ({
     value,
     onChange,
     width = "320",
+    disabled = false,
 }) => {
     return (
         <div className={cx("input__wrapper")}>
@@ -20,6 +21,7 @@ const Input = ({
                 value={value}
                 onChange={onChange}
                 style={{ width: `${width}px` }}
+                disabled={disabled}
             />
             {icon && <FontAwesomeIcon icon={icon} className={cx("icon")} />}
         </div>

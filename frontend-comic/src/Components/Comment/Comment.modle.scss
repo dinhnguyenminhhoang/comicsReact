@@ -29,11 +29,10 @@
         align-items: center;
 
         .accout__avata {
+            border-radius: 999px;
             width: 60px;
             height: 60px;
-            border-radius: 999px;
-            margin-right: 8px;
-            object-fit: cover;
+            margin-right: 6px;
         }
 
         .comment_area {

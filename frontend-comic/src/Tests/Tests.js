@@ -2,6 +2,8 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import Input from "~/Components/Input/Input";
 import Button from "~/Components/Button/Button";
+import handleToast from "~/utils/handleToast";
+import { ToastContainer } from "react-toastify";
 
 const Tests = () => {
     const [value, setValue] = useState("");
@@ -20,6 +22,8 @@ const Tests = () => {
             }}
         >
             <Button text="my btn" />
+            <button onClick={() => handleToast("check")}>onClick</button>
+            <ToastContainer />
         </div>
     );
 };
