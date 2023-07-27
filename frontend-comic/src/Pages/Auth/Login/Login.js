@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import bcrypt from "bcryptjs";
 import { Link, useNavigate } from "react-router-dom";
+import Input from "~/Components/Input/Input";
 
 const saltRounds = 10;
 const cx = classNames.bind(styles);
@@ -20,12 +21,11 @@ function Login() {
     });
     const navigate = useNavigate();
     const [formErrors, setFormErrors] = useState({});
-
     const loginInfo = useSelector((state) => state.login.data);
     const [islogin, setIsLogin] = useState(false);
     const dispatch = useDispatch();
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
@@ -172,16 +172,10 @@ function Login() {
                         </div>
                         <div className={cx("form__groups")}>
                             <div className={cx("form")}>
-                                <input
+                                <Input
                                     value={formData.email}
                                     onChange={handleInputChange}
-                                    type="text"
                                     name="email"
-                                    className={cx("input--form")}
-                                    placeholder="Email"
-                                />
-                                <FontAwesomeIcon
-                                    className={cx("icon")}
                                     icon={faUser}
                                 />
                                 {formErrors.email && (
@@ -191,16 +185,10 @@ function Login() {
                                 )}
                             </div>
                             <div className={cx("form")}>
-                                <input
+                                <Input
                                     value={formData.password}
-                                    name="password"
                                     onChange={handleInputChange}
-                                    type="password"
-                                    className={cx("input--form")}
-                                    placeholder="Password"
-                                />
-                                <FontAwesomeIcon
-                                    className={cx("icon")}
+                                    name="password"
                                     icon={faLock}
                                 />
                                 {formErrors.password && (

@@ -1,21 +1,20 @@
-import classNames from "classnames/bind";
-import Styles from "./Header.module.scss";
-import { Container, Image } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faAddressBook,
-    faClock,
-    faRightFromBracket,
-    faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchCategoryData, getUserInfo } from "~/redux/action/action";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import classNames from "classnames/bind";
+import { Container, Image } from "react-bootstrap";
+import {
+    faAddressBook,
+    faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
+import Styles from "./Header.module.scss";
+import { fetchCategoryData, getUserInfo } from "~/redux/action/action";
 import { logout } from "~/redux/slices/authSlices";
 import Search from "~/Components/Search/Search";
-import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
 import { logo } from "~/assets/images/index";
+import ListTask from "./ListTask";
+import MenuCategory from "./MenuCategory";
+import ListAuth from "./ListAuth";
 const cx = classNames.bind(Styles);
 function Header() {
     let navigator = useNavigate();
@@ -50,72 +49,21 @@ function Header() {
                         />
                     </Link>
                 </div>
-                <div className={cx("nav-container")}>
-                    <ul className={cx("nav-list")}>
-                        {categoryData &&
-                            categoryData.map((category, index) => {
-                                return (
-                                    <Link
-                                        to={`/categories/${category.id}`}
-                                        key={index}
-                                    >
-                                        <li className={cx("nav-item")}>
-                                            {category.name}
-                                        </li>
-                                    </Link>
-                                );
-                            })}
-                    </ul>
-                </div>
+                <MenuCategory categoryData={categoryData} cx={cx} />
                 <Search />
                 {!isLoggedIn || !userInfo.user ? (
-                    <div className={cx("auth")}>
-                        <Link to="/auth/register">
-                            <button className={cx("register-btn")}>
-                                Đăng kí
-                            </button>
-                        </Link>
-                        <Link to="/auth/login">
-                            <button className={cx("login-btn")}>
-                                Đăng nhập
-                            </button>
-                        </Link>
-                    </div>
-                ) : userInfo && userInfo.user ? (
-                    <div className={cx("account")}>
-                        <div>
-                            <img
-                                className={cx("avata")}
-                                src={coverBase64ToBlob(userInfo.user.image)}
-                                alt="avata"
-                            />
-                        </div>
-                        <div className={cx("userInfo")}>
-                            <ul className={cx("info__list")}>
-                                <li className={cx("info__item")}>
-                                    <Link to={`/profile/${userInfo.user.id}`}>
-                                        <FontAwesomeIcon
-                                            className={cx("icon-info")}
-                                            icon={faAddressBook}
-                                        />
-                                        trang cá nhân
-                                    </Link>
-                                </li>
-                                <li
-                                    className={cx("info__item")}
-                                    onClick={handleLogOut}
-                                >
-                                    <FontAwesomeIcon
-                                        className={cx("icon-info")}
-                                        icon={faRightFromBracket}
-                                    />
-                                    Đăng xuất
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <ListAuth cx={cx} />
                 ) : (
-                    ""
+                    userInfo?.user && (
+                        <ListTask
+                            cx={cx}
+                            image={userInfo.user.image}
+                            id={userInfo.user.id}
+                            firstIcon={faAddressBook}
+                            secondIcon={faRightFromBracket}
+                            handleLogOut={handleLogOut}
+                        />
+                    )
                 )}
             </Container>
         </div>

@@ -40,35 +40,9 @@
 
         .form__groups {
             margin-top: 10px;
-            display: flex;
 
             .form {
                 position: relative;
-
-                .input--form {
-                    margin: 12px 12px 0 12px;
-                    min-width: 240px;
-                    padding: 8px 10px;
-                    outline: none;
-                    border: 1px solid #999;
-                    border-radius: 5px;
-                    font-size: 1.4rem;
-
-                    &::placeholder {
-                        font-weight: 400;
-                        font-size: 1.4rem;
-                    }
-
-                }
-
-                .icon {
-                    position: absolute;
-                    left: 6px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    font-size: 1.6rem;
-                    color: #999;
-                }
 
                 .error-message {
                     max-width: 240px;

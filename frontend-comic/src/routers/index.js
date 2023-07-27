@@ -11,65 +11,70 @@ import Login from "~/Pages/Auth/Login/Login.js";
 import Register from "~/Pages/Auth/Register/Register.js";
 import Profile from "~/Pages/Profile/Profile.js";
 import Statistical from "~/Pages/Admin/Statistical/Statistical.js";
+import Tests from "~/Tests/Tests.js";
 const publishRouter = [
-  {
-    path: "/",
-    element: Home,
-    Layout: HeaderFooter,
-  },
-  {
-    path: "/pages/:pageNumber",
-    element: Home,
-    Layout: HeaderFooter,
-  },
-  {
-    path: "/detail-comic/:id",
-    element: DetailComic,
-    Layout: HeaderFooter,
-  },
-  {
-    path: "/categories/:id",
-    element: Categories,
-    Layout: HeaderFooter,
-  },
-  {
-    path: "/reading/:name/:id/:chapterId",
-    element: DetailChapter,
-    Layout: HeaderOnly,
-  },
-  {
-    path: "/auth/login",
-    element: Login,
-    Layout: null,
-  },
-  {
-    path: "/auth/register",
-    element: Register,
-    Layout: null,
-  },
-  {
-    path: "/profile/:userId",
-    element: Profile,
-    // Layout: HeaderOnly,
-  },
+    {
+        path: "/",
+        element: Home,
+        Layout: HeaderFooter,
+    },
+    {
+        path: "/pages/:pageNumber",
+        element: Home,
+        Layout: HeaderFooter,
+    },
+    {
+        path: "/detail-comic/:id",
+        element: DetailComic,
+        Layout: HeaderFooter,
+    },
+    {
+        path: "/categories/:id",
+        element: Categories,
+        Layout: HeaderFooter,
+    },
+    {
+        path: "/reading/:name/:id/:chapterId",
+        element: DetailChapter,
+        Layout: HeaderOnly,
+    },
+    {
+        path: "/auth/login",
+        element: Login,
+        Layout: null,
+    },
+    {
+        path: "/auth/register",
+        element: Register,
+        Layout: null,
+    },
+    {
+        path: "/profile/:userId",
+        element: Profile,
+    },
+    {
+        path: "/test",
+        element: Tests,
+        Layout: HeaderOnly,
+    },
 ];
 const privateRouter = [
-  {
-    path: "/admin/1/:route",
-    element: UserManager,
-  },
-  {
-    path: "/admin/2/:route",
-    element: ComicManage,
-  },
+    {
+        path: "/admin/1/:route",
+        element: UserManager,
+    },
+    {
+        path: "/admin/2/:route",
+        element: ComicManage,
+    },
 
-  {
-    path: "/admin/3/:route",
-    element: CreateChapters,
-  },
-  {
-    path: "/admin/5/:route",
-    element: Statistical,
-  },
+    {
+        path: "/admin/3/:route",
+        element: CreateChapters,
+    },
+    {
+        path: "/admin/5/:route",
+        element: Statistical,
+    },
 ];
 export { publishRouter, privateRouter };

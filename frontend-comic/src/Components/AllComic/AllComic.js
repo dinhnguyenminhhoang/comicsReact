@@ -12,70 +12,70 @@ import { toNumber } from "lodash";
 const cx = classNames.bind(styles);
 
 function AllComic() {
-  const dispatch = useDispatch();
-  const paginationData = useSelector((state) => state.pagination.data);
-  const { pageNumber } = useParams();
-  const [pagination, setPagination] = useState({
-    currentPage: toNumber(pageNumber) || 1,
-    totalPage: paginationData.totalPage || 1,
-    pageSize: 12,
-  });
+    const dispatch = useDispatch();
+    const paginationData = useSelector((state) => state.pagination.data);
+    const { pageNumber } = useParams();
+    const [pagination, setPagination] = useState({
+        currentPage: toNumber(pageNumber) || 1,
+        totalPage: paginationData.totalPage || 1,
+        pageSize: 12,
+    });
 
-  useEffect(() => {
-    dispatch(
-      getPagination({
-        pageNumber: pagination.currentPage,
-        pageSize: pagination.pageSize,
-      })
-    );
-  }, [dispatch, pagination.currentPage, pagination.pageSize]);
+    useEffect(() => {
+        dispatch(
+            getPagination({
+                pageNumber: pagination.currentPage,
+                pageSize: pagination.pageSize,
+            })
+        );
+    }, [dispatch, pagination.currentPage, pagination.pageSize]);
 
-  useEffect(() => {
-    if (paginationData.totalPage) {
-      setPagination((prevPagination) => ({
-        ...prevPagination,
-        totalPage: paginationData.totalPage,
-      }));
-    }
-  }, [paginationData]);
+    useEffect(() => {
+        if (paginationData.totalPage) {
+            setPagination((prevPagination) => ({
+                ...prevPagination,
+                totalPage: paginationData.totalPage,
+            }));
+        }
+    }, [paginationData]);
 
-  const handlePageChange = (newPage) => {
-    setPagination((prevPagination) => ({
-      ...prevPagination,
-      currentPage: newPage,
-    }));
-    dispatch(
-      getPagination({
-        pageNumber: newPage,
-        pageSize: pagination.pageSize,
-      })
-    );
-  };
+    const handlePageChange = (newPage) => {
+        setPagination((prevPagination) => ({
+            ...prevPagination,
+            currentPage: newPage,
+        }));
+        dispatch(
+            getPagination({
+                pageNumber: newPage,
+                pageSize: pagination.pageSize,
+            })
+        );
+    };
 
-  return (
-    <div className={cx("allComic__container")}>
-      <Heading heading="truyện mới nhất" />
-      <div className={cx("allComic__wrapper")}>
-        {paginationData?.data?.map((comic, index) => (
-          <div className={cx("book")} key={index}>
-            <Books
-              image={comic.image}
-              name={comic.name}
-              timePassed={paginationData.data}
-              index={index}
-              className={true}
-              id={comic.id}
+    return (
+        <div className={cx("allComic__container")}>
+            <Heading heading="truyện mới nhất" />
+            <div className={cx("allComic__wrapper")}>
+                {paginationData?.data?.map((comic, index) => (
+                    <div className={cx("book")} key={index}>
+                        <Books
+                            image={comic.image}
+                            name={comic.name}
+                            timePassed={paginationData.data}
+                            index={index}
+                            className={true}
+                            id={comic.id}
+                        />
+                    </div>
+                ))}
+            </div>
+            <Paginations
+                pagination={pagination}
+                handlePageChange={handlePageChange}
+                pageNumber={pageNumber}
             />
-          </div>
-        ))}
-      </div>
-      <Paginations
-        pagination={pagination}
-        handlePageChange={handlePageChange}
-        pageNumber={pageNumber}
-      />
-    </div>
-  );
+        </div>
+    );
 }
 
 export default AllComic;

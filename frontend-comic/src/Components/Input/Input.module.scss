@@ -1,0 +1,31 @@
+.input__wrapper {
+    position: relative;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    padding: 0 6px;
+
+    .input {
+        border: 1px solid #999;
+        outline: none;
+        border-radius: 5px;
+        padding: 10px 8px 10px 28px;
+        font-size: 1.4rem;
+        margin-top: 10px;
+        margin-bottom: 16px;
+
+        &::placeholder {
+            font-weight: 400;
+            font-size: 1.4rem;
+        }
+    }
+
+    .icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.6rem;
+        color: #999;
+    }
+}
