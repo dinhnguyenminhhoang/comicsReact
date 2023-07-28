@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { updateViews } from "~/redux/action/action";
 import calculateTimePassed from "~/utils/timePass";
 import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
+import { upperCase } from "lodash";
 const cx = classNames.bind(styles);
 function Books(props) {
     const [updatedAt, setUpdatedAt] = useState("");
@@ -64,7 +65,9 @@ function Books(props) {
                             )}
                     </div>
                     <div className={cx("info-wrapper")}>
-                        <span className={cx("pratice")}>{props.name}</span>
+                        <span className={cx("pratice")}>
+                            {upperCase(props.name)}
+                        </span>
                     </div>
                 </Col>
             </Link>

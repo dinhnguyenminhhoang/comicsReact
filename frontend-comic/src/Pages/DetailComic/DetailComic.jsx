@@ -12,6 +12,7 @@ import {
     getCategoriesByComic,
     createFollow,
     getFollowByComic,
+    checkUserFollow,
 } from "~/redux/action/action.js";
 import { faCircleExclamation, faList } from "@fortawesome/free-solid-svg-icons";
 import Comment from "~/Components/Comment/Comment";
@@ -32,6 +33,7 @@ function DetailComic() {
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
     const userInfo = useSelector((state) => state.userInfo.data);
     const followByComic = useSelector((state) => state.followByComic.data);
+    const isFollowByComic = useSelector((state) => state.checkUserFollow.data);
     const categoriesByComicData = useSelector(
         (state) => state.categoriesByComic.data
     );
@@ -40,8 +42,15 @@ function DetailComic() {
         dispatch(getChapterById(id));
         dispatch(getCategoriesByComic(id));
         dispatch(getFollowByComic(id));
-    }, [dispatch, id]);
-
+        if (userInfo?.user) {
+            dispatch(
+                checkUserFollow({
+                    userId: userInfo.user.id,
+                    comicId: id,
+                })
+            );
+        }
+    }, [dispatch, id, userInfo]);
     useEffect(() => {
         if (refDescription.current)
             setHeight(refDescription.current.offsetHeight);
@@ -82,7 +91,7 @@ function DetailComic() {
                 </Helmet>
             )}
             <div className={cx("detail__container")}>
-                {comicById && comicById.errCode === 0 && (
+                {comicById && isFollowByComic && comicById.errCode === 0 && (
                     <div>
                         <Heading
                             cx={cx}
@@ -98,6 +107,7 @@ function DetailComic() {
                             followByComic={followByComic}
                             categoriesByComicData={categoriesByComicData}
                             chapterById={chapterById}
+                            isFollowByComic={isFollowByComic}
                         />
                         <div
                             className={cx("description__container")}

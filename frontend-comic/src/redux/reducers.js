@@ -30,6 +30,7 @@ import {
     allUserSlice,
     followByComicSlice,
     searchSlice,
+    checkUserFollowSlice,
 } from "./slices/index.js";
 const rootReducer = combineReducers({
     categoryApi: categorySlice,
@@ -62,6 +63,7 @@ const rootReducer = combineReducers({
     followByComic: followByComicSlice,
     searchData: searchSlice,
     allComments: allCommentsSlice,
+    checkUserFollow: checkUserFollowSlice,
     // Thêm reducers khác của bạn tại đây
 });
 

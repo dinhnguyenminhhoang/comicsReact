@@ -29,3 +29,4 @@ export { default as authSlices } from "./authSlices";
 export { default as createUserSlices } from "./createUserSlices ";
 export { default as loginSlices } from "./loginSlices";
 export { default as categoriesByComicSlice } from "./categoriesByComicSlice";
+export { default as checkUserFollowSlice } from "./checkUserFollowSlice";

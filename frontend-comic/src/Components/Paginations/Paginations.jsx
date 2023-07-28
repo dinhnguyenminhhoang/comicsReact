@@ -1,13 +1,11 @@
 import classNames from "classnames/bind";
 import styles from "./Paginayions.module.scss";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { toNumber } from "lodash";
+import { useNavigate } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 function Paginations(props) {
     const { pagination, handlePageChange } = props;
-    const { currentPage, totalPage, pageSize } = pagination;
+    const { currentPage, totalPage } = pagination;
     const maxDisplayedPages = 6;
     const navigate = useNavigate();
     const handlePaginationClick = (newPage, oldPage) => {

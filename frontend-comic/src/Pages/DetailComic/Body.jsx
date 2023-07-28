@@ -10,6 +10,7 @@ import Image from "./Image";
 import Title from "./Title";
 import Category from "./Category";
 import ReadType from "./ReadType";
+import { upperCase } from "lodash";
 const Body = ({
     cx,
     comicById,
@@ -19,6 +20,7 @@ const Body = ({
     followByComic,
     categoriesByComicData,
     chapterById,
+    isFollowByComic,
 }) => {
     return (
         <div className={cx("content__container")}>
@@ -28,9 +30,12 @@ const Body = ({
                 handleFollowing={handleFollowing}
                 cx={cx}
                 comicById={comicById}
+                isFollowByComic={isFollowByComic}
             />
             <div className={cx("content__info")}>
-                <span className={cx("info__name")}>{comicById.data.name}</span>
+                <span className={cx("info__name")}>
+                    {upperCase(comicById.data.name)}
+                </span>
                 <div className={cx("info__details")}>
                     <div className={cx("datails__title")}>
                         <Title
