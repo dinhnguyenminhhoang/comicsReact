@@ -1,10 +1,10 @@
+import classNames from "classnames/bind";
 import { Col, Container, Row } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { icon } from "~/assets/images";
+import styles from "./DefaultLayout.module.scss";
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
-import styles from "./DefaultLayout.module.scss";
-import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 function DefaultLayout({ children }) {
     return (

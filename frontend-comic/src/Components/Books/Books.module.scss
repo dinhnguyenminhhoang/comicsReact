@@ -1,5 +1,5 @@
 .book__container {
-    margin-bottom: 1.5rem;
+    margin-bottom: .4rem;
 
     .img__book {
         // height: 320px;
@@ -89,7 +89,6 @@
 }
 
 .cus {
-    width: 100% !important;
 
     .cus_img {
         transition: border-radius 0.8s ease-in-out;
@@ -108,4 +107,8 @@
             transform: scale(1.1);
         }
     }
+}
+
+.slider {
+    width: 100% !important;
 }

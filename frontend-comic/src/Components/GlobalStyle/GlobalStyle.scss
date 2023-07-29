@@ -40,6 +40,8 @@
     &::-webkit-scrollbar-thumb:hover:horizontal {
         background-color: #555;
     }
+
+    --bs-gutter-x: 0.4rem;
 }
 
 html {
@@ -60,6 +62,7 @@ body {
     text-rendering: optimizeSpeed;
     margin: 0;
     padding: 0;
+
 }
 
 img {

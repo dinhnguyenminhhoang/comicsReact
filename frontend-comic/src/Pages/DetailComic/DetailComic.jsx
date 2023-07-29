@@ -82,7 +82,7 @@ function DetailComic() {
         }
     };
     return (
-        <div className={cx("detail__doctor")}>
+        <div className={cx("detail__comic")}>
             {comicById?.data && (
                 <Helmet>
                     <meta charSet="utf-8" />

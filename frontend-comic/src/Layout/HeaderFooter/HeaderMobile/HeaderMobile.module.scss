@@ -1,0 +1,22 @@
+.sidebar__wrapper {
+    display: none;
+    padding-top: 20px;
+    text-align: center;
+
+    .category {
+        font-size: 1.6rem;
+        font-weight: 600;
+    }
+}
+
+@media (max-width:1023px) {
+    .sidebar__wrapper {
+        display: block;
+    }
+}
+
+//tl
+@media (min-width:740px) and (max-width:1023px) {}
+
+//mb
+@media (max-width:739px) {}

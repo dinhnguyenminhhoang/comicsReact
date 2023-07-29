@@ -2,6 +2,7 @@
     background: var(--background-content-color);
     color: var(--text-color);
     padding: 18px 12px;
+    overflow: hidden;
 
     .info {
         max-width: 250px;
@@ -43,3 +44,27 @@
         font-size: 1.4rem;
     }
 }
+
+@media (max-width:1023px) {
+    .info {
+        width: 100px;
+
+        .logo-footer {
+            border-radius: 999px;
+            max-height: 100px;
+            max-width: 100px;
+            margin-bottom: 16px;
+        }
+    }
+
+    .footer-about {
+        display: none;
+    }
+
+}
+
+//tl
+@media (min-width:740px) and (max-width:1023px) {}
+
+//mb
+@media (max-width:739px) {}

@@ -1,13 +1,13 @@
 import classNames from "classnames/bind";
-import styles from "./Books.module.scss";
-import { Col, Row } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { updateViews } from "~/redux/action/action";
-import calculateTimePassed from "~/utils/timePass";
-import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
 import { upperCase } from "lodash";
+import { useEffect, useState } from "react";
+import { Col } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { updateViews } from "~/redux/action/action";
+import coverBase64ToBlob from "~/utils/coverBase64ToBlob";
+import calculateTimePassed from "~/utils/timePass";
+import styles from "./Books.module.scss";
 const cx = classNames.bind(styles);
 function Books(props) {
     const [updatedAt, setUpdatedAt] = useState("");
@@ -29,14 +29,18 @@ function Books(props) {
     };
     let imageToFile = coverBase64ToBlob(props.image);
     return (
-        <Row
+        <Col
+            xs={6} // Hiển thị 2 cột trên mobile (12/6 = 2)
+            md={3}
+            xl={2}
             className={cx("book__container", {
                 cus: props.className,
+                slider: props.slider,
             })}
             onClick={handleUpdateViews}
         >
             <Link to={`/detail-comic/${props.id}`}>
-                <Col
+                <div
                     className={cx("img__book", {
                         cus_img: props.className,
                     })}
@@ -69,9 +73,9 @@ function Books(props) {
                             {upperCase(props.name)}
                         </span>
                     </div>
-                </Col>
+                </div>
             </Link>
-        </Row>
+        </Col>
     );
 }
 

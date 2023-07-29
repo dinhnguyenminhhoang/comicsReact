@@ -25,16 +25,17 @@ function Categories() {
                 {comicByCategoryData.comics &&
                     comicByCategoryData.comics.map((comic, index) => {
                         return (
-                            <div className={cx("book")} key={index}>
-                                <Books
-                                    image={comic.image}
-                                    name={comic.name}
-                                    timePassed={comicByCategoryData.comics}
-                                    index={index}
-                                    className={true}
-                                    id={comic.id}
-                                />
-                            </div>
+                            // <div className={cx("book")} key={index}>
+                            <Books
+                                key={index}
+                                image={comic.image}
+                                name={comic.name}
+                                timePassed={comicByCategoryData.comics}
+                                index={index}
+                                className={true}
+                                id={comic.id}
+                            />
+                            // </div>
                         );
                     })}
             </div>

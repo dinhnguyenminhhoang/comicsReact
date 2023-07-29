@@ -1,20 +1,20 @@
-import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import classNames from "classnames/bind";
-import { Container, Image } from "react-bootstrap";
 import {
     faAddressBook,
     faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import Styles from "./Header.module.scss";
-import { fetchCategoryData, getUserInfo } from "~/redux/action/action";
-import { logout } from "~/redux/slices/authSlices";
+import classNames from "classnames/bind";
+import { useEffect } from "react";
+import { Container, Image } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Search from "~/Components/Search/Search";
 import { logo } from "~/assets/images/index";
+import { fetchCategoryData, getUserInfo } from "~/redux/action/action";
+import { logout } from "~/redux/slices/authSlices";
+import Styles from "./Header.module.scss";
+import ListAuth from "./ListAuth";
 import ListTask from "./ListTask";
 import MenuCategory from "./MenuCategory";
-import ListAuth from "./ListAuth";
 const cx = classNames.bind(Styles);
 function Header() {
     let navigator = useNavigate();

@@ -1,3 +1,4 @@
+import { Row } from "react-bootstrap";
 import Books from "~/Components/Books/Books";
 const Content = ({ cx, followedData, chipi }) => {
     return (
@@ -6,21 +7,20 @@ const Content = ({ cx, followedData, chipi }) => {
                 <span className={cx("header__category")}>Bộ sưu tập</span>
             </div>
             <div className={cx("content__container")}>
-                <div className={cx("profile__category-wrapper")}>
+                <Row className={cx("profile__category-wrapper")}>
                     {followedData?.errCode === 0 &&
                     followedData.data.length > 0 ? (
                         followedData.data.map((comic, index) => {
                             return (
-                                <div className={cx("follow-item")} key={index}>
-                                    <Books
-                                        image={comic.image}
-                                        name={comic.name}
-                                        timePassed={followedData.data}
-                                        index={index}
-                                        id={comic.id}
-                                        className
-                                    />
-                                </div>
+                                <Books
+                                    image={comic.image}
+                                    name={comic.name}
+                                    timePassed={followedData.data}
+                                    index={index}
+                                    id={comic.id}
+                                    className
+                                    key={index}
+                                />
                             );
                         })
                     ) : (
@@ -35,7 +35,7 @@ const Content = ({ cx, followedData, chipi }) => {
                             />
                         </div>
                     )}
-                </div>
+                </Row>
                 <div className={cx("profile__love-wrapper")}></div>
             </div>
         </div>

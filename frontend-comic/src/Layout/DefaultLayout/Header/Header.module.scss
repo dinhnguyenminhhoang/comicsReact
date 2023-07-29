@@ -176,6 +176,14 @@
         }
 
     }
+
+    .list-group {
+        color: #cec8c8;
+        font-size: 3rem;
+        cursor: pointer;
+        z-index: 2;
+        display: none;
+    }
 }
 
 @keyframes color-change {
@@ -219,3 +227,28 @@
         color: #ff0000;
     }
 }
+
+// mb vs tl
+@media (max-width:1023px) {
+    .list-group {
+        display: block !important;
+    }
+
+    .nav-container {
+        display: none;
+    }
+
+    // .account {
+    //     display: none !important;
+    // }
+
+    .logo {
+        display: none;
+    }
+}
+
+//tl
+@media (min-width:740px) and (max-width:1023px) {}
+
+//mb
+@media (max-width:739px) {}

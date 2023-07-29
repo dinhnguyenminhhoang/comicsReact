@@ -8,6 +8,7 @@ import Books from "../Books/Books";
 import Paginations from "~/Components/Paginations/Paginations";
 import { useParams } from "react-router-dom";
 import { toNumber } from "lodash";
+import { Row } from "react-bootstrap";
 
 const cx = classNames.bind(styles);
 
@@ -55,20 +56,19 @@ function AllComic() {
     return (
         <div className={cx("allComic__container")}>
             <Heading heading="truyện mới nhất" />
-            <div className={cx("allComic__wrapper")}>
+            <Row className={cx("allComic__wrapper")}>
                 {paginationData?.data?.map((comic, index) => (
-                    <div className={cx("book")} key={index}>
-                        <Books
-                            image={comic.image}
-                            name={comic.name}
-                            timePassed={paginationData.data}
-                            index={index}
-                            className={true}
-                            id={comic.id}
-                        />
-                    </div>
+                    <Books
+                        image={comic.image}
+                        name={comic.name}
+                        timePassed={paginationData.data}
+                        index={index}
+                        className={true}
+                        id={comic.id}
+                        key={index}
+                    />
                 ))}
-            </div>
+            </Row>
             <Paginations
                 pagination={pagination}
                 handlePageChange={handlePageChange}

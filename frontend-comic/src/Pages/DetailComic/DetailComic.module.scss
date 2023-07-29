@@ -1,4 +1,4 @@
-.detail__doctor {
+.detail__comic {
     background-color: var(--background-content-color);
     margin-top: 20px;
     margin-bottom: 20px;
@@ -220,4 +220,73 @@
             }
         }
     }
+}
+
+//mb
+@media (max-width:739px) {
+    .detail__heading {
+        font-size: 1.4rem !important;
+    }
+
+    .content__container {
+        display: block !important;
+        margin-top: 20px !important;
+        margin-right: 0 !important;
+
+        .content__image {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            margin: 0 auto;
+
+            img {
+                width: 100%;
+                max-height: 100%;
+                height: auto;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+        }
+
+        .content__info {
+            padding-top: 16px;
+
+            .info__name {
+                display: none;
+            }
+
+            .title__wrapper {
+
+
+                .title-name {
+                    font-size: 1.6rem;
+                    width: 150px !important;
+                }
+
+                .title__content {
+                    flex: 1;
+                    font-size: 1.4rem;
+                }
+            }
+
+        }
+
+        .read__type {
+            .read__btn--first {
+                margin-right: 12px;
+            }
+
+            .read__btn--new,
+            .read__btn--first {
+                padding: 6px 10px !important;
+                font-size: 1.2rem !important;
+                font-weight: 500 !important;
+            }
+
+            .read-icon {
+                margin-right: 6px;
+            }
+        }
+    }
+
 }
