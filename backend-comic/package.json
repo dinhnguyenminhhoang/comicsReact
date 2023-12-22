@@ -8,8 +8,17 @@
   "scripts": {
     "start": "nodemon ./app/App.js",
     "watch": "node-sass -w ./resources/sass -o ./public/css",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No build specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dinhnguyenminhhoang/comic-clone.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dinhnguyenminhhoang/comic-clone/issues"
+  },
+  "homepage": "https://github.com/dinhnguyenminhhoang/comic-clone#readme",
   "author": "",
   "license": "ISC",
   "dependencies": {

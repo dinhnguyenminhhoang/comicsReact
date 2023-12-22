@@ -13,10 +13,14 @@ app.use(bodyParser.json({ limit: "100mb" }));
 app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
 
 app.use(
-  cors({
-    origin: ["http://localhost:3000", "https://truyenhayht.win"]
-    // Các địa chỉ nguồn chấp nhận truy cập
-  })
+    cors({
+        origin: [
+            "http://localhost:3000",
+            "https://truyenhayht.win",
+            "https://comicreading.vercel.app",
+        ],
+        // Các địa chỉ nguồn chấp nhận truy cập
+    })
 );
 
 viewEngine(app);
@@ -26,5 +30,5 @@ initAPIRoutes(app);
 connectDB();
 let port = process.env.PORT || 3000;
 app.listen(port, function () {
-  console.log("connecting back to port " + port);
+    console.log("connecting back to port " + port);
 });
