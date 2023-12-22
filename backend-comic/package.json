@@ -6,7 +6,8 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "nodemon ./app/App.js",
+    "start": "node ./app/App.js",
+    "dev": "nodemon ./app/App.js",
     "watch": "node-sass -w ./resources/sass -o ./public/css",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "echo \"No build specified\" && exit 1"
