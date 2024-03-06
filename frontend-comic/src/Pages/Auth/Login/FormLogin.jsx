@@ -23,6 +23,7 @@ const FormLogin = ({ cx, formData, handleInputChange, formErrors }) => {
                     onChange={handleInputChange}
                     name="password"
                     icon={faLock}
+                    type="password"
                 />
                 {formErrors.password && (
                     <span className={cx("error-message")}>
